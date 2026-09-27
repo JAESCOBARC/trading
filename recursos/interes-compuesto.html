@@ -294,10 +294,12 @@ document.addEventListener('DOMContentLoaded', function () {
     $('ic-foot').innerHTML = '<td>Total</td><td>' + money(s.bal) + '</td><td></td><td class="' + (res.gain >= 0 ? 'up' : 'down') + '">' + money(res.gain) + '</td><td class="warn-t">' + money(res.took) + '</td><td>' + money(res.final) + '</td><td></td><td></td>';
 
     var be = 1 / (1 + s.rb) * 100, edge = $('ic-edge');
+    var tot = s.n * s.ops, wins = tot * s.wr / 100, loss = tot - wins, r1 = s.bal * s.risk / 100;
+    var desglose = '<br>En ' + M.fmt(tot, 0) + ' operaciones se esperan ' + M.fmt(wins, 1) + ' ganadoras × ' + money(r1 * s.rb) + ' − ' + M.fmt(loss, 1) + ' perdedoras × ' + money(r1) + ' = ' + money(wins * r1 * s.rb - loss * r1) + (s.base === 'cur' ? ' (con el riesgo de la 1.ª operación; al componer, el riesgo cambia con el balance)' : '') + '.';
     edge.hidden = false;
-    if (res.E > 0) { edge.className = 'verdict ok'; edge.innerHTML = '<strong>Sistema con ventaja: ' + M.fmtSigned(res.E, 3) + 'R por operación</strong>Con R:B ' + M.fmt(s.rb, 2) + ' necesitas más de un ' + M.fmt(be, 1) + '% de acierto para ganar; tienes ' + M.fmt(s.wr, 1) + '%.'; }
-    else if (res.E === 0) { edge.className = 'verdict warn'; edge.innerHTML = '<strong>Sistema en equilibrio: 0R por operación</strong>Con R:B ' + M.fmt(s.rb, 2) + ' el winrate de equilibrio es ' + M.fmt(be, 1) + '%. Sin ventaja, los costes te harán perder.'; }
-    else { edge.className = 'verdict no'; edge.innerHTML = '<strong>Sistema sin ventaja: ' + M.fmtSigned(res.E, 3) + 'R por operación</strong>Con R:B ' + M.fmt(s.rb, 2) + ' necesitas más de un ' + M.fmt(be, 1) + '% de acierto; con ' + M.fmt(s.wr, 1) + '% la cuenta pierde dinero a largo plazo.'; }
+    if (res.E > 0) { edge.className = 'verdict ok'; edge.innerHTML = '<strong>Sistema con ventaja: ' + M.fmtSigned(res.E, 3) + 'R por operación</strong>Con R:B ' + M.fmt(s.rb, 2) + ' necesitas más de un ' + M.fmt(be, 1) + '% de acierto para ganar; tienes ' + M.fmt(s.wr, 1) + '%.' + desglose; }
+    else if (res.E === 0) { edge.className = 'verdict warn'; edge.innerHTML = '<strong>Sistema en equilibrio: 0R por operación</strong>Con R:B ' + M.fmt(s.rb, 2) + ' el winrate de equilibrio es ' + M.fmt(be, 1) + '%. Sin ventaja, los costes te harán perder.' + desglose; }
+    else { edge.className = 'verdict no'; edge.innerHTML = '<strong>Sistema sin ventaja: ' + M.fmtSigned(res.E, 3) + 'R por operación</strong>Con R:B ' + M.fmt(s.rb, 2) + ' necesitas más de un ' + M.fmt(be, 1) + '% de acierto; con ' + M.fmt(s.wr, 1) + '% la cuenta pierde dinero a largo plazo.' + desglose; }
 
     var roi = res.gain / s.bal * 100, cost = res.noW - res.final - res.took;
     $('ic-tiles').innerHTML =
