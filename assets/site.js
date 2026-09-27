@@ -17,7 +17,8 @@
       { href: 'estrategias/little-rizzy.html', label: 'Little Rizzy', desc: 'Distancia D sobre la directriz' }
     ] },
     { group: 'Recursos', dir: 'recursos', items: [
-      { href: 'recursos/interes-compuesto.html', label: 'Interés compuesto', desc: 'Crecimiento por periodo con retiros parciales' }
+      { href: 'recursos/interes-compuesto.html', label: 'Interés compuesto', desc: 'Riesgo, winrate, R:B y retiros parciales' },
+      { href: 'recursos/registro-trading.html', label: 'Registro de trading', desc: 'App de AppSheet para anotar operaciones' }
     ] }
   ];
 
