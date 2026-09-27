@@ -1,6 +1,7 @@
 # Mesa de Estudio
 
-Publicado en **https://trading.jhonyescobar.com/** (GitHub Pages; DNS en Cloudflare).
+Publicado en **https://trading.jhonyescobar.com/** (GitHub Pages; DNS y proxy en Cloudflare).
+Acceso con usuario y contraseña mediante un Cloudflare Worker: ver `worker/README.md`.
 
 Sitio estático privado para estudiar, simular y ejecutar estrategias de trading, en tres bloques:
 

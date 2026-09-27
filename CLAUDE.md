@@ -16,4 +16,7 @@
   favicon JT (`assets/icons/`) y `site.webmanifest`. Copiar el bloque de `<head>` de una página existente.
 - Dominio: `https://trading.jhonyescobar.com/` (GitHub Pages + DNS en Cloudflare, registro CNAME en modo "DNS only").
   El archivo `CNAME` de la raíz es necesario para el dominio: no borrarlo.
+- Acceso: `worker/acceso.js` (Cloudflare Worker en la ruta `trading.jhonyescobar.com/*`, KV `AUTH`, secreto `SETUP_KEY`).
+  Las rutas `/acceso/*` son del Worker; no crear páginas con ese prefijo. Tras cambiar `acceso.js`, avisar de que hay
+  que pegarlo de nuevo en Cloudflare (no se despliega solo).
 - Diseño común en `assets/site.css` y utilidades en `assets/site.js` (ver README.md).

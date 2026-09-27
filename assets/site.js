@@ -51,7 +51,7 @@
     var foot = document.getElementById('foot');
     if (foot) {
       foot.className = 'foot';
-      foot.innerHTML = '<div class="wrap"><span>Mesa de Estudio · material de estudio personal. No es asesoría de inversión: los simuladores usan datos de ejemplo.</span><span class="mono">sitio privado · noindex</span></div>';
+      foot.innerHTML = '<div class="wrap"><span>Mesa de Estudio · material de estudio personal. No es asesoría de inversión: los simuladores usan datos de ejemplo.</span><span class="mono"><a href="/acceso/cuenta">Mi cuenta</a> · <a href="/acceso/admin">Administración</a> · <a href="/acceso/logout">Cerrar sesión</a></span></div>';
     }
   }
 
