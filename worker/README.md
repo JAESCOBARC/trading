@@ -8,20 +8,25 @@
 - Bloqueo tras 10 intentos fallidos por IP durante 15 minutos.
 - Quedan públicas solo las imágenes de vista previa (`/assets/og/`), los iconos, `robots.txt` y el manifest.
 
-## Instalación (una sola vez, en el panel de Cloudflare)
+## Instalación (una sola vez, en el panel de Cloudflare en español)
 
-0. Si creaste una aplicación en **Zero Trust → Access**, bórrala para no tener dos logins.
-1. **Storage & Databases → KV → Create**: nombre `mesa-acceso`.
-2. **Workers & Pages → Create → Worker** (plantilla "Hello World"): nombre `mesa-acceso` → **Deploy**.
-3. **Edit code**: borra todo, pega el contenido de `worker/acceso.js` → **Deploy**.
-4. En el Worker, **Settings → Bindings → Add → KV namespace**: nombre de variable `AUTH`, espacio `mesa-acceso`.
-5. **Settings → Variables and Secrets → Add**: tipo **Secret**, nombre `SETUP_KEY`, valor = una frase larga que solo tú sepas.
-6. **Settings → Domains & Routes → Add → Route**: zona `jhonyescobar.com`, ruta `trading.jhonyescobar.com/*`.
-   Tiene que ser **Route**, no "Custom domain" (eso sustituiría a GitHub Pages).
+Nombres de menú en español con el original en inglés entre paréntesis (traducción aproximada: la interfaz cambia).
+
+0. **Zero Trust → Acceso (Access) → Aplicaciones (Applications)**: si existe "Mesa de Estudio", **Eliminar (Delete)**.
+1. **Almacenamiento y bases de datos (Storage & Databases) → KV → Crear (Create)**: nombre `mesa-acceso`.
+2. **Workers y Pages (Workers & Pages) → Crear (Create) → Worker**, plantilla "Hello World", nombre `mesa-acceso` → **Implementar (Deploy)**.
+3. **Editar código (Edit code)**: borra todo, pega el contenido de `worker/acceso.js` → **Implementar (Deploy)**.
+4. **Configuración (Settings) → Enlaces (Bindings) → Añadir (Add) → Espacio de nombres KV (KV namespace)**:
+   nombre de variable `AUTH`, espacio `mesa-acceso`.
+5. **Configuración (Settings) → Variables y secretos (Variables and Secrets) → Añadir (Add)**: tipo **Secreto (Secret)**,
+   nombre `SETUP_KEY`, valor = una frase larga que solo tú sepas.
+6. **Configuración (Settings) → Dominios y rutas (Domains & Routes) → Añadir (Add) → Ruta (Route)**:
+   zona `jhonyescobar.com`, ruta `trading.jhonyescobar.com/*`.
+   Tiene que ser **Ruta (Route)**, no **Dominio personalizado (Custom domain)**: eso sustituiría a GitHub Pages.
 7. Abre `https://trading.jhonyescobar.com/acceso/setup`, escribe la `SETUP_KEY`, tu usuario y contraseña.
    Entras directamente al panel `/acceso/admin`, donde creas el resto de usuarios.
 
-Para actualizar el Worker: repetir el paso 3 con la nueva versión de `acceso.js`. Los usuarios se conservan (están en KV).
+Para actualizar el Worker: repetir el paso 3 (Editar código → pegar → Implementar) con la nueva versión de `acceso.js`. Los usuarios se conservan (están en KV).
 
 ## Rutas
 
