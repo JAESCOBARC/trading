@@ -353,7 +353,7 @@
     var opts = list.map(function (k) { return '<option value="' + k + '">' + INSTRUMENTS[k].name + '</option>'; }).join('');
     root.classList.add('card', 'risk');
     root.innerHTML =
-      '<span class="card-label">Tamaño de posición</span>' +
+      '<h3 class="card-label">Tamaño de posición</h3>' +
       '<div class="risk-grid">' +
       '<div class="field"><label for="' + id + '-cap">Capital</label><input type="number" id="' + id + '-cap" value="' + (d.capital || 10000) + '" min="0" step="100"></div>' +
       '<div class="field"><label for="' + id + '-pct">Riesgo %</label><input type="number" id="' + id + '-pct" value="' + (d.pct || 1) + '" min="0.1" max="5" step="0.1"></div>' +

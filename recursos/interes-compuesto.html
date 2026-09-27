@@ -9,6 +9,28 @@
 <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="referrer" content="no-referrer">
 <title>Interés Compuesto · Mesa de Estudio</title>
+<meta name="description" content="Calculadora de interés compuesto para trading: riesgo, winrate, R:B y operaciones por periodo, retiros parciales y simulación de rachas.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Interés compuesto · Mesa de Estudio">
+<meta property="og:description" content="Calculadora de interés compuesto para trading: riesgo, winrate, R:B y operaciones por periodo, retiros parciales y simulación de rachas.">
+<meta property="og:url" content="https://jaescobarc.github.io/trading/recursos/interes-compuesto.html">
+<meta property="og:image" content="https://jaescobarc.github.io/trading/assets/og/interes-compuesto.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Interés compuesto · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interés compuesto · Mesa de Estudio">
+<meta name="twitter:description" content="Calculadora de interés compuesto para trading: riesgo, winrate, R:B y operaciones por periodo, retiros parciales y simulación de rachas.">
+<meta name="twitter:image" content="https://jaescobarc.github.io/trading/assets/og/interes-compuesto.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
@@ -60,9 +82,13 @@
   </section>
 
   <section class="section" id="calculadora">
+    <div class="sec-head">
+      <h2>Calculadora</h2>
+      <p>Introduce tu capital y tu forma de operar. Los resultados se recalculan al escribir.</p>
+    </div>
     <div class="ic">
       <div class="card ic-form" id="ic-form">
-        <span class="card-label">Valores</span>
+        <h3 class="card-label">Valores</h3>
         <div class="field"><label for="ic-tpl">Plantilla</label>
           <div class="row" style="flex-wrap:nowrap"><select id="ic-tpl" style="flex:1;min-width:0"><option value="">Seleccionar</option></select><button class="icon-btn" type="button" id="ic-tpl-del" title="Borrar plantilla">Borrar</button></div>
         </div>
@@ -88,7 +114,7 @@
         </div>
         <p class="err" id="ic-err" hidden></p>
         <hr>
-        <span class="card-label">Retiro recurrente</span>
+        <h3 class="card-label">Retiro recurrente</h3>
         <div class="bulk">
           <div class="field"><label for="ic-bw">Importe</label><input type="number" id="ic-bw" min="0" step="any" value="500"></div>
           <div class="field"><label for="ic-be">Cada (per.)</label><input type="number" id="ic-be" min="1" step="1" value="6"></div>
@@ -108,7 +134,7 @@
         <div class="tiles" id="ic-tiles"></div>
         <div class="card">
           <div class="stage-head">
-            <span class="card-label">Evolución del balance</span>
+            <h3 class="card-label">Evolución del balance</h3>
             <div class="legend">
               <span><i style="background:var(--lime)"></i>Esperado con retiros</span>
               <span><i style="background:var(--ink-3)"></i>Esperado sin retiros</span>
@@ -120,7 +146,7 @@
         </div>
         <div class="card">
           <div class="stage-head">
-            <span class="card-label" id="ic-sim-label">Rachas: simulaciones aleatorias</span>
+            <h3 class="card-label" id="ic-sim-label">Rachas: simulaciones aleatorias</h3>
             <button class="icon-btn" type="button" id="ic-resim">Otra tanda</button>
           </div>
           <div class="sim" id="ic-sim"></div>
@@ -262,7 +288,7 @@ document.addEventListener('DOMContentLoaded', function () {
     Object.keys(w).forEach(function (k) { if (+k > n) delete w[k]; });
   }
 
-  function tile(label, value, sub, cls) { return '<div class="tile-s"><span class="card-label">' + label + '</span><strong class="' + (cls || '') + '">' + value + '</strong>' + (sub ? '<small>' + sub + '</small>' : '') + '</div>'; }
+  function tile(label, value, sub, cls) { return '<div class="tile-s"><h3 class="card-label">' + label + '</h3><strong class="' + (cls || '') + '">' + value + '</strong>' + (sub ? '<small>' + sub + '</small>' : '') + '</div>'; }
   function pct(v, d) { return M.fmt(v * 100, d === undefined ? 1 : d) + '%'; }
 
   function recalc() {
@@ -321,10 +347,10 @@ document.addEventListener('DOMContentLoaded', function () {
       sim = simulate(s);
       $('ic-sim-label').textContent = 'Rachas: ' + M.fmt(sim.runs, 0) + ' simulaciones aleatorias';
       $('ic-sim').innerHTML =
-        '<div><span class="card-label">Balance final 10% peor</span><b class="down">' + money(sim.p10) + '</b><small>mediana ' + money(sim.p50) + '</small></div>' +
-        '<div><span class="card-label">Balance final 10% mejor</span><b class="up">' + money(sim.p90) + '</b><small>esperado ' + money(res ? res.final : 0) + '</small></div>' +
-        '<div><span class="card-label">Terminan en pérdida</span><b class="' + (sim.below > .2 ? 'down' : '') + '">' + pct(sim.below) + '</b><small>cuenta a cero: ' + pct(sim.ruin) + '</small></div>' +
-        '<div><span class="card-label">Peor racha perdedora</span><b>' + sim.streak + ' seguidas</b><small>1 de cada 10: ' + sim.streakBad + ' · drawdown típico ' + pct(sim.dd, 0) + '</small></div>';
+        '<div><h3 class="card-label">Balance final 10% peor</h3><b class="down">' + money(sim.p10) + '</b><small>mediana ' + money(sim.p50) + '</small></div>' +
+        '<div><h3 class="card-label">Balance final 10% mejor</h3><b class="up">' + money(sim.p90) + '</b><small>esperado ' + money(res ? res.final : 0) + '</small></div>' +
+        '<div><h3 class="card-label">Terminan en pérdida</h3><b class="' + (sim.below > .2 ? 'down' : '') + '">' + pct(sim.below) + '</b><small>cuenta a cero: ' + pct(sim.ruin) + '</small></div>' +
+        '<div><h3 class="card-label">Peor racha perdedora</h3><b>' + sim.streak + ' seguidas</b><small>1 de cada 10: ' + sim.streakBad + ' · drawdown típico ' + pct(sim.dd, 0) + '</small></div>';
       chart.redraw();
     }, 120);
   }

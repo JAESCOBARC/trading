@@ -28,6 +28,8 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 
 - `assets/site.css`: sistema visual común (fondo negro, acento lima, Inter Tight / Inter / JetBrains Mono).
 - `assets/site.js`: navegación, lienzos, indicadores (EMA, ATR, Bollinger), checklist persistente y calculadora de riesgo.
+- `assets/icons/`: favicon e iconos de app con las iniciales JT (SVG + PNG 16/32/180/192/512) y `site.webmanifest`.
+- `assets/og/`: imágenes Open Graph 1200×630 de cada página, para la vista previa al compartir un enlace.
 - Sin dependencias ni compilación: se abre `index.html` directamente o se publica la carpeta tal cual.
 
 Los simuladores usan datos de ejemplo generados con semilla fija (siempre salen igual). No es asesoría de inversión.

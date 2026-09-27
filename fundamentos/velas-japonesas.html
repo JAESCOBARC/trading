@@ -9,6 +9,28 @@
 <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="referrer" content="no-referrer">
 <title>Velas Japonesas · Mesa de Estudio</title>
+<meta name="description" content="Simulador de velas japonesas: construye una vela y estudia 10 patrones en su contexto, con tendencia, soporte, volumen y confirmación o fallo.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Velas japonesas · Mesa de Estudio">
+<meta property="og:description" content="Simulador de velas japonesas: construye una vela y estudia 10 patrones en su contexto, con tendencia, soporte, volumen y confirmación o fallo.">
+<meta property="og:url" content="https://jaescobarc.github.io/trading/fundamentos/velas-japonesas.html">
+<meta property="og:image" content="https://jaescobarc.github.io/trading/assets/og/velas-japonesas.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Velas japonesas · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Velas japonesas · Mesa de Estudio">
+<meta name="twitter:description" content="Simulador de velas japonesas: construye una vela y estudia 10 patrones en su contexto, con tendencia, soporte, volumen y confirmación o fallo.">
+<meta name="twitter:image" content="https://jaescobarc.github.io/trading/assets/og/velas-japonesas.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
@@ -76,11 +98,11 @@
         </div>
         <div class="aside">
           <div class="card">
-            <span class="card-label" id="vj-card-label">Lectura</span>
+            <h3 class="card-label" id="vj-card-label">Lectura</h3>
             <div id="vj-info"></div>
           </div>
           <div class="card">
-            <span class="card-label">Geometría de la vela clave</span>
+            <h3 class="card-label">Geometría de la vela clave</h3>
             <div id="vj-geo"></div>
           </div>
           <div class="verdict" id="vj-verdict"></div>
@@ -229,7 +251,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   function kv(a, b, cls) { return '<div class="kv"><span>' + a + '</span><span class="' + (cls || '') + '">' + b + '</span></div>'; }
-  function def(a, b) { return '<div style="display:flex;flex-direction:column;gap:2px;padding-block:6px;border-top:1px solid var(--line)"><span class="card-label" style="letter-spacing:.06em">' + a + '</span><span style="font-size:13px">' + b + '</span></div>'; }
+  function def(a, b) { return '<div style="display:flex;flex-direction:column;gap:2px;padding-block:6px;border-top:1px solid var(--line)"><h3 class="card-label" style="letter-spacing:.06em">' + a + '</h3><span style="font-size:13px">' + b + '</span></div>'; }
   function pct(v) { return M.fmt(v * 100, 0) + '%'; }
 
   function panel() {

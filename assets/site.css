@@ -174,7 +174,7 @@ input[type=range]{accent-color:var(--lime);width:100%}
 
 .aside{border-left:1px solid var(--line);padding:18px 14px;display:flex;flex-direction:column;gap:12px;background:rgba(0,0,0,.12)}
 .card{background:var(--bg-2);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
-.card-label{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.card-label{font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.1em;line-height:1.4;text-transform:uppercase;color:var(--ink-3);margin:0}
 .kv{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:13px;padding-block:3px;border-bottom:1px solid var(--line)}
 .kv:last-child{border-bottom:none}
 .kv span:first-child{color:var(--ink-2)}
