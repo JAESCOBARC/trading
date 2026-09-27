@@ -344,5 +344,5 @@ tr:last-child td{border-bottom:none}.mono{font-family:"JetBrains Mono",monospace
 <h1>${esc(title)}</h1>
 ${body}
 </div></body></html>`;
-  return new Response(html, { status: status || 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow', 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'no-referrer' } });
+  return new Response(html, { status: status || 200, headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex, nofollow', 'X-Frame-Options': 'DENY', 'Referrer-Policy': 'same-origin' } });
 }
