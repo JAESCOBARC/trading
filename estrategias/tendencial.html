@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Estrategia Tendencial · Mesa de Estudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Continuación de tendencia en futuros: entrar en el retroceso, a favor del impulso, con la vela que confirma la intención]</p>
+    <p class="eyebrow">Estrategia · Jhony Escobar</p>
+    <h1>Estrategia <span class="lime">Tendencial</span></h1>
+    <p class="lede">Retroceso a la EMA 21 dentro del 38,2–61,8% y vela de intención al cierre.</p>
+    <div class="chips"><span class="chip">MNQ · NQ · Micro-DAX · 6E</span><span class="chip">1D → 4H/1H → 5m/1m</span><span class="chip">Largo y corto</span><span class="chip">Máx. 2 trades/día</span></div>
+    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Simulador gráfico</h2>
+      <p>La EMA 21, el impulso y el retroceso se calculan sobre las velas del escenario. El panel derecho aplica los filtros de la estrategia en la vela gatillo.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/estrategias/tendencial · 5m · hora de Madrid</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="tr-side">
+          <span class="side-label">Escenarios</span>
+          <button class="scn" data-scn="largo" aria-pressed="true">Largo válido</button>
+          <button class="scn" data-scn="corto" aria-pressed="false">Corto válido</button>
+          <button class="scn" data-scn="violento" aria-pressed="false">Retroceso violento</button>
+          <button class="scn" data-scn="rango" aria-pressed="false">Mercado en rango</button>
+          <span class="side-label">Capas</span>
+          <label class="toggle"><input type="checkbox" id="tr-ema" checked>EMA 21</label>
+          <label class="toggle"><input type="checkbox" id="tr-fib" checked>Zona 38,2–61,8%</label>
+          <label class="toggle"><input type="checkbox" id="tr-wall" checked>Muro apertura 15:30</label>
+          <label class="toggle"><input type="checkbox" id="tr-vol" checked>Volumen</label>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="tr-title">5 minutos</span>
+            <div class="legend">
+              <span><i style="background:var(--amber)"></i>EMA 21</span>
+              <span><i style="background:var(--lime)"></i>Zona Fibonacci</span>
+              <span><i style="background:var(--blue)"></i>Apertura NY</span>
+            </div>
+          </div>
+          <div class="chart tall"><canvas id="tr-chart" role="img" aria-label="Gráfico de velas con EMA 21, zona Fibonacci y volumen"></canvas></div>
+          <div class="replay" id="tr-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Vela actual">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="caption" id="tr-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <span class="card-label">Filtros en la vela gatillo</span>
+            <div class="checks" id="tr-checks"></div>
+          </div>
+          <div class="verdict" id="tr-verdict"></div>
+          <div class="card">
+            <span class="card-label">Medidas</span>
+            <div id="tr-kv"></div>
+          </div>
+          <div class="card" id="tr-trade" hidden>
+            <span class="card-label">Plan de la operación</span>
+            <div id="tr-plan"></div>
+            <button class="btn sm" id="tr-send" type="button">Enviar a la calculadora</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Checklist de ejecución</h2>
+      <p>De arriba abajo: primero tu estado, luego el gráfico, luego la salida y el tamaño. Si un punto obligatorio falla, hoy no se opera.</p>
+    </div>
+    <div class="cl" data-checklist="tendencial">
+      <div class="cl-groups">
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Pre-sesión: tu estado</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>He dormido bien (7–8 h) y estoy despejado</b><span>El cansancio reduce la velocidad de reacción y la disciplina.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Sin estrés ni discusiones pendientes</b><span>Las tensiones personales empujan a trades compulsivos.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Sin urgencia de ganar dinero hoy</b><span>Operar por necesidad rompe el plan técnico.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Anclaje emocional en la mano</b><span>Tu objeto de anclaje (pelota antiestrés) preparado antes de abrir la plataforma.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Los 5 errores mortales</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>No moveré el stop loss</b><span>Una vez puesto, el stop nunca se aleja.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>No arriesgaré más del 1–2% por operación</b><span>Da igual la confianza que tenga en el trade.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>No haré martingala</b><span>Nunca duplicar lotaje ni añadir a una posición perdedora.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>No entraré sin stop loss</b><span>Toda orden nace en la plataforma con su stop asignado.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>No haré revenge trading</b><span>Tras un stop, pausa obligatoria.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Entrada técnica</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Tendencia clara</b><span>Mínimos crecientes (largo) o máximos decrecientes (corto) en 5m, alineado con 1D y 4H/1H.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Precio retrocedido cerca de la EMA 21</b><span>La toca o se queda a menos de media vela de distancia.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Retroceso dentro del 38,2–61,8%</b><span>Medido sobre el último impulso.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Vela de intención en los últimos 5 segundos</b><span>Cuerpo claro a favor de la tendencia, confirmado al cierre de la vela.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Fuera del muro de apertura (15:30)</b><span>No entrar en los minutos de volumen de la apertura de Nueva York.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Sin noticias de 3 estrellas en ±5 minutos</b><span>Revisa el calendario económico antes de la sesión.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Filtros de volumen</h3><span class="cl-count"></span></div>
+          <label class="cl-item"><input type="checkbox"><div><b>No entro contra el volumen</b><span>La presión del volumen dominante va en mi dirección.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>No entro dentro de un bloque de volumen</b><span>No quedo atrapado en una zona de acumulación.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>El retroceso no es violento</b><span>Si vuelve con velocidad y velas grandes, no se frena el cuchillo.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Solo giro en zona y con volumen</b><span>Confluencia de nivel (flip, soporte o resistencia) y volumen que la respalde.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>La vela gatillo no tiene volumen desmedido</b><span>Un volumen excesivo en la entrada suele ser absorción o volumen de parada.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>No anticipo la rotura</b><span>Espero el quiebre y la reevaluación.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>El movimiento no está extendido</b><span>No persigo el precio cuando ya está lejos de la EMA.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>No es un rango</b><span>En consolidación o compresión lateral, no se entra.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Salida y límites</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Stop tras el último mínimo (o máximo)</b><span>Por debajo del mínimo del retroceso en largos; por encima del máximo en cortos.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Objetivo de 1:1 o mayor</b><span>Y colocado antes del siguiente muro o nivel macro contrario.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Breakeven solo tras superar 1:1</b><span>Sin asfixiar al precio.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Menos de 2 operaciones hoy</b><span>Con 2 trades hechos, la sesión ha terminado.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Tamaño calculado</b><span>Contratos según la calculadora, con el riesgo % de tu plan.</span></div></label>
+        </div>
+      </div>
+      <div class="cl-side">
+        <div class="card">
+          <span class="card-label">Progreso</span>
+          <div class="meter"><i data-meter></i></div>
+          <span class="mono muted" data-count></span>
+          <div class="verdict" data-verdict></div>
+          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
+        </div>
+        <div data-risk="tr" data-instruments="MNQ,NQ,FDXS,6E" data-defaults='{"capital":10000,"pct":1,"entry":20000,"stop":19980,"tp1":20050}'></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  var N = 60, WALL = 18; // índice 18 = 15:30 (velas de 5m desde las 14:00)
+
+  var up = [[0, 20000], [6, 20008], [12, 20004], [18, 20022], [24, 20046], [30, 20071], [34, 20080], [38, 20063], [42, 20049]];
+  var SC = {
+    largo: { dir: 'L', title: 'Largo válido', pts: up.concat([[43, 20057], [47, 20070], [52, 20084], [59, 20094]]), trig: 43, seed: 21,
+      trigC: { o: 20048.5, h: 20058, l: 20047.25, c: 20057.5 } },
+    corto: { dir: 'S', title: 'Corto válido', pts: up.map(function (p) { return [p[0], 40000 - p[1]]; }).concat([[43, 19943], [47, 19930], [52, 19917], [59, 19905]]), trig: 43, seed: 22,
+      trigC: { o: 19951.5, h: 19952.75, l: 19942, c: 19942.5 } },
+    violento: { dir: 'L', title: 'Retroceso violento', pts: [[0, 20000], [6, 20008], [12, 20004], [18, 20022], [24, 20046], [30, 20071], [34, 20080], [36, 20056], [38, 20027], [40, 20013], [41, 20017], [45, 20003], [52, 19992], [59, 19985]], trig: 41, seed: 23,
+      trigC: { o: 20012, h: 20019.5, l: 20010.5, c: 20018.5 } },
+    rango: { dir: 'L', title: 'Mercado en rango', pts: [[0, 20000], [6, 20012], [12, 19998], [18, 20014], [24, 19999], [30, 20013], [36, 19998], [41, 20004], [42, 20011], [48, 19999], [54, 20011], [59, 20003]], trig: 42, seed: 24,
+      trigC: { o: 20003.5, h: 20012, l: 20002.75, c: 20011 } }
+  };
+
+  var key = 'largo', cs, ema, atrs, idx = 43;
+  function build() {
+    var s = SC[key];
+    cs = M.candlesFromPath(s.pts, { seed: s.seed, noise: 1.2, wick: 1.6 });
+    cs[s.trig] = s.trigC;
+    cs[s.trig + 1].o = s.trigC.c;
+    cs[s.trig + 1].h = Math.max(cs[s.trig + 1].h, s.trigC.c); cs[s.trig + 1].l = Math.min(cs[s.trig + 1].l, s.trigC.c);
+    var r = M.rng(s.seed + 100);
+    cs.forEach(function (c, i) {
+      var v = 2200 + r() * 1400;
+      if (Math.abs(i - WALL) <= 2) v *= 2.4;
+      if (key === 'violento' && i >= 35 && i <= 40) v *= 2.2;
+      c.v = Math.round(v);
+    });
+    cs[s.trig].v = Math.round(cs.slice(s.trig - 20, s.trig).reduce(function (a, c) { return a + c.v; }, 0) / 20 * 1.35);
+    ema = M.ema(cs.map(function (c) { return c.c; }), 21);
+    atrs = M.atr(cs, 14);
+  }
+  function hhmm(i) { var m = 14 * 60 + i * 5; return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
+
+  function analyse() {
+    var s = SC[key], t = s.trig, L = s.dir === 'L', c = cs[t], a = atrs[t];
+    var from = Math.max(0, t - 30), sh = from;
+    for (var i = from; i < t; i++) if (L ? cs[i].h > cs[sh].h : cs[i].l < cs[sh].l) sh = i;
+    var sl = Math.max(0, sh - 30);
+    for (var j = Math.max(0, sh - 30); j <= sh; j++) if (L ? cs[j].l < cs[sl].l : cs[j].h > cs[sl].h) sl = j;
+    var ext = L ? cs[sh].h : cs[sh].l, org = L ? cs[sl].l : cs[sl].h;
+    var pull = sh + 1;
+    for (var k = sh + 1; k <= t; k++) if (L ? cs[k].l < cs[pull].l : cs[k].h > cs[pull].h) pull = k;
+    var pullExt = L ? cs[pull].l : cs[pull].h;
+    var ret = Math.abs(ext - pullExt) / Math.abs(ext - org) * 100;
+    var slope = (ema[t] - ema[t - 15]) / a * (L ? 1 : -1);
+    var nearEma = false;
+    for (var q = sh + 1; q <= t; q++) { var d = L ? cs[q].l - ema[q] : ema[q] - cs[q].h; if (d <= a * 0.5) nearEma = true; }
+    var maxBar = 0;
+    for (var z = sh + 1; z < t; z++) maxBar = Math.max(maxBar, (cs[z].h - cs[z].l) / atrs[z]);
+    var body = Math.abs(c.c - c.o) / (c.h - c.l);
+    var dirOk = L ? c.c > c.o && c.c > cs[t - 1].h : c.c < c.o && c.c < cs[t - 1].l;
+    var avgV = cs.slice(t - 20, t).reduce(function (s2, x) { return s2 + x.v; }, 0) / 20;
+    var relV = c.v / avgV;
+    var extd = Math.abs(c.c - ema[t]) / a;
+    var o = {
+      L: L, t: t, sh: sh, sl: sl, ext: ext, org: org, pull: pull, pullExt: pullExt, ret: ret, slope: slope,
+      trend: slope >= 1.2, nearEma: nearEma, zone: ret >= 38.2 && ret <= 61.8, violent: ret > 61.8 && maxBar > 1.6 || maxBar > 2.3,
+      body: body, dirOk: dirOk && body >= 0.55, relV: relV, volOk: relV <= 2.2, extd: extd, extOk: extd <= 1.5,
+      wall: Math.abs(t - WALL) > 3
+    };
+    o.valid = o.trend && o.nearEma && o.zone && !o.violent && o.dirOk && o.volOk && o.extOk && o.wall;
+    o.entry = c.c;
+    o.stop = L ? pullExt - 1 : pullExt + 1;
+    var R = Math.abs(o.entry - o.stop);
+    o.tp = Math.abs(ext - o.entry) >= R ? ext : o.entry + (L ? 1.5 : -1.5) * R;
+    o.R = R;
+    return o;
+  }
+
+  build();
+  var stage = M.canvasStage($('tr-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h, a = analyse(), s = SC[key];
+    var showVol = $('tr-vol').checked;
+    var area = { l: 12, r: w - 62, t: 14, b: h - (showVol ? h * 0.2 : 22) };
+    var lo = Math.min.apply(null, cs.map(function (c) { return c.l; })) - 4, hi = Math.max.apply(null, cs.map(function (c) { return c.h; })) + 4;
+    var y = M.scale(lo, hi, area.b, area.t), cw = (area.r - area.l) / N, x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 7));
+    if ($('tr-wall').checked) {
+      ctx.fillStyle = C.blueSoft; ctx.fillRect(x(WALL - 3) - cw / 2, area.t, cw * 7, (showVol ? h - 4 : area.b) - area.t);
+      ctx.strokeStyle = C.blue; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(x(WALL) - cw / 2, area.t); ctx.lineTo(x(WALL) - cw / 2, area.b); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle = C.blue; ctx.font = '600 10.5px "JetBrains Mono", monospace'; ctx.fillText('15:30 apertura NY', x(WALL - 3) - cw / 2 + 4, area.t + 12);
+    }
+    if ($('tr-fib').checked && idx >= s.trig - 1) {
+      var d = a.ext - a.org, z1 = a.ext - d * .382, z2 = a.ext - d * .618;
+      ctx.fillStyle = C.limeSoft; ctx.fillRect(x(a.sh) - cw / 2, Math.min(y(z1), y(z2)), area.r - x(a.sh) + cw / 2, Math.abs(y(z1) - y(z2)));
+      ctx.fillStyle = C.lime; ctx.font = '600 10.5px "JetBrains Mono", monospace';
+      ctx.fillText('38,2%', x(a.sh) + 2, y(z1) + (a.L ? -4 : 12));
+      ctx.fillText('61,8%', x(a.sh) + 2, y(z2) + (a.L ? 12 : -4));
+    }
+    var shown = cs.slice(0, idx + 1);
+    M.drawCandles(ctx, shown, x, y, cw, { mark: function (i) { return i === s.trig; } });
+    if ($('tr-ema').checked) {
+      ctx.strokeStyle = C.amber; ctx.lineWidth = 1.8; ctx.beginPath();
+      for (var i = 0; i <= idx; i++) { if (i === 0) ctx.moveTo(x(i), y(ema[i])); else ctx.lineTo(x(i), y(ema[i])); }
+      ctx.stroke(); ctx.lineWidth = 1;
+    }
+    if (idx >= a.sh) M.marker(ctx, x(a.sh), y(a.ext) + (a.L ? -10 : 10), C.ink2, a.L ? 'máximo' : 'mínimo', !a.L);
+    if (idx >= a.sl) M.marker(ctx, x(a.sl), y(a.org) + (a.L ? 10 : -10), C.ink2, 'origen', a.L);
+    if (idx >= s.trig) {
+      M.marker(ctx, x(s.trig), y(a.L ? cs[s.trig].l : cs[s.trig].h) + (a.L ? 12 : -12), a.valid ? C.lime : C.red, a.valid ? (a.L ? 'LARGO' : 'CORTO') : 'NO ENTRAR', a.L);
+      if (a.valid) {
+        var from = x(s.trig) - cw / 2;
+        [[a.tp, C.lime, 'Objetivo'], [a.entry, C.ink, 'Entrada'], [a.stop, C.red, 'Stop']].forEach(function (l) {
+          ctx.strokeStyle = l[1]; ctx.setLineDash(l[2] === 'Entrada' ? [] : [6, 3]);
+          ctx.beginPath(); ctx.moveTo(from, y(l[0])); ctx.lineTo(area.r, y(l[0])); ctx.stroke(); ctx.setLineDash([]);
+          ctx.fillStyle = l[1]; ctx.font = '600 10.5px "JetBrains Mono", monospace'; ctx.fillText(l[2], area.r - 64, y(l[0]) - 4);
+        });
+      }
+    }
+    if (showVol) {
+      var vt = area.b + 20, vb = h - 6, vmax = Math.max.apply(null, cs.map(function (c) { return c.v; }));
+      ctx.fillStyle = C.axis; ctx.font = '10.5px "JetBrains Mono", monospace'; ctx.fillText('volumen', area.r + 6, vt + 8);
+      shown.forEach(function (c, i) {
+        var bh = (vb - vt) * c.v / vmax;
+        ctx.fillStyle = i === s.trig ? C.ink : (c.c >= c.o ? 'rgba(155,226,45,.45)' : 'rgba(242,86,91,.45)');
+        ctx.fillRect(x(i) - Math.max(1, cw * .3), vb - bh, Math.max(2, cw * .6), bh);
+      });
+    }
+    ctx.fillStyle = C.axis; ctx.font = '10.5px "JetBrains Mono", monospace';
+    [0, 12, 24, 36, 48].forEach(function (i) { ctx.fillText(hhmm(i), x(i) - cw / 2, h - 4); });
+  });
+
+  function row(ok, text, wait) { var st = wait ? 'wait' : ok ? 'ok' : 'no'; return '<div class="chk ' + st + '"><i>' + (wait ? '·' : ok ? '✓' : '✕') + '</i><span>' + text + '</span></div>'; }
+
+  function panel() {
+    var a = analyse(), s = SC[key], wait = idx < s.trig;
+    $('tr-checks').innerHTML =
+      row(a.trend, a.trend ? 'Tendencia ' + (a.L ? 'alcista' : 'bajista') + ' clara' : 'Sin tendencia: EMA 21 plana', false) +
+      row(a.zone, 'Retroceso del ' + M.fmt(a.ret, 1) + '% ' + (a.zone ? '(en zona)' : '(fuera de 38,2–61,8)'), wait) +
+      row(a.nearEma, a.nearEma ? 'El retroceso toca la EMA 21' : 'No llega a la EMA 21', wait) +
+      row(!a.violent, a.violent ? 'Retroceso violento: velas grandes en contra' : 'Retroceso ordenado', wait) +
+      row(a.dirOk, 'Vela gatillo: cuerpo ' + M.fmt(a.body * 100, 0) + '% ' + (a.dirOk ? 'a favor' : 'sin intención'), wait) +
+      row(a.volOk, 'Volumen gatillo ×' + M.fmt(a.relV, 2) + ' la media' + (a.volOk ? '' : ': excesivo'), wait) +
+      row(a.extOk, 'Distancia a la EMA: ' + M.fmt(a.extd, 2) + ' ATR' + (a.extOk ? '' : ': extendido'), wait) +
+      row(a.wall, a.wall ? 'Fuera del muro de las 15:30' : 'Dentro del muro de apertura', wait);
+    var v = $('tr-verdict');
+    if (wait) { v.className = 'verdict warn'; v.innerHTML = '<strong>Esperando la vela gatillo</strong>Avanza hasta las ' + hhmm(s.trig) + '.'; }
+    else if (a.valid) { v.className = 'verdict ok'; v.innerHTML = '<strong>' + (a.L ? 'Largo' : 'Corto') + ' autorizado</strong>Confírmalo en los últimos 5 segundos de la vela.'; }
+    else { v.className = 'verdict no'; v.innerHTML = '<strong>No entrar</strong>' + (!a.trend ? 'El mercado está en rango: la EMA 21 no tiene pendiente.' : a.violent ? 'El retroceso supera el 61,8% con velas de fuerza en contra.' : !a.zone ? 'El retroceso no está en la zona Fibonacci.' : 'La vela gatillo no cumple.'); }
+    $('tr-kv').innerHTML =
+      '<div class="kv"><span>Impulso</span><span>' + M.fmt(Math.abs(a.ext - a.org), 2) + ' pts</span></div>' +
+      '<div class="kv"><span>Pendiente EMA (15 velas)</span><span>' + M.fmt(a.slope, 2) + ' ATR</span></div>' +
+      '<div class="kv"><span>ATR 14</span><span>' + M.fmt(atrs[a.t], 2) + '</span></div>' +
+      '<div class="kv"><span>Vela gatillo</span><span>' + hhmm(a.t) + '</span></div>';
+    var tr = $('tr-trade');
+    tr.hidden = !(a.valid && !wait);
+    if (!tr.hidden) {
+      $('tr-plan').innerHTML =
+        '<div class="kv"><span>Entrada</span><span>' + M.fmt(a.entry, 2) + '</span></div>' +
+        '<div class="kv"><span>Stop (tras el ' + (a.L ? 'mínimo' : 'máximo') + ')</span><span class="down">' + M.fmt(a.stop, 2) + '</span></div>' +
+        '<div class="kv"><span>Objetivo · ' + (a.tp === a.ext ? 'extremo del impulso' : '1,5R') + '</span><span class="up">' + M.fmt(a.tp, 2) + ' · ' + M.fmt(Math.abs(a.tp - a.entry) / a.R, 2) + 'R</span></div>';
+    }
+    var cap;
+    if (idx < WALL - 3) cap = 'Sesión europea: el precio construye estructura. Marca soportes, resistencias y la tendencia de 1D y 4H/1H.';
+    else if (idx <= WALL + 3) cap = 'Apertura de Nueva York: volumen alto y giros bruscos. Es el muro: no se entra aquí.';
+    else if (idx < a.sh) cap = 'Impulso: el precio se aleja de la EMA 21. No se persigue.';
+    else if (idx < s.trig) cap = key === 'violento' ? 'El retroceso llega con velas grandes y mucho volumen. Mala señal.' : 'Retroceso hacia la EMA 21 y la zona 38,2–61,8%. Se espera la vela de intención.';
+    else if (idx === s.trig) cap = a.valid ? 'Vela de intención: cuerpo fuerte y cierre por encima de la vela anterior. Se entra al cierre.' : 'Hay una vela a favor, pero los filtros dicen que no.';
+    else cap = a.valid ? 'Gestión: stop fijo; breakeven solo cuando supere 1:1.' : 'Fuera del mercado. Se espera otra estructura.';
+    $('tr-caption').innerHTML = '<b>' + hhmm(idx) + '</b>' + cap;
+    $('tr-title').textContent = '5 minutos · ' + s.title;
+  }
+
+  var rp = M.replay($('tr-replay'), N, 43, function (v) {
+    idx = v;
+    if (!cs) return;
+    document.querySelector('#tr-replay [data-label]').textContent = 'Vela ' + (v + 1) + '/' + N + ' · ' + hhmm(v);
+    stage.redraw(); panel();
+  });
+  M.scenarios($('tr-side'), function (k) { key = k; build(); rp.reset(N, SC[k].trig); });
+  ['tr-ema', 'tr-fib', 'tr-wall', 'tr-vol'].forEach(function (id) { $(id).addEventListener('change', function () { stage.redraw(); }); });
+  $('tr-send').addEventListener('click', function () {
+    var a = analyse();
+    M.risk('tr').set({ dir: a.L ? 'L' : 'S', entry: a.entry, stop: a.stop, tp1: a.tp });
+    $('checklist').scrollIntoView();
+  });
+});
+</script>
+</body>
+</html>

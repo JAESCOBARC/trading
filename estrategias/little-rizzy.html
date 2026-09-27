@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Little Rizzy · Mesa de Estudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Geometría sobre la directriz: medir la fuerza vertical acumulada y proyectarla desde el extremo]</p>
+    <p class="eyebrow">Estrategia · Marci Silfrain</p>
+    <h1>Little <span class="lime">Rizzy</span></h1>
+    <p class="lede">Distancia D entre la directriz y el extremo, proyectada como objetivo.</p>
+    <div class="chips"><span class="chip">S&amp;P 500 · acciones</span><span class="chip">15m a mensual</span><span class="chip">Largo y corto</span><span class="chip">Bollinger 5 · 2σ</span></div>
+    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Simulador gráfico</h2>
+      <p>Arrastra sobre el gráfico para trazar tu directriz. El simulador busca el extremo, mide D en la misma vela y proyecta objetivo y stop. Avanza las velas para ver si la estructura se rompe.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url" id="lr-url">mesa-de-estudio/estrategias/little-rizzy</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="lr-side">
+          <span class="side-label">Escenarios</span>
+          <button class="scn" data-scn="sp500" aria-pressed="true">S&amp;P 500 · caída del 2,5%</button>
+          <button class="scn" data-scn="hh" aria-pressed="false">Howard Hughes · techo D</button>
+          <button class="scn" data-scn="crash1929" aria-pressed="false">Crash de 1929</button>
+          <span class="side-label">Contexto</span>
+          <div class="field"><label for="lr-ses">Sesión</label><select id="lr-ses"><option value="ny">Apertura / cierre NY</option><option value="on">Overnight</option></select></div>
+          <div class="field"><label for="lr-news">Noticias</label><select id="lr-news"><option value="tec">Técnicas (Bloomberg)</option><option value="head">Titulares masivos</option></select></div>
+          <div class="field"><label for="lr-occ">Ocurrencia del patrón</label><input type="number" id="lr-occ" value="1" min="1" max="9" step="1"></div>
+          <button class="scn" type="button" id="lr-reset" style="margin-top:6px">Restaurar directriz</button>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="lr-title"></span>
+            <div class="legend">
+              <span><i style="background:var(--blue)"></i>Directriz</span>
+              <span><i style="background:var(--amber)"></i>Distancia D</span>
+              <span><i style="background:var(--lime)"></i>Objetivo</span>
+              <span><i style="background:var(--red)"></i>Stop</span>
+            </div>
+          </div>
+          <div class="chart tall"><canvas id="lr-chart" role="img" aria-label="Gráfico con directriz dibujable, bandas de Bollinger y proyección D"></canvas></div>
+          <div class="replay" id="lr-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Vela actual">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="caption" id="lr-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <span class="card-label">Proyección geométrica</span>
+            <div id="lr-kv"></div>
+          </div>
+          <div class="verdict" id="lr-verdict"></div>
+          <div class="card">
+            <span class="card-label">Contexto</span>
+            <div class="checks" id="lr-ctx"></div>
+          </div>
+          <button class="btn sm" id="lr-send" type="button">Enviar a la calculadora</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Checklist de ejecución</h2>
+      <p>La geometría manda; el contexto decide si merece la pena ejecutarla.</p>
+    </div>
+    <div class="cl" data-checklist="little-rizzy">
+      <div class="cl-groups">
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Geometría</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Directriz trazada</b><span>Bajista sobre los máximos para medir suelo; alcista bajo los mínimos para medir techo.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Extremo identificado</b><span>El mínimo más bajo (suelo) o el máximo más alto (techo) del movimiento.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>D medida en la misma vela</b><span>Distancia vertical entre la directriz y el extremo, en el eje X de la vela pivote.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Objetivo = extremo ± D</b><span>Suelo: mínimo − D. Techo: máximo + D.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Invalidación y contexto</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Sin cierre contundente al otro lado de la directriz</b><span>Si lo hay: "Little Rizzy broke". No se ejecuta.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Sesión revisada</b><span>Apertura y cierre de Nueva York son los tramos más peligrosos; el overnight es más limpio.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Noticia no descontada</b><span>Si ya es titular de CNN o Fox, probablemente está "priced in".</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Menos de 4 repeticiones del patrón</b><span>A partir de la cuarta, riesgo de agotamiento y giro.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Bandas de Bollinger revisadas</b><span>Fuera de las bandas es vela de agotamiento: el precio tiende a volver a la media (zona de realidad).</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Riesgo</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Beneficio : riesgo ≥ 1</b><span>Medido desde el precio de entrada hasta el objetivo D y el stop en la directriz.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Pérdida máxima definida y tamaño calculado</b><span>Con la calculadora, antes de entrar.</span></div></label>
+        </div>
+      </div>
+      <div class="cl-side">
+        <div class="card">
+          <span class="card-label">Progreso</span>
+          <div class="meter"><i data-meter></i></div>
+          <span class="mono muted" data-count></span>
+          <div class="verdict" data-verdict></div>
+          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
+        </div>
+        <div data-risk="lr" data-instruments="MES,ES,STK" data-defaults='{"capital":25000,"pct":1,"entry":4980,"stop":5020,"tp1":4900}'></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+
+  function sp500() {
+    var r = M.rng(2026), out = [], c = 5100, t0 = 9 * 60 + 30;
+    function push(i, o, h, l, cl) { var m = t0 + i * 15; out.push({ t: String(Math.floor(m / 60) % 24).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'), o: o, h: h, l: l, c: cl }); }
+    for (var i = 0; i < 15; i++) { var o = c, cl = o * (1 - (0.0015 + r() * 0.0025)); push(i, o, Math.max(o, cl) + r() * 4, Math.min(o, cl) - r() * 6, cl); c = cl; }
+    var lo = c, lc = lo * 0.995; push(15, lo, lo + 3, lc - 12, lc); c = lc;
+    for (var j = 16; j <= 25; j++) { var b = r() * 8 + 2, o2 = c, c2 = o2 + (j % 2 === 0 ? b : -b * 0.4); push(j, o2, Math.max(o2, c2) + r() * 5, Math.min(o2, c2) - r() * 3, c2); c = c2; }
+    for (var k = 26; k < 50; k++) { var d = (r() - 0.48) * 6, o3 = c, c3 = o3 + d; push(k, o3, Math.max(o3, c3) + r() * 4, Math.min(o3, c3) - r() * 4, c3); c = c3; }
+    return out;
+  }
+  var SC = {
+    sp500: { title: 'S&P 500 · 15 minutos · caída del 2,5% y lateral', tf: '15m', type: 'bear', data: sp500(), line: { a: 0, pa: 5100, b: 22, pb: 4995 }, start: 22, decimals: 1, ins: 'MES' },
+    hh: { title: 'Howard Hughes Holdings · trimestral', tf: '3M', type: 'bull', decimals: 2, ins: 'STK',
+      data: [['2024-T1', 62, 68, 58, 66], ['2024-T2', 66, 75, 64, 72], ['2024-T3', 72, 88, 70, 85], ['2024-T4', 85, 118, 84, 114], ['2025-T1', 114, 116, 92, 96], ['2025-T2', 96, 104, 90, 100], ['2025-T3', 100, 122, 98, 118], ['2025-T4', 118, 135, 115, 130]],
+      line: { a: 0, pa: 58, b: 3, pb: 94 }, start: 3 },
+    crash1929: { title: 'S&P 500 · mensual · 1929–1930', tf: '1M', type: 'bear', decimals: 1, ins: 'STK',
+      data: [['1929-05', 300, 320, 290, 310], ['1929-06', 310, 335, 305, 330], ['1929-07', 330, 350, 325, 345], ['1929-08', 345, 381, 340, 375], ['1929-09', 375, 382, 330, 340], ['1929-10', 340, 350, 230, 240], ['1929-11', 240, 260, 198, 210], ['1929-12', 210, 245, 205, 235], ['1930-01', 235, 255, 220, 250], ['1930-02', 250, 270, 240, 265]],
+      line: { a: 3, pa: 381, b: 5, pb: 280 }, start: 6 }
+  };
+  ['hh', 'crash1929'].forEach(function (k) { SC[k].data = SC[k].data.map(function (d) { return { t: d[0], o: d[1], h: d[2], l: d[3], c: d[4] }; }); });
+
+  var key = 'sp500', data, bb, line, idx, ghost = null, geo = null;
+  function load() {
+    var s = SC[key];
+    data = s.data; line = Object.assign({}, s.line);
+    bb = M.bollinger(data.map(function (d) { return d.c; }), 5, 2);
+  }
+  function lineAt(l, i) { return l.pa + (l.pb - l.pa) / ((l.b - l.a) || 1) * (i - l.a); }
+
+  function calc() {
+    var s = SC[key], bear = s.type === 'bear';
+    // recorre las velas: el extremo se actualiza hasta que una vela cierra al otro lado de la directriz
+    var start = Math.min(line.a, line.b), piv = start, broke = -1;
+    for (var i = start; i <= idx; i++) {
+      if (bear ? data[i].l < data[piv].l : data[i].h > data[piv].h) { piv = i; continue; }
+      var ty = lineAt(line, i);
+      if (i > piv && (bear ? data[i].c > ty : data[i].c < ty)) { broke = i; break; }
+    }
+    var tl = lineAt(line, piv), ext = bear ? data[piv].l : data[piv].h;
+    var D = bear ? tl - ext : ext - tl;
+    var target = bear ? ext - D : ext + D, stop = tl;
+    var ref = data[piv].c;
+    var rr = Math.abs(ref - stop) > 0 ? Math.abs(target - ref) / Math.abs(ref - stop) : 0;
+    var outside = ref > bb[piv].up || ref < bb[piv].lo;
+    return { bear: bear, piv: piv, tl: tl, ext: ext, D: D, target: target, stop: stop, broke: broke, ref: ref, rr: rr, outside: outside, valid: D > 0 };
+  }
+
+  var area, y, x, cw;
+  load(); idx = 22;
+  var stage = M.canvasStage($('lr-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h, s = SC[key];
+    geo = calc();
+    area = { l: 12, r: w - 64, t: 16, b: h - 24 };
+    var vals = [];
+    data.forEach(function (d, i) { vals.push(d.h, d.l, bb[i].up, bb[i].lo); });
+    vals.push(geo.target, geo.stop);
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), pad = (hi - lo) * 0.06;
+    lo -= pad; hi += pad;
+    y = M.scale(lo, hi, area.b, area.t); cw = (area.r - area.l) / data.length;
+    x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 7), s.decimals > 1 ? 0 : 0);
+    // Bollinger
+    var bv = bb.slice(0, idx + 1);
+    ctx.beginPath();
+    bv.forEach(function (b, i) { if (i === 0) ctx.moveTo(x(i), y(b.up)); else ctx.lineTo(x(i), y(b.up)); });
+    for (var i = bv.length - 1; i >= 0; i--) ctx.lineTo(x(i), y(bv[i].lo));
+    ctx.closePath(); ctx.fillStyle = 'rgba(166,172,179,.09)'; ctx.fill();
+    ctx.strokeStyle = 'rgba(166,172,179,.35)'; ctx.setLineDash([4, 4]); ctx.beginPath();
+    bv.forEach(function (b, i) { if (i === 0) ctx.moveTo(x(i), y(b.mid)); else ctx.lineTo(x(i), y(b.mid)); });
+    ctx.stroke(); ctx.setLineDash([]);
+    M.drawCandles(ctx, data.slice(0, idx + 1), x, y, cw, { mark: function (i) { return i === geo.piv; } });
+    // directriz extendida
+    var L = ghost || line;
+    ctx.strokeStyle = ghost ? C.amber : C.blue; ctx.lineWidth = 2; ctx.setLineDash(ghost ? [5, 4] : []);
+    ctx.beginPath(); ctx.moveTo(x(0), y(lineAt(L, 0))); ctx.lineTo(x(data.length - 1), y(lineAt(L, data.length - 1))); ctx.stroke();
+    ctx.setLineDash([]); ctx.lineWidth = 1;
+    [[L.a, L.pa], [L.b, L.pb]].forEach(function (p) { ctx.fillStyle = ghost ? C.amber : C.blue; ctx.beginPath(); ctx.arc(x(p[0]), y(p[1]), 4.5, 0, Math.PI * 2); ctx.fill(); });
+    if (!ghost && geo.valid) {
+      ctx.strokeStyle = C.amber; ctx.lineWidth = 2; ctx.setLineDash([3, 3]);
+      ctx.beginPath(); ctx.moveTo(x(geo.piv), y(geo.ext)); ctx.lineTo(x(geo.piv), y(geo.tl)); ctx.stroke();
+      ctx.setLineDash([]); ctx.lineWidth = 1;
+      ctx.fillStyle = C.amber; ctx.font = '700 11px "JetBrains Mono", monospace';
+      ctx.fillText('D = ' + M.fmt(geo.D, s.decimals), x(geo.piv) + 8, y((geo.ext + geo.tl) / 2));
+      M.hline(ctx, area, y(geo.target), C.lime, 'OBJETIVO D ' + M.fmt(geo.target, s.decimals), { dash: [6, 4], width: 1.5, left: true });
+      M.hline(ctx, area, y(geo.stop), C.red, 'STOP ' + M.fmt(geo.stop, s.decimals), { dash: [2, 3] });
+      if (geo.broke >= 0) M.marker(ctx, x(geo.broke), y(data[geo.broke].c), C.red, 'ROTA', !geo.bear);
+    }
+  });
+
+  var cv = $('lr-chart');
+  function toData(e) {
+    var r = cv.getBoundingClientRect();
+    var i = M.clamp(Math.floor((e.clientX - r.left - area.l) / cw), 0, data.length - 1);
+    return { i: i, p: y.invert(e.clientY - r.top) };
+  }
+  cv.addEventListener('pointerdown', function (e) {
+    if (!area) return;
+    cv.setPointerCapture(e.pointerId);
+    var d = toData(e);
+    ghost = { a: d.i, pa: d.p, b: d.i, pb: d.p };
+    stage.redraw();
+  });
+  cv.addEventListener('pointermove', function (e) {
+    if (!ghost) return;
+    var d = toData(e); ghost.b = d.i; ghost.pb = d.p; stage.redraw();
+  });
+  function endDraw() {
+    if (!ghost) return;
+    if (ghost.a !== ghost.b) {
+      line = ghost.a < ghost.b ? ghost : { a: ghost.b, pa: ghost.pb, b: ghost.a, pb: ghost.pa };
+    }
+    ghost = null; stage.redraw(); panel();
+  }
+  cv.addEventListener('pointerup', endDraw);
+  cv.addEventListener('pointercancel', function () { ghost = null; stage.redraw(); });
+
+  function row(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', no: '✕', warn: '!' })[st] + '</i><span>' + t + '</span></div>'; }
+  function panel() {
+    var s = SC[key], g = calc(), dd = s.decimals;
+    $('lr-kv').innerHTML =
+      '<div class="kv"><span>Vela pivote</span><span>' + data[g.piv].t + '</span></div>' +
+      '<div class="kv"><span>' + (g.bear ? 'Mínimo' : 'Máximo') + '</span><span>' + M.fmt(g.ext, dd) + '</span></div>' +
+      '<div class="kv"><span>Directriz en el pivote</span><span class="info-t">' + M.fmt(g.tl, dd) + '</span></div>' +
+      '<div class="kv"><span>Distancia D</span><span class="warn-t">' + M.fmt(g.D, dd) + '</span></div>' +
+      '<div class="kv"><span>Objetivo</span><span class="up">' + M.fmt(g.target, dd) + '</span></div>' +
+      '<div class="kv"><span>Stop (directriz)</span><span class="down">' + M.fmt(g.stop, dd) + '</span></div>' +
+      '<div class="kv"><span>Beneficio : riesgo</span><span class="' + (g.rr >= 1 ? 'up' : 'down') + '">1 : ' + M.fmt(g.rr, 2) + '</span></div>';
+    var v = $('lr-verdict');
+    if (!g.valid) { v.className = 'verdict no'; v.innerHTML = '<strong>Directriz en el lado equivocado</strong>' + (g.bear ? 'Para medir suelo, la directriz va por encima de los precios.' : 'Para medir techo, la directriz va por debajo de los precios.'); }
+    else if (g.broke >= 0) { v.className = 'verdict no'; v.innerHTML = '<strong>Little Rizzy broke</strong>Cierre en ' + M.fmt(data[g.broke].c, dd) + ' (' + data[g.broke].t + ') ' + (g.bear ? 'por encima' : 'por debajo') + ' de la directriz. No se ejecuta.'; }
+    else if (g.rr < 1) { v.className = 'verdict warn'; v.innerHTML = '<strong>Estructura válida, R:B bajo</strong>El objetivo no compensa el riesgo hasta la directriz.'; }
+    else { v.className = 'verdict ok'; v.innerHTML = '<strong>Estructura válida</strong>Proyección ' + (g.bear ? 'bajista' : 'alcista') + ' hacia ' + M.fmt(g.target, dd) + '.'; }
+    var occ = +$('lr-occ').value || 1;
+    $('lr-ctx').innerHTML =
+      row($('lr-ses').value === 'on' ? 'ok' : 'warn', $('lr-ses').value === 'on' ? 'Overnight: menos ruido' : 'Apertura/cierre de NY: tramo más volátil') +
+      row($('lr-news').value === 'tec' ? 'ok' : 'warn', $('lr-news').value === 'tec' ? 'Noticia técnica, no masiva' : 'Titular masivo: probablemente descontado') +
+      row(occ < 4 ? 'ok' : 'no', 'Ocurrencia nº ' + occ + (occ < 4 ? '' : ': fatiga del patrón')) +
+      row(g.outside ? 'warn' : 'ok', g.outside ? 'Pivote fuera de Bollinger: vela de agotamiento' : 'Pivote dentro de las bandas');
+    $('lr-send').hidden = !(g.valid && g.broke < 0);
+    var cap = g.broke >= 0 ? 'La vela de las ' + data[g.broke].t + ' cierra al otro lado de la directriz: la geometría queda anulada.' :
+      idx < g.piv + 1 ? 'Trazando la estructura: la directriz ' + (g.bear ? 'bajista' : 'alcista') + ' guía el movimiento.' :
+      'El ' + (g.bear ? 'mínimo' : 'máximo') + ' de ' + data[g.piv].t + ' está a D = ' + M.fmt(g.D, dd) + ' de la directriz. Objetivo: ' + M.fmt(g.target, dd) + '.';
+    $('lr-caption').innerHTML = '<b>' + data[idx].t + '</b>' + cap;
+    $('lr-title').textContent = s.title;
+    $('lr-url').textContent = 'mesa-de-estudio/estrategias/little-rizzy · ' + s.tf;
+  }
+
+  var rp = M.replay($('lr-replay'), data.length, 22, function (v) {
+    idx = v;
+    document.querySelector('#lr-replay [data-label]').textContent = 'Vela ' + (v + 1) + '/' + data.length + ' · ' + data[v].t;
+    stage.redraw(); panel();
+  });
+  M.scenarios($('lr-side'), function (k) {
+    key = k; load();
+    rp.reset(data.length, SC[k].start);
+  });
+  ['lr-ses', 'lr-news', 'lr-occ'].forEach(function (id) { $(id).addEventListener('input', panel); });
+  $('lr-reset').addEventListener('click', function () { line = Object.assign({}, SC[key].line); stage.redraw(); panel(); });
+  $('lr-send').addEventListener('click', function () {
+    var g = calc(), s = SC[key];
+    M.risk('lr').set({ instrument: s.ins, dir: g.bear ? 'S' : 'L', entry: g.ref, stop: g.stop, tp1: g.target, decimals: s.decimals });
+    $('checklist').scrollIntoView();
+  });
+});
+</script>
+</body>
+</html>

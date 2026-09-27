@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Velas Japonesas · Mesa de Estudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  .sliders{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+  .sliders .field{padding:0}
+  .sliders output{font-family:var(--mono);font-size:12px;color:var(--ink)}
+  @media (max-width:640px){.sliders{grid-template-columns:repeat(2,minmax(0,1fr))}}
+</style>
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[El lenguaje visual del precio: quién ganó el periodo, compradores o vendedores, y cuándo una formación merece atención]</p>
+    <p class="eyebrow">Fundamentos</p>
+    <h1>Velas <span class="lime">japonesas</span></h1>
+    <p class="lede">Contexto antes que nombre del patrón. Confirmación antes que entrada.</p>
+    <div class="chips"><span class="chip">Apertura · máximo · mínimo · cierre</span><span class="chip">10 patrones</span><span class="chip">Cualquier marco temporal</span></div>
+    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Simulador gráfico</h2>
+      <p>Construye una vela moviendo apertura, máximo, mínimo y cierre, o elige un patrón para verlo en su contexto. Activa la confirmación para ver qué pasa después: a veces el patrón funciona y a veces falla.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/fundamentos/velas-japonesas</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="vj-side">
+          <span class="side-label">Aprender</span>
+          <button class="scn" data-scn="anatomia" aria-pressed="true">Anatomía: construye tu vela</button>
+          <span class="side-label">Alcistas</span>
+          <button class="scn" data-scn="martillo" aria-pressed="false">Martillo</button>
+          <button class="scn" data-scn="envAlc" aria-pressed="false">Envolvente alcista</button>
+          <button class="scn" data-scn="estMan" aria-pressed="false">Estrella de la mañana</button>
+          <button class="scn" data-scn="soldados" aria-pressed="false">Tres soldados blancos</button>
+          <button class="scn" data-scn="harami" aria-pressed="false">Harami alcista</button>
+          <span class="side-label">Bajistas</span>
+          <button class="scn" data-scn="fugaz" aria-pressed="false">Estrella fugaz</button>
+          <button class="scn" data-scn="envBaj" aria-pressed="false">Envolvente bajista</button>
+          <button class="scn" data-scn="estTar" aria-pressed="false">Estrella de la tarde</button>
+          <button class="scn" data-scn="cuervos" aria-pressed="false">Tres cuervos negros</button>
+          <span class="side-label">Indecisión</span>
+          <button class="scn" data-scn="doji" aria-pressed="false">Doji</button>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="vj-title"></span>
+            <div class="row" id="vj-toggles">
+              <label class="toggle"><input type="checkbox" id="vj-conf">Mostrar lo que pasa después</label>
+              <label class="toggle"><input type="checkbox" id="vj-fail">Variante: el patrón falla</label>
+            </div>
+          </div>
+          <div class="chart"><canvas id="vj-chart" role="img" aria-label="Vela o patrón de velas en su contexto"></canvas></div>
+          <div class="sliders" id="vj-sliders">
+            <div class="field"><label for="vj-o">Apertura <output id="vj-oo"></output></label><input type="range" id="vj-o" min="0" max="100" value="62"></div>
+            <div class="field"><label for="vj-h">Máximo <output id="vj-ho"></output></label><input type="range" id="vj-h" min="0" max="100" value="70"></div>
+            <div class="field"><label for="vj-l">Mínimo <output id="vj-lo"></output></label><input type="range" id="vj-l" min="0" max="100" value="15"></div>
+            <div class="field"><label for="vj-c">Cierre <output id="vj-co"></output></label><input type="range" id="vj-c" min="0" max="100" value="66"></div>
+          </div>
+          <div class="caption" id="vj-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <span class="card-label" id="vj-card-label">Lectura</span>
+            <div id="vj-info"></div>
+          </div>
+          <div class="card">
+            <span class="card-label">Geometría de la vela clave</span>
+            <div id="vj-geo"></div>
+          </div>
+          <div class="verdict" id="vj-verdict"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Checklist de ejecución</h2>
+      <p>El orden de análisis de la guía: tendencia, niveles, vela, volumen, confirmación y riesgo. Ningún patrón garantiza el siguiente movimiento.</p>
+    </div>
+    <div class="cl" data-checklist="velas-japonesas">
+      <div class="cl-groups">
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Contexto</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>¿Cuál es la tendencia?</b><span>Alcista, bajista o lateral. Un martillo tras una caída pesa más que dentro de un rango.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>¿Dónde están los niveles clave?</b><span>Soportes y resistencias marcados antes de mirar la vela.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Marco temporal adecuado</b><span>1–5 min tiene mucho ruido; 15 min–1 h para corto plazo; diario y semanal para estructura.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>La formación</h3><span class="cl-count"></span></div>
+          <label class="cl-item"><input type="checkbox"><div><b>¿Hay una formación relevante?</b><span>Doji, martillo, envolvente, estrella, harami, soldados o cuervos.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Forma completa observada</b><span>Tamaño del cuerpo y de las dos mechas, no solo el color.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>¿Qué muestra el volumen?</b><span>Una formación con aumento de participación merece más atención.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Confirmación y riesgo</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>¿Existe confirmación?</b><span>La vela siguiente respalda la lectura (por ejemplo: soporte → martillo → vela alcista).</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>¿Qué invalidaría la lectura?</b><span>Definido de antemano: normalmente un cierre más allá del extremo del patrón.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>¿Cuál es el riesgo?</b><span>Escenario alternativo y gestión del capital antes de actuar.</span></div></label>
+        </div>
+      </div>
+      <div class="cl-side">
+        <div class="card">
+          <span class="card-label">Progreso</span>
+          <div class="meter"><i data-meter></i></div>
+          <span class="mono muted" data-count></span>
+          <div class="verdict" data-verdict></div>
+          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
+        </div>
+        <div class="card">
+          <span class="card-label">Ruta de estudio</span>
+          <p class="note">Aprende → observa → analiza → practica → mejora. Un buen analista no adivina el mercado: identifica escenarios, probabilidades y riesgos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  function k(o, h, l, c) { return { o: o, h: h, l: l, c: c }; }
+
+  var P = {
+    martillo: { name: 'Martillo', type: 'Alcista', trend: 'down', level: 96.5, n: 1, key: 0,
+      candles: [k(101.5, 102.2, 96.5, 102)],
+      what: 'Mecha inferior larga: el precio cayó y fue rechazado. Los compradores recuperan casi todo el periodo.',
+      where: 'Después de una caída y sobre un soporte.', inval: 'Cierre por debajo del mínimo de la mecha.' },
+    envAlc: { name: 'Envolvente alcista', type: 'Alcista', trend: 'down', level: 100.2, n: 2, key: 1,
+      candles: [k(103, 103.6, 100.8, 101.2), k(100.8, 104.8, 100.2, 104.4)],
+      what: 'El cuerpo alcista envuelve por completo el cuerpo bajista anterior: la presión compradora toma el control.',
+      where: 'Tras una tendencia bajista, en soporte.', inval: 'Cierre por debajo del mínimo de la envolvente.' },
+    estMan: { name: 'Estrella de la mañana', type: 'Alcista', trend: 'down', level: 99.6, n: 3, key: 1,
+      candles: [k(105, 105.4, 101, 101.4), k(100.6, 101, 99.6, 100.2), k(100.8, 104.9, 100.5, 104.6)],
+      what: 'Vela bajista grande, vela pequeña de duda y vela alcista que recupera buena parte de la primera.',
+      where: 'Al final de una fase bajista.', inval: 'Cierre por debajo del mínimo de la vela central.' },
+    soldados: { name: 'Tres soldados blancos', type: 'Alcista', trend: 'down', level: 100.7, n: 3, key: 2,
+      candles: [k(101, 103.4, 100.7, 103.1), k(102.9, 105.6, 102.6, 105.3), k(105.1, 107.9, 104.8, 107.6)],
+      what: 'Tres velas alcistas seguidas, cada una cerrando más arriba y con mechas cortas.',
+      where: 'Saliendo de una zona baja o de una base.', inval: 'Cierre por debajo de la apertura del segundo soldado.' },
+    harami: { name: 'Harami alcista', type: 'Giro potencial', trend: 'down', level: 100.5, n: 2, key: 1,
+      candles: [k(105, 105.5, 100.5, 101), k(101.8, 103.4, 101.5, 103)],
+      what: 'Una vela pequeña queda dentro del cuerpo de la bajista anterior: la caída pierde fuerza.',
+      where: 'Tras una caída; necesita confirmación posterior.', inval: 'Cierre por debajo del mínimo de la vela madre.' },
+    fugaz: { name: 'Estrella fugaz', type: 'Bajista', trend: 'up', level: 103.6, n: 1, key: 0,
+      candles: [k(98.9, 103.6, 98.2, 98.4)],
+      what: 'Mecha superior larga: el precio subió y fue rechazado en niveles altos.',
+      where: 'Después de una subida y bajo una resistencia.', inval: 'Cierre por encima del máximo de la mecha.' },
+    envBaj: { name: 'Envolvente bajista', type: 'Bajista', trend: 'up', level: 99.8, n: 2, key: 1,
+      candles: [k(97, 99.2, 96.8, 98.9), k(99.2, 99.8, 95.4, 95.8)],
+      what: 'El cuerpo bajista envuelve el cuerpo alcista anterior: los vendedores toman el control.',
+      where: 'Tras una subida, en resistencia.', inval: 'Cierre por encima del máximo de la envolvente.' },
+    estTar: { name: 'Estrella de la tarde', type: 'Bajista', trend: 'up', level: 100.4, n: 3, key: 1,
+      candles: [k(95, 98.6, 94.6, 98.4), k(99.2, 100.4, 98.8, 99.6), k(99, 99.3, 94.9, 95.3)],
+      what: 'Opuesta a la estrella de la mañana: vela alcista grande, duda arriba y vela bajista que devuelve el avance.',
+      where: 'Después de una tendencia alcista.', inval: 'Cierre por encima del máximo de la vela central.' },
+    cuervos: { name: 'Tres cuervos negros', type: 'Bajista', trend: 'up', level: 99.3, n: 3, key: 2,
+      candles: [k(99, 99.3, 96.6, 96.9), k(97.1, 97.4, 94.4, 94.7), k(94.9, 95.2, 92.2, 92.5)],
+      what: 'Tres velas bajistas seguidas con cierres descendentes.',
+      where: 'Tras una subida o en un techo.', inval: 'Cierre por encima de la apertura del segundo cuervo.' },
+    doji: { name: 'Doji', type: 'Indecisión', trend: 'up', level: 100.6, n: 1, key: 0,
+      candles: [k(98.8, 100.6, 97, 98.85)],
+      what: 'Apertura y cierre casi iguales: equilibrio o duda temporal entre compradores y vendedores.',
+      where: 'Pesa más tras una tendencia clara, en un nivel relevante.', inval: 'Un doji no marca dirección por sí solo: la da la vela siguiente.' }
+  };
+
+  var key = 'anatomia';
+  function series(p) {
+    var bull = p.trend === 'down';
+    var first = p.candles[0];
+    var pre = bull ? M.candlesFromPath([[0, 128], [6, 116], [11, first.o + 0.6]], { seed: 5, noise: .8, wick: 1, tick: 0.05 })
+                   : M.candlesFromPath([[0, 72], [6, 84], [11, first.o - 0.6]], { seed: 6, noise: .8, wick: 1, tick: 0.05 });
+    var cs = pre.concat(p.candles.map(function (c) { return Object.assign({}, c); }));
+    var last = p.candles[p.candles.length - 1], hi = Math.max.apply(null, p.candles.map(function (c) { return c.h; })), lo = Math.min.apply(null, p.candles.map(function (c) { return c.l; }));
+    var up = p.type === 'Bajista' || (p.type === 'Indecisión') ? false : true;
+    if (p.name === 'Doji') up = false;
+    var fail = $('vj-fail').checked, go = up !== fail;
+    var conf = go ? [k(last.c, last.c + 2.6, last.c - .4, last.c + 2.3), k(last.c + 2.2, last.c + 5, last.c + 1.9, last.c + 4.6)]
+                  : [k(last.c, last.c + .4, last.c - 2.6, last.c - 2.3), k(last.c - 2.2, last.c - 1.9, last.c - 5, last.c - 4.6)];
+    if (fail) conf = up ? [k(last.c, last.c + .3, lo - 1.2, lo - .9), k(lo - 1, lo - .6, lo - 3.8, lo - 3.4)]
+                        : [k(last.c, hi + 1.2, last.c - .3, hi + .9), k(hi + 1, hi + 3.8, hi + .6, hi + 3.4)];
+    var r = M.rng(3);
+    cs.forEach(function (c, i) { c.v = 40 + r() * 30; });
+    var ps = pre.length;
+    p.candles.forEach(function (_, i) { cs[ps + i].v = 95 + r() * 15; });
+    conf.forEach(function (c) { c.v = 60 + r() * 25; });
+    return { cs: cs, conf: conf, ps: ps, up: up, hi: hi, lo: lo };
+  }
+
+  function geom(c) {
+    var range = c.h - c.l || 1, body = Math.abs(c.c - c.o);
+    return { range: range, body: body / range, up: (c.h - Math.max(c.o, c.c)) / range, lo: (Math.min(c.o, c.c) - c.l) / range, bull: c.c >= c.o };
+  }
+  function classify(c) {
+    var g = geom(c);
+    if (g.body <= 0.1) return { n: 'Doji', d: 'Apertura y cierre casi iguales: indecisión.' };
+    if (g.lo >= 2 * g.body && g.up <= 0.25) return { n: 'Forma de martillo', d: 'Mecha inferior larga. Tras una caída es un martillo; tras una subida se llama hombre colgado.' };
+    if (g.up >= 2 * g.body && g.lo <= 0.25) return { n: 'Forma de estrella fugaz', d: 'Mecha superior larga. Tras una subida es estrella fugaz; tras una caída, martillo invertido.' };
+    if (g.body >= 0.85) return { n: (g.bull ? 'Vela alcista' : 'Vela bajista') + ' de cuerpo lleno', d: 'Casi sin mechas: ' + (g.bull ? 'los compradores' : 'los vendedores') + ' dominaron todo el periodo.' };
+    return { n: g.bull ? 'Vela alcista' : 'Vela bajista', d: 'El cierre queda ' + (g.bull ? 'por encima' : 'por debajo') + ' de la apertura: ' + (g.bull ? 'más fuerza compradora.' : 'más presión vendedora.') };
+  }
+
+  function anat() {
+    var o = +$('vj-o').value, h = +$('vj-h').value, l = +$('vj-l').value, c = +$('vj-c').value;
+    return k(o, Math.max(h, o, c), Math.min(l, o, c), c);
+  }
+
+  var stage = M.canvasStage($('vj-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h;
+    if (key === 'anatomia') {
+      var c = anat(), area = { l: 20, r: w - 60, t: 20, b: h - 20 }, y = M.scale(-5, 105, area.b, area.t);
+      var cx = w * 0.42, bw = Math.min(90, w * 0.14), col = c.c >= c.o ? C.lime : C.red;
+      ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx, y(c.h)); ctx.lineTo(cx, y(c.l)); ctx.stroke(); ctx.lineWidth = 1;
+      var top = y(Math.max(c.o, c.c)), bot = y(Math.min(c.o, c.c));
+      ctx.fillStyle = col; ctx.fillRect(cx - bw / 2, top, bw, Math.max(2, bot - top));
+      ctx.font = '600 11.5px "JetBrains Mono", monospace'; ctx.textBaseline = 'middle';
+      var gap = y(c.o) - y(c.c), nud = Math.abs(gap) < 16 ? (16 - Math.abs(gap)) / 2 * (gap >= 0 ? 1 : -1) : 0;
+      function lab(v, t, side) {
+        var py = y(v) + (t === 'Apertura' ? nud : t === 'Cierre' ? -nud : 0), x2 = side > 0 ? cx + bw / 2 + 50 : cx - bw / 2 - 50;
+        ctx.strokeStyle = 'rgba(166,172,179,.5)'; ctx.setLineDash([2, 3]);
+        ctx.beginPath(); ctx.moveTo(side > 0 ? cx + (t === 'Máximo' || t === 'Mínimo' ? 4 : bw / 2) : cx - (t === 'Máximo' || t === 'Mínimo' ? 4 : bw / 2), py); ctx.lineTo(x2, py); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = C.ink; ctx.textAlign = side > 0 ? 'left' : 'right'; ctx.fillText(t + ' ' + v, x2 + (side > 0 ? 6 : -6), py);
+      }
+      lab(c.h, 'Máximo', 1); lab(c.l, 'Mínimo', 1); lab(c.o, 'Apertura', -1); lab(c.c, 'Cierre', -1);
+      ctx.textAlign = 'left'; ctx.fillStyle = C.ink2;
+      var bx = cx + bw / 2 + 10;
+      if (c.h > Math.max(c.o, c.c)) ctx.fillText('mecha superior', bx + 150, y((c.h + Math.max(c.o, c.c)) / 2));
+      ctx.fillText('cuerpo', bx + 150, y((c.o + c.c) / 2));
+      if (Math.min(c.o, c.c) > c.l) ctx.fillText('mecha inferior', bx + 150, y((c.l + Math.min(c.o, c.c)) / 2));
+      ctx.textBaseline = 'alphabetic';
+      return;
+    }
+    var p = P[key], s = series(p), showConf = $('vj-conf').checked;
+    var cs = showConf ? s.cs.concat(s.conf) : s.cs, n = s.cs.length + 2;
+    var area = { l: 14, r: w - 60, t: 16, b: h - h * 0.18 };
+    var lo = Math.min.apply(null, s.cs.concat(s.conf).map(function (c) { return c.l; })) - 1, hi = Math.max.apply(null, s.cs.concat(s.conf).map(function (c) { return c.h; })) + 1;
+    var y = M.scale(lo, hi, area.b, area.t), cw = (area.r - area.l) / n, x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 6));
+    var isSup = s.up;
+    M.hline(ctx, area, y(p.level), isSup ? C.blue : C.amber, isSup ? 'soporte' : 'resistencia', { dash: [5, 4], left: true });
+    ctx.fillStyle = 'rgba(155,226,45,.06)';
+    ctx.fillRect(x(s.ps) - cw / 2, area.t, cw * p.candles.length, area.b - area.t);
+    M.drawCandles(ctx, cs, x, y, cw, { mark: function (i) { return i === s.ps + p.key; } });
+    ctx.fillStyle = C.lime; ctx.font = '700 10.5px "JetBrains Mono", monospace'; ctx.textAlign = 'center';
+    ctx.fillText(p.name.toUpperCase(), x(s.ps) + cw * (p.candles.length - 1) / 2, area.t + 12); ctx.textAlign = 'left';
+    var vt = area.b + 12, vb = h - 6, vmax = 120;
+    cs.forEach(function (c, i) {
+      var bh = (vb - vt) * c.v / vmax;
+      ctx.fillStyle = i >= s.ps && i < s.ps + p.candles.length ? C.ink2 : 'rgba(166,172,179,.28)';
+      ctx.fillRect(x(i) - cw * .3, vb - bh, cw * .6, bh);
+    });
+  });
+
+  function kv(a, b, cls) { return '<div class="kv"><span>' + a + '</span><span class="' + (cls || '') + '">' + b + '</span></div>'; }
+  function def(a, b) { return '<div style="display:flex;flex-direction:column;gap:2px;padding-block:6px;border-top:1px solid var(--line)"><span class="card-label" style="letter-spacing:.06em">' + a + '</span><span style="font-size:13px">' + b + '</span></div>'; }
+  function pct(v) { return M.fmt(v * 100, 0) + '%'; }
+
+  function panel() {
+    var anatomy = key === 'anatomia';
+    $('vj-sliders').hidden = !anatomy;
+    $('vj-toggles').hidden = anatomy;
+    var v = $('vj-verdict');
+    if (anatomy) {
+      var c = anat(), g = geom(c), cl = classify(c);
+      ['o', 'h', 'l', 'c'].forEach(function (q) { $('vj-' + q + 'o').textContent = c[q]; });
+      $('vj-title').textContent = 'Anatomía de una vela';
+      $('vj-card-label').textContent = 'Lectura';
+      $('vj-info').innerHTML = kv('Tipo', cl.n, g.bull ? 'up' : 'down') + '<p class="note" style="margin-top:6px">' + cl.d + '</p>';
+      $('vj-geo').innerHTML = kv('Rango (máx − mín)', M.fmt(g.range, 0)) + kv('Cuerpo', pct(g.body)) + kv('Mecha superior', pct(g.up)) + kv('Mecha inferior', pct(g.lo));
+      v.className = 'verdict warn';
+      v.innerHTML = '<strong>Solo es una vela</strong>Nunca se analiza aislada: mira tendencia, volumen, niveles y las velas anteriores.';
+      $('vj-caption').innerHTML = '<b>Lección 1–3</b>Primero identifica apertura, máximo, mínimo y cierre. Después pregúntate quién tuvo más fuerza en el periodo y qué dicen las mechas.';
+      return;
+    }
+    var p = P[key], s = series(p), kc = p.candles[p.key], g2 = geom(kc), conf = $('vj-conf').checked, fail = $('vj-fail').checked;
+    $('vj-title').textContent = p.name + ' · ' + p.candles.length + ' vela' + (p.candles.length > 1 ? 's' : '');
+    $('vj-card-label').textContent = p.name;
+    $('vj-info').innerHTML = kv('Tipo', p.type, p.type === 'Alcista' ? 'up' : p.type === 'Bajista' ? 'down' : 'warn-t') +
+      '<p class="note" style="margin-top:6px">' + p.what + '</p>' + def('Dónde pesa más', p.where) + def('Qué la invalida', p.inval);
+    $('vj-geo').innerHTML = kv('Cuerpo', pct(g2.body)) + kv('Mecha superior', pct(g2.up)) + kv('Mecha inferior', pct(g2.lo)) + kv('Volumen del patrón', 'alto', 'up');
+    if (!conf) { v.className = 'verdict warn'; v.innerHTML = '<strong>Señal de atención</strong>El patrón aparece donde debe, pero aún no hay confirmación. No es una entrada.'; }
+    else if (fail) { v.className = 'verdict no'; v.innerHTML = '<strong>Patrón invalidado</strong>' + p.inval + ' Por eso se define la invalidación antes de actuar.'; }
+    else { v.className = 'verdict ok'; v.innerHTML = '<strong>Lectura confirmada</strong>Las velas siguientes respaldan la formación. Ahora toca definir riesgo y escenario alternativo.'; }
+    var trendTxt = p.trend === 'down' ? 'Tras una caída' : 'Tras una subida';
+    $('vj-caption').innerHTML = '<b>' + p.type + '</b>' + trendTxt + ', cerca de ' + (s.up ? 'un soporte' : 'una resistencia') + ' y con volumen alto: el contexto que pide la guía. ' + (conf ? (fail ? 'Esta vez el precio rompe el extremo del patrón.' : 'La vela siguiente confirma.') : 'Activa "Mostrar lo que pasa después".');
+  }
+
+  function refresh() { stage.redraw(); panel(); }
+  M.scenarios($('vj-side'), function (k2) { key = k2; refresh(); });
+  ['vj-o', 'vj-h', 'vj-l', 'vj-c'].forEach(function (id) { $(id).addEventListener('input', refresh); });
+  ['vj-conf', 'vj-fail'].forEach(function (id) { $(id).addEventListener('change', refresh); });
+});
+</script>
+</body>
+</html>

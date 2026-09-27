@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Orderflow World Cup · Mesa de Estudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Reversión compradora en MNQ/NQ: comprar descuento real fuera del área de valor, solo con confirmación en el footprint]</p>
+    <p class="eyebrow">Estrategia · Chris Kmer</p>
+    <h1>Orderflow <span class="lime">World Cup</span></h1>
+    <p class="lede">Golden Pocket bajo el VAL, absorción, test &amp; fail e imbalance ≥ 400%.</p>
+    <div class="chips"><span class="chip">MNQ / NQ</span><span class="chip">5m · footprint 1m/5m</span><span class="chip">Largo</span><span class="chip">Máx. 90 min · 2 stops/día</span></div>
+    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
+  </section>
+
+  <!-- ================= 1. SIMULADOR ================= -->
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Simulador gráfico</h2>
+      <p>Elige un escenario y recorre las velas. El panel derecho evalúa cada filtro con los niveles de la izquierda: puedes cambiar el swing y el área de valor y ver cómo cambia el veredicto.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/estrategias/orderflow-world-cup · MNQ 5m</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="wc-side">
+          <span class="side-label">Escenarios</span>
+          <button class="scn" data-scn="valido" aria-pressed="true">A-Game válido</button>
+          <button class="scn" data-scn="stacked" aria-pressed="false">Stacked imbalance</button>
+          <button class="scn" data-scn="falso" aria-pressed="false">Falso intento</button>
+          <button class="scn" data-scn="ruptura" aria-pressed="false">Ruptura del 0.886</button>
+          <span class="side-label">Niveles</span>
+          <div class="field"><label for="wc-sh">Swing high (0.0)</label><input type="number" id="wc-sh" value="18470" step="0.25"></div>
+          <div class="field"><label for="wc-sl">Swing low (1.0)</label><input type="number" id="wc-sl" value="18300" step="0.25"></div>
+          <div class="field"><label for="wc-vah">VAH</label><input type="number" id="wc-vah" value="18450" step="0.25"></div>
+          <div class="field"><label for="wc-poc">POC</label><input type="number" id="wc-poc" value="18410" step="0.25"></div>
+          <div class="field"><label for="wc-val">VAL</label><input type="number" id="wc-val" value="18370" step="0.25"></div>
+        </div>
+
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="wc-title">MNQ · 5 minutos</span>
+            <div class="legend">
+              <span><i style="background:var(--blue)"></i>POC / área de valor</span>
+              <span><i style="background:var(--lime)"></i>Golden Pocket</span>
+              <span><i style="background:var(--red)"></i>0.886</span>
+            </div>
+          </div>
+          <div class="chart"><canvas id="wc-chart" aria-label="Gráfico de velas de 5 minutos con niveles de valor y Fibonacci" role="img"></canvas></div>
+          <div class="replay" id="wc-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Vela actual">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="caption" id="wc-caption"></div>
+          <div class="fp" id="wc-fp"></div>
+          <p class="note">Footprint en filas de 2 puntos. Imbalance comprador = Ask de la fila superior ÷ Bid de la fila inferior (lectura diagonal). Se marca con * cuando llega a 4,0 (400%).</p>
+        </div>
+
+        <div class="aside">
+          <div class="card">
+            <span class="card-label">Lectura del algoritmo</span>
+            <div class="checks" id="wc-checks"></div>
+          </div>
+          <div class="verdict" id="wc-verdict"></div>
+          <div class="card">
+            <span class="card-label">Fibonacci del impulso</span>
+            <div id="wc-fib"></div>
+          </div>
+          <div class="card" id="wc-trade" hidden>
+            <span class="card-label">Plan de la operación</span>
+            <div id="wc-plan"></div>
+            <button class="btn sm" id="wc-send" type="button">Enviar a la calculadora</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 2. CHECKLIST ================= -->
+  <section class="section" id="checklist">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Checklist de ejecución</h2>
+      <p>Márcala en orden antes de cada entrada. Los puntos marcados como obligatorios bloquean la operación. Se guarda en este navegador.</p>
+    </div>
+    <div class="cl" data-checklist="orderflow-world-cup">
+      <div class="cl-groups">
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Entorno pre-market (1H / 4H)</h3><span class="cl-count"></span></div>
+          <label class="cl-item"><input type="checkbox"><div><b>Estructura Value UP para compras</b><span>Áreas de valor ascendentes día a día. En mercado balanceado no se opera en el centro del POC.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Régimen gamma identificado</b><span>−GEX es el entorno ideal (amplifica impulsos). Anota gamma flip, call wall y put wall.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Ubicación</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Precio dentro del Golden Pocket</b><span>Entre el 0.705 y el 0.788 del impulso previo en 15m / 5m.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Golden Pocket por debajo del VAL</b><span>Descuento real: la zona queda fuera del área de valor de la sesión.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>0.886 intacto</b><span>Ningún cierre por debajo. Si se rompe, el setup está cancelado (C-Game).</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Confirmación en el footprint</h3><span class="cl-count"></span></div>
+          <label class="cl-item"><input type="checkbox"><div><b>Vela 1: absorción vendedora</b><span>Delta negativo o POC de vela abajo con mecha, y el precio no sigue cayendo.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Vela 2: test &amp; fail</b><span>Los vendedores vuelven a empujar y no rompen el mínimo de la Vela 1.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Imbalance comprador ≥ 400%</b><span>Ask[P+1] ÷ Bid[P] ≥ 4. Tres niveles seguidos (stacked) = alta convicción.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Volumen ≥ 20.000 contratos</b><span>En la vela de 5 minutos de MNQ.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Disciplina y riesgo</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Menos de 90 min desde la apertura y menos de 2 pérdidas hoy</b><span>Pasado el límite se cierra la pantalla.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Salidas definidas</b><span>Stop bajo el mínimo de la Vela 1. 50% en TP1 (VAL/POC) y stop a breakeven; 50% en TP2 (swing high / call wall).</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Tamaño calculado</b><span>Contratos según la calculadora de la derecha, nunca por intuición.</span></div></label>
+        </div>
+      </div>
+      <div class="cl-side">
+        <div class="card">
+          <span class="card-label">Progreso</span>
+          <div class="meter"><i data-meter></i></div>
+          <span class="mono muted" data-count></span>
+          <div class="verdict" data-verdict></div>
+          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
+        </div>
+        <div data-risk="wc" data-tp2 data-instruments="MNQ,NQ" data-defaults='{"capital":25000,"pct":1,"entry":18352,"stop":18337.75,"tp1":18370,"tp2":18470}'></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C;
+
+  /* ---- escenarios: velas 5m desde las 08:30 ET; V1 = índice 26, V2 = índice 27 ---- */
+  var base = [[0, 18445], [4, 18466], [12, 18396], [17, 18373], [22, 18357], [25, 18346]];
+  var V1 = 26, V2 = 27;
+  var SC = {
+    valido: {
+      title: 'A-Game válido',
+      after: [[28, 18352], [30, 18361], [33, 18371], [36, 18394], [39, 18411]],
+      v1: { o: 18347, h: 18349, l: 18338.25, c: 18342 },
+      v2: { o: 18342, h: 18353, l: 18340.25, c: 18352 },
+      vol2: 24800,
+      fp1: [[18348, 60, 35], [18346, 140, 70], [18344, 210, 95], [18342, 260, 150], [18340, 390, 180], [18338, 850, 210]],
+      fp2: [[18352, 22, 96], [18350, 30, 210], [18348, 41, 150], [18346, 45, 320], [18344, 60, 175], [18342, 88, 140], [18340, 120, 70]]
+    },
+    stacked: {
+      title: 'Stacked imbalance',
+      after: [[28, 18353], [30, 18366], [33, 18384], [36, 18418], [39, 18442]],
+      v1: { o: 18347, h: 18349, l: 18338.25, c: 18342 },
+      v2: { o: 18342, h: 18353, l: 18340.25, c: 18352 },
+      vol2: 31200,
+      fp1: [[18348, 70, 30], [18346, 160, 60], [18344, 230, 90], [18342, 280, 130], [18340, 420, 170], [18338, 980, 230]],
+      fp2: [[18352, 20, 260], [18350, 35, 450], [18348, 48, 520], [18346, 60, 380], [18344, 90, 150], [18342, 110, 95], [18340, 140, 60]]
+    },
+    falso: {
+      title: 'Falso intento',
+      after: [[28, 18344], [31, 18347], [33, 18341], [36, 18335], [39, 18327]],
+      v1: { o: 18347, h: 18349, l: 18338.25, c: 18342 },
+      v2: { o: 18342, h: 18346.5, l: 18339.75, c: 18344.5 },
+      vol2: 15200,
+      fp1: [[18348, 60, 40], [18346, 130, 80], [18344, 190, 110], [18342, 240, 160], [18340, 330, 190], [18338, 610, 240]],
+      fp2: [[18346, 70, 85], [18344, 110, 120], [18342, 140, 150], [18340, 120, 130], [18338, 90, 80]]
+    },
+    ruptura: {
+      title: 'Ruptura del 0.886',
+      after: [[28, 18314], [31, 18305], [34, 18298], [39, 18291]],
+      v1: { o: 18347, h: 18349, l: 18333, c: 18336 },
+      v2: { o: 18336, h: 18337.5, l: 18316.5, c: 18318 },
+      vol2: 29800,
+      fp1: [[18348, 40, 30], [18346, 120, 60], [18344, 180, 90], [18342, 240, 110], [18340, 300, 120], [18338, 380, 140], [18336, 420, 120], [18334, 350, 80], [18332, 160, 40]],
+      fp2: [[18336, 150, 60], [18334, 220, 70], [18332, 300, 80], [18330, 340, 90], [18328, 380, 85], [18326, 420, 95], [18324, 460, 100], [18322, 400, 80], [18320, 350, 70], [18318, 280, 60], [18316, 160, 30]]
+    }
+  };
+  function build(key) {
+    var s = SC[key];
+    var pts = base.concat([[V1, s.v1.c], [V2, s.v2.c]]).concat(s.after);
+    var cs = M.candlesFromPath(pts, { seed: 11, noise: 1.6, wick: 2.2 });
+    cs[V1] = s.v1; cs[V2] = s.v2;
+    cs[V2 + 1].o = s.v2.c;
+    cs[V2 + 1].h = Math.max(cs[V2 + 1].h, s.v2.c); cs[V2 + 1].l = Math.min(cs[V2 + 1].l, s.v2.c);
+    var r = M.rng(99);
+    cs.forEach(function (c, i) { c.v = Math.round(16000 + r() * 12000); });
+    cs[V1].v = 27400; cs[V2].v = s.vol2;
+    return cs;
+  }
+  function timeOf(i) { var m = 8 * 60 + 30 + i * 5; return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
+  function minsFromOpen(i) { return 8 * 60 + 30 + i * 5 - (9 * 60 + 30); }
+
+  var key = 'valido', candles = build(key), idx = V2;
+  var $ = function (id) { return document.getElementById(id); };
+  function lv() {
+    var H = +$('wc-sh').value, L = +$('wc-sl').value, d = H - L;
+    return { H: H, L: L, vah: +$('wc-vah').value, poc: +$('wc-poc').value, val: +$('wc-val').value,
+      f50: H - d * .5, f618: H - d * .618, f705: H - d * .705, f788: H - d * .788, f886: H - d * .886 };
+  }
+
+  function footprint(rows) {
+    var bid = 0, ask = 0, imbs = [], run = 0, best = 0, maxR = 0;
+    rows.forEach(function (r) { bid += r[1]; ask += r[2]; });
+    for (var i = 0; i < rows.length - 1; i++) {
+      var ratio = rows[i][2] / Math.max(1, rows[i + 1][1]);
+      imbs[i] = ratio;
+      maxR = Math.max(maxR, ratio);
+      if (ratio >= 4) { run++; best = Math.max(best, run); } else run = 0;
+    }
+    var maxBidRow = rows.reduce(function (m, r, i) { return r[1] > rows[m][1] ? i : m; }, 0);
+    return { delta: ask - bid, imbs: imbs, stacked: best, maxR: maxR, maxBidRow: maxBidRow };
+  }
+
+  function analyse() {
+    var L = lv(), s = SC[key], shown = candles.slice(0, idx + 1);
+    var afterHigh = shown.slice(4);
+    var touched = afterHigh.some(function (c) { return c.l <= L.f705; });
+    var brokeIdx = -1;
+    shown.forEach(function (c, i) { if (brokeIdx < 0 && i > 4 && c.c < L.f886) brokeIdx = i; });
+    var gpBelowVal = L.f705 < L.val;
+    var res = { L: L, touched: touched, broke: brokeIdx >= 0, brokeIdx: brokeIdx, gpBelowVal: gpBelowVal, ready: idx >= V2, v1: null, v2: null };
+    if (idx >= V1) res.v1 = footprint(s.fp1);
+    if (idx >= V2) res.v2 = footprint(s.fp2);
+    res.absorb = res.v1 && res.v1.delta < 0 && res.v1.maxBidRow === s.fp1.length - 1;
+    res.testFail = idx >= V2 && s.v2.l > s.v1.l && s.v2.c > s.v2.o;
+    res.imb = res.v2 && res.v2.maxR >= 4;
+    res.vol = idx >= V2 && s.vol2 >= 20000;
+    res.time = minsFromOpen(V2) <= 90;
+    res.aGame = res.ready && gpBelowVal && touched && !res.broke && res.absorb && res.testFail && res.imb && res.vol && res.time;
+    return res;
+  }
+
+  var stage = M.canvasStage($('wc-chart'), draw);
+  function draw(st) {
+    var ctx = st.ctx, w = st.w, h = st.h, L = lv(), a = analyse();
+    var area = { l: 12, r: w - 62, t: 16, b: h - 22 };
+    var lo = Math.min.apply(null, candles.map(function (c) { return c.l; }).concat([L.f886, L.L])) - 6;
+    var hi = Math.max.apply(null, candles.map(function (c) { return c.h; }).concat([L.vah, L.H])) + 6;
+    var y = M.scale(lo, hi, area.b, area.t), n = candles.length, cw = (area.r - area.l) / n;
+    var x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 7));
+    M.band(ctx, area, y(L.vah), y(L.val), C.blueSoft);
+    M.band(ctx, area, y(L.f705), y(L.f788), C.limeSoft);
+    M.hline(ctx, area, y(L.vah), C.ink2, 'VAH ' + M.fmt(L.vah, 2), { dash: [4, 4] });
+    M.hline(ctx, area, y(L.poc), C.blue, 'POC ' + M.fmt(L.poc, 2), { width: 1.5 });
+    M.hline(ctx, area, y(L.val), C.ink2, 'VAL ' + M.fmt(L.val, 2), { dash: [4, 4] });
+    M.hline(ctx, area, y(L.f618), 'rgba(166,172,179,.35)', '0.618', { dash: [2, 4], left: true });
+    M.hline(ctx, area, y(L.f705), C.lime, '0.705 ' + M.fmt(L.f705, 2), { left: true });
+    M.hline(ctx, area, y(L.f788), C.lime, '0.788 ' + M.fmt(L.f788, 2), { dash: [2, 3], left: true });
+    M.hline(ctx, area, y(L.f886), C.red, '0.886 ' + M.fmt(L.f886, 2), { dash: [5, 3], left: true, width: 1.5 });
+    // apertura NY 09:30 = índice 12
+    ctx.save(); ctx.strokeStyle = 'rgba(238,240,242,.18)'; ctx.setLineDash([2, 4]);
+    ctx.beginPath(); ctx.moveTo(x(12) - cw / 2, area.t); ctx.lineTo(x(12) - cw / 2, area.b); ctx.stroke();
+    ctx.setLineDash([]); ctx.fillStyle = C.axis; ctx.font = '10.5px "JetBrains Mono", monospace';
+    ctx.fillText('09:30 NY', x(12) - cw / 2 + 4, area.b + 15); ctx.fillText('08:30', area.l, area.b + 15); ctx.restore();
+    M.drawCandles(ctx, candles.slice(0, idx + 1), x, y, cw, { mark: function (i) { return i === V1 || i === V2; } });
+    if (idx >= V1) M.marker(ctx, x(V1), y(candles[V1].l) + 14, C.ink2, 'V1', true);
+    if (idx >= V2) M.marker(ctx, x(V2), y(candles[V2].h) - 12, C.ink2, 'V2');
+    if (a.broke) M.marker(ctx, x(a.brokeIdx), y(candles[a.brokeIdx].c), C.red, 'cierre < 0.886', true);
+    if (a.aGame) {
+      var p = plan(a);
+      ctx.save(); ctx.globalAlpha = .9;
+      var from = x(V2) - cw / 2;
+      [[p.tp2, C.lime, 'TP2'], [p.tp1, C.lime, 'TP1'], [p.entry, C.ink, 'Entrada'], [p.stop, C.red, 'Stop']].forEach(function (l) {
+        ctx.strokeStyle = l[1]; ctx.setLineDash(l[2] === 'Entrada' ? [] : [6, 3]); ctx.lineWidth = 1.2;
+        ctx.beginPath(); ctx.moveTo(from, y(l[0])); ctx.lineTo(area.r, y(l[0])); ctx.stroke();
+        ctx.setLineDash([]); ctx.fillStyle = l[1]; ctx.font = '600 10.5px "JetBrains Mono", monospace';
+        ctx.fillText(l[2], from + 4, y(l[0]) - 4);
+      });
+      ctx.restore();
+      M.marker(ctx, x(V2), y(p.entry), C.lime, 'LARGO', true);
+    }
+  }
+
+  function plan(a) {
+    var s = SC[key], L = a.L;
+    var entry = s.v2.c, stop = s.v1.l - 0.5;
+    var tp1 = L.val > entry ? L.val : L.poc;
+    return { entry: entry, stop: stop, tp1: tp1, tp2: L.H };
+  }
+
+  function row(state, text) { return '<div class="chk ' + state + '"><i>' + (state === 'ok' ? '✓' : state === 'no' ? '✕' : state === 'warn' ? '!' : '·') + '</i><span>' + text + '</span></div>'; }
+
+  function renderPanel() {
+    var a = analyse(), L = a.L, s = SC[key];
+    var h = '';
+    h += row(a.gpBelowVal ? 'ok' : 'no', 'Golden Pocket ' + (a.gpBelowVal ? 'por debajo' : 'NO está por debajo') + ' del VAL');
+    h += row(a.touched ? 'ok' : 'wait', a.touched ? 'Precio llegó a la zona 0.705–0.788' : 'Esperando llegada a la zona');
+    h += row(a.broke ? 'no' : 'ok', a.broke ? 'Cierre por debajo del 0.886: setup anulado' : '0.886 intacto');
+    h += row(!a.v1 ? 'wait' : a.absorb ? 'ok' : 'no', !a.v1 ? 'Vela 1: pendiente' : 'Vela 1: delta ' + M.fmtSigned(a.v1.delta, 0) + (a.absorb ? ', absorción en el mínimo' : ', sin absorción clara'));
+    h += row(idx < V2 ? 'wait' : a.testFail ? 'ok' : 'no', idx < V2 ? 'Vela 2: pendiente' : a.testFail ? 'Vela 2: test & fail, mínimo más alto' : 'Vela 2: no confirma el giro');
+    h += row(!a.v2 ? 'wait' : a.imb ? 'ok' : 'no', !a.v2 ? 'Imbalance: pendiente' : 'Imbalance máx. ' + M.fmt(a.v2.maxR * 100, 0) + '%' + (a.v2.stacked >= 3 ? ' · stacked ×' + a.v2.stacked : ''));
+    h += row(idx < V2 ? 'wait' : a.vol ? 'ok' : 'no', 'Volumen V2: ' + (idx < V2 ? 'pendiente' : M.fmt(s.vol2, 0) + ' contratos'));
+    h += row(a.time ? 'ok' : 'no', 'V2 a los ' + minsFromOpen(V2) + ' min de la apertura (límite 90)');
+    $('wc-checks').innerHTML = h;
+
+    var v = $('wc-verdict');
+    if (a.broke) { v.className = 'verdict no'; v.innerHTML = '<strong>C-Game: no comprar</strong>El precio cerró por debajo del 0.886. Comprar "más barato" aquí es promediar contra la estructura.'; }
+    else if (!a.gpBelowVal) { v.className = 'verdict no'; v.innerHTML = '<strong>Sin descuento real</strong>El Golden Pocket queda dentro del área de valor. Setup descartado.'; }
+    else if (!a.ready) { v.className = 'verdict warn'; v.innerHTML = '<strong>Esperando confirmación</strong>Avanza hasta la Vela 2 para evaluar el footprint.'; }
+    else if (a.aGame) { v.className = 'verdict ok'; v.innerHTML = '<strong>A-Game: largo autorizado</strong>' + (a.v2.stacked >= 3 ? 'Stacked imbalance de ' + a.v2.stacked + ' niveles: alta convicción.' : 'Todos los filtros se cumplen.'); }
+    else { v.className = 'verdict no'; v.innerHTML = '<strong>No operar</strong>' + (!a.imb ? 'Los compradores no aparecen en el Ask: no hay imbalance ≥ 400%.' : !a.testFail ? 'La Vela 2 no hace test & fail.' : !a.vol ? 'Volumen por debajo de 20.000.' : 'Falta la absorción en la Vela 1.'); }
+
+    $('wc-fib').innerHTML = [['0.618', L.f618], ['0.705', L.f705], ['0.788', L.f788], ['0.886', L.f886]].map(function (f) {
+      return '<div class="kv"><span>' + f[0] + '</span><span class="' + (f[0] === '0.886' ? 'down' : f[0] === '0.618' ? '' : 'up') + '">' + M.fmt(f[1], 2) + '</span></div>';
+    }).join('');
+
+    var t = $('wc-trade');
+    if (a.aGame) {
+      var p = plan(a), risk = p.entry - p.stop;
+      t.hidden = false;
+      $('wc-plan').innerHTML =
+        '<div class="kv"><span>Entrada</span><span>' + M.fmt(p.entry, 2) + '</span></div>' +
+        '<div class="kv"><span>Stop (V1 − 2 ticks)</span><span class="down">' + M.fmt(p.stop, 2) + '</span></div>' +
+        '<div class="kv"><span>TP1 · ' + (p.tp1 === L.val ? 'VAL' : 'POC') + '</span><span class="up">' + M.fmt(p.tp1, 2) + ' · ' + M.fmt((p.tp1 - p.entry) / risk, 2) + 'R</span></div>' +
+        '<div class="kv"><span>TP2 · swing high</span><span class="up">' + M.fmt(p.tp2, 2) + ' · ' + M.fmt((p.tp2 - p.entry) / risk, 2) + 'R</span></div>';
+    } else t.hidden = true;
+
+    // footprint
+    var fp = '';
+    [['Vela 1 · absorción', s.fp1, V1, false], ['Vela 2 · gatillo', s.fp2, V2, true]].forEach(function (col) {
+      var shown = idx >= col[2], f = footprint(col[1]);
+      fp += '<div class="fp-col"><div class="fp-title"><span>' + col[0] + '</span><span>' + (shown ? 'Δ ' + M.fmtSigned(f.delta, 0) : 'pendiente') + '</span></div>';
+      fp += '<div class="fp-row head"><span>BID</span><span>PRECIO</span><span>ASK</span></div>';
+      col[1].forEach(function (r, i) {
+        if (!shown) { fp += '<div class="fp-row"><span class="dim">·</span><span class="p">' + M.fmt(r[0], 0) + '</span><span class="dim">·</span></div>'; return; }
+        var isImb = col[3] && f.imbs[i] >= 4, isAbs = !col[3] && i === f.maxBidRow && i === col[1].length - 1;
+        fp += '<div class="fp-row' + (isImb ? ' hl-imb' : isAbs ? ' hl-abs' : '') + '"><span class="' + (isAbs ? 'abs' : '') + '">' + r[1] + '</span><span class="p">' + M.fmt(r[0], 0) + '</span><span class="' + (isImb ? 'imb' : '') + '">' + r[2] + (isImb ? '*' : '') + '</span></div>';
+      });
+      fp += '</div>';
+    });
+    $('wc-fp').innerHTML = fp;
+
+    var cap;
+    if (idx < 12) cap = 'Pre-market: el precio cae desde el máximo del impulso. Aún no hay nada que hacer.';
+    else if (idx < V1) cap = a.touched ? 'El precio entra en el Golden Pocket, por debajo del VAL. Toca esperar la reacción en el footprint.' : 'Apertura NY: el precio pierde el VAL y se acerca a la zona de descuento.';
+    else if (idx === V1) cap = 'Vela 1: fuerte venta al Bid en el mínimo (' + a.v1.delta + ' de delta). Si el precio no cae más, es absorción.';
+    else if (idx === V2) cap = a.aGame ? 'Vela 2: el vendedor falla, mínimo más alto e imbalance en el Ask. Gatillo de compra.' : a.broke ? 'Vela 2: la venta atraviesa el 0.886 y cierra debajo. Setup anulado.' : 'Vela 2: sin agresión compradora. No hay gatillo.';
+    else cap = a.aGame ? 'Gestión: 50% en ' + (plan(a).tp1 === a.L.val ? 'VAL' : 'POC') + ' y stop a breakeven; el resto hacia el swing high.' : 'Sin posición. Esperar el siguiente setup o cerrar la sesión.';
+    $('wc-caption').innerHTML = '<b>' + timeOf(idx) + ' ET</b>' + cap;
+    $('wc-title').textContent = 'MNQ · 5 min · ' + SC[key].title;
+  }
+
+  function refresh() { stage.redraw(); renderPanel(); }
+  var rp = M.replay($('wc-replay'), 40, V2, function (v) {
+    idx = v;
+    var lab = document.querySelector('#wc-replay [data-label]');
+    lab.textContent = 'Vela ' + (v + 1) + '/40 · ' + timeOf(v);
+    refresh();
+  });
+  M.scenarios($('wc-side'), function (k) { key = k; candles = build(k); rp.reset(40, V2); });
+  ['wc-sh', 'wc-sl', 'wc-vah', 'wc-poc', 'wc-val'].forEach(function (id) { $(id).addEventListener('input', refresh); });
+  $('wc-send').addEventListener('click', function () {
+    var p = plan(analyse());
+    M.risk('wc').set({ dir: 'L', entry: p.entry, stop: p.stop, tp1: p.tp1, tp2: p.tp2 });
+    document.getElementById('checklist').scrollIntoView();
+  });
+});
+</script>
+</body>
+</html>

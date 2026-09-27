@@ -1,0 +1,26 @@
+# Mesa de Estudio: sitio privado, NO indexable.
+#
+# El bloqueo de indexación está en cada página:
+#   <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+# y en _headers (cabecera X-Robots-Tag) en hostings que la soportan.
+#
+# A propósito NO se usa "Disallow: /" para todos: si se bloquea el rastreo,
+# el buscador no puede leer el noindex y podría listar la URL sin contenido.
+User-agent: *
+Allow: /
+
+# Rastreadores de entrenamiento de IA: no tienen buscador que respete noindex.
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: ClaudeBot
+Disallow: /

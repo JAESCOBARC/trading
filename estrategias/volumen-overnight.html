@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Volumen Overnight · Mesa de Estudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Nasdaq 100 con Market Profile: el overnight marca el valor justo; la sesión barre un extremo y vuelve a él]</p>
+    <p class="eyebrow">Estrategia · Market Profile</p>
+    <h1>Volumen <span class="lime">overnight</span></h1>
+    <p class="lede">Saque del extremo del área de valor, rechazo confirmado y vuelta al POC.</p>
+    <div class="chips"><span class="chip">NQ / MNQ</span><span class="chip">Perfil 18:00–09:30 ET</span><span class="chip">Largo y corto</span><span class="chip warn">Winrate del vídeo sin verificar</span></div>
+    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Simulador gráfico</h2>
+      <p>El perfil de volumen, el POC y el área de valor (70% del volumen) se calculan con las velas del overnight. Después, la sesión de Nueva York se reproduce vela a vela.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/estrategias/volumen-overnight · NQ 5m</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="ov-side">
+          <span class="side-label">Escenarios de apertura</span>
+          <button class="scn" data-scn="alcista" aria-pressed="true">Saque bajo el VAL</button>
+          <button class="scn" data-scn="bajista" aria-pressed="false">Saque sobre el VAH</button>
+          <button class="scn" data-scn="balance" aria-pressed="false">Dentro, sin saque</button>
+          <button class="scn" data-scn="fuera" aria-pressed="false">Apertura fuera y aceptación</button>
+          <span class="side-label">Perfil</span>
+          <div class="field"><label for="ov-va">Área de valor (%)</label><input type="number" id="ov-va" value="70" min="50" max="90" step="1"></div>
+          <div class="field"><label for="ov-bin">Fila del perfil (pts)</label><select id="ov-bin"><option value="1">1</option><option value="2" selected>2</option><option value="4">4</option></select></div>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="ov-title">Perfil overnight + sesión NY</span>
+            <div class="legend">
+              <span><i style="background:var(--blue)"></i>POC</span>
+              <span><i style="background:rgba(127,176,255,.35)"></i>Área de valor</span>
+              <span><i style="background:var(--amber)"></i>Overnight</span>
+            </div>
+          </div>
+          <div class="chart tall"><canvas id="ov-chart" role="img" aria-label="Perfil de volumen del overnight y velas de la sesión de Nueva York"></canvas></div>
+          <div class="replay" id="ov-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Vela actual de la sesión">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="caption" id="ov-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <span class="card-label">Perfil overnight</span>
+            <div id="ov-levels"></div>
+          </div>
+          <div class="card">
+            <span class="card-label">Pasos del método</span>
+            <div class="checks" id="ov-checks"></div>
+          </div>
+          <div class="verdict" id="ov-verdict"></div>
+          <div class="card" id="ov-trade" hidden>
+            <span class="card-label">Plan de la operación</span>
+            <div id="ov-plan"></div>
+            <button class="btn sm" id="ov-send" type="button">Enviar a la calculadora</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Checklist de ejecución</h2>
+      <p>Seis pasos del método y dos condiciones antes de arriesgar dinero real.</p>
+    </div>
+    <div class="cl" data-checklist="volumen-overnight">
+      <div class="cl-groups">
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Preparación antes de la apertura</h3><span class="cl-count"></span></div>
+          <label class="cl-item"><input type="checkbox"><div><b>Rango overnight delimitado</b><span>Habitual en índices US: 18:00–09:30 ET. El vídeo usa 14:00–09:30; elige uno y úsalo siempre.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>VAH, VAL y POC calculados con datos</b><span>Con el perfil de volumen de la plataforma, no a ojo sobre el gráfico.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Tipo de apertura clasificado</b><span>Dentro, encima o debajo del área de valor (open-drive, open-test-drive, open-rejection-reverse).</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Ejecución</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Saque del extremo contrario</b><span>El precio barre stops por fuera del VAL (para largos) o del VAH (para cortos).</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Rechazo confirmado, sin anticipar</b><span>Cierre de vuelta dentro del área de valor. Entrar durante el barrido es adivinar el mínimo.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Objetivo, stop y tamaño antes de entrar</b><span>Objetivo: POC y después el extremo opuesto. Stop: más allá del nivel barrido. Tamaño sobre el stop.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Antes de arriesgar capital real</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Backtest propio de 50–100 sesiones</b><span>Ningún winrate de terceros sustituye tus propios datos.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>El tamaño aguanta 5–8 pérdidas seguidas</b><span>Las rachas perdedoras pasan en cualquier sistema con ventaja real.</span></div></label>
+        </div>
+      </div>
+      <div class="cl-side">
+        <div class="card">
+          <span class="card-label">Progreso</span>
+          <div class="meter"><i data-meter></i></div>
+          <span class="mono muted" data-count></span>
+          <div class="verdict" data-verdict></div>
+          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
+        </div>
+        <div data-risk="ov" data-tp2 data-instruments="NQ,MNQ" data-defaults='{"capital":25000,"pct":1,"entry":18390,"stop":18370,"tp1":18402,"tp2":18416}'></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  var ON = 186, RTH = 30, CENTER = 18400;
+
+  /* overnight: 18:00–09:30 ET en velas de 5 minutos, con reversión a la media */
+  var night = (function () {
+    var r = M.rng(4242), p = CENTER + 3, out = [];
+    for (var i = 0; i < ON; i++) {
+      var o = p;
+      p += 0.05 * (CENTER - p) + (r() - 0.5) * 20 + Math.sin(i / 23) * 0.6;
+      var hi = Math.max(o, p) + r() * 3, lo = Math.min(o, p) - r() * 3;
+      var v = Math.round((i > 150 ? 900 : 350) + r() * 500);
+      out.push({ o: o, h: hi, l: lo, c: p, v: v });
+    }
+    return out;
+  })();
+
+  function profile(bin, vaPct) {
+    var bins = {}, total = 0;
+    night.forEach(function (c) {
+      var a = Math.floor(c.l / bin), b = Math.floor(c.h / bin), n = b - a + 1;
+      for (var k = a; k <= b; k++) { bins[k] = (bins[k] || 0) + c.v / n; }
+      total += c.v;
+    });
+    var keys = Object.keys(bins).map(Number).sort(function (x, y) { return x - y; });
+    var poc = keys.reduce(function (m, k) { return bins[k] > bins[m] ? k : m; }, keys[0]);
+    var lo = poc, hi = poc, acc = bins[poc], lim = total * vaPct / 100;
+    while (acc < lim) {
+      var up = bins[hi + 1] || 0, dn = bins[lo - 1] || 0;
+      if (!up && !dn) break;
+      if (up >= dn) { hi++; acc += up; } else { lo--; acc += dn; }
+    }
+    return { bins: bins, keys: keys, bin: bin, total: total, pocKey: poc, poc: poc * bin + bin / 2, vah: (hi + 1) * bin, val: lo * bin, vaVol: acc / total * 100, max: bins[poc] };
+  }
+
+  /* sesión: trayectorias relativas a VAL / POC / VAH */
+  function sessionPath(k, P) {
+    var w = P.vah - P.val, pts;
+    if (k === 'alcista') pts = [[0, P.poc - w * 0.1], [3, P.val + 2], [5, P.val - w * 0.2], [6, P.val - w * 0.14], [8, P.val + w * 0.18], [12, P.poc], [17, P.vah - 1], [22, P.vah + w * 0.3], [29, P.vah + w * 0.45]];
+    if (k === 'bajista') pts = [[0, P.poc + w * 0.1], [3, P.vah - 2], [5, P.vah + w * 0.2], [6, P.vah + w * 0.14], [8, P.vah - w * 0.18], [12, P.poc], [17, P.val + 1], [22, P.val - w * 0.3], [29, P.val - w * 0.45]];
+    if (k === 'balance') pts = [[0, P.poc + 1], [4, P.poc + w * 0.3], [8, P.poc - w * 0.25], [12, P.poc + w * 0.28], [16, P.poc - w * 0.2], [20, P.poc + w * 0.22], [25, P.poc - w * 0.1], [29, P.poc + w * 0.05]];
+    if (k === 'fuera') pts = [[0, P.vah + w * 0.35], [3, P.vah + w * 0.25], [8, P.vah + w * 0.6], [14, P.vah + w * 0.95], [20, P.vah + w * 1.1], [29, P.vah + w * 1.45]];
+    return M.candlesFromPath(pts, { seed: 77, noise: 2.2, wick: 2.6, open: pts[0][1] });
+  }
+
+  var key = 'alcista', P, S, idx = RTH - 1;
+  function rebuild() { P = profile(+$('ov-bin').value, M.clamp(+$('ov-va').value || 70, 50, 90)); S = sessionPath(key, P); }
+
+  function analyse() {
+    var o = { open: S[0].o, type: S[0].o > P.vah ? 'encima' : S[0].o < P.val ? 'debajo' : 'dentro', sweep: -1, dir: null, conf: -1 };
+    if (o.type === 'dentro') {
+      for (var i = 0; i <= idx; i++) {
+        if (S[i].l < P.val - 1) { o.sweep = i; o.dir = 'L'; break; }
+        if (S[i].h > P.vah + 1) { o.sweep = i; o.dir = 'S'; break; }
+      }
+    }
+    if (o.sweep >= 0) {
+      var ext = o.dir === 'L' ? Infinity : -Infinity;
+      for (var j = o.sweep; j <= idx; j++) {
+        ext = o.dir === 'L' ? Math.min(ext, S[j].l) : Math.max(ext, S[j].h);
+        var back = o.dir === 'L' ? S[j].c > P.val + 1 : S[j].c < P.vah - 1;
+        if (j > o.sweep && back) { o.conf = j; break; }
+      }
+      o.ext = ext;
+    }
+    if (o.conf >= 0) {
+      var L = o.dir === 'L';
+      o.entry = S[o.conf].c; o.stop = L ? o.ext - 1 : o.ext + 1;
+      o.t1 = P.poc; o.t2 = L ? P.vah : P.val;
+      o.hitT1 = -1; o.hitT2 = -1;
+      for (var q = o.conf + 1; q <= idx; q++) {
+        if (o.hitT1 < 0 && (L ? S[q].h >= o.t1 : S[q].l <= o.t1)) o.hitT1 = q;
+        if (o.hitT2 < 0 && (L ? S[q].h >= o.t2 : S[q].l <= o.t2)) o.hitT2 = q;
+      }
+    }
+    return o;
+  }
+
+  function hhmm(i) { var m = 9 * 60 + 30 + i * 5; return String(Math.floor(m / 60)).padStart(2, '0') + ':' + String(m % 60).padStart(2, '0'); }
+
+  rebuild();
+  var stage = M.canvasStage($('ov-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h, a = analyse();
+    var area = { l: 10, r: w - 62, t: 16, b: h - 24 };
+    var all = night.concat(S);
+    var lo = Math.min.apply(null, all.map(function (c) { return c.l; })) - 3, hi = Math.max.apply(null, all.map(function (c) { return c.h; })) + 3;
+    var y = M.scale(lo, hi, area.b, area.t);
+    var pw = Math.min(150, (area.r - area.l) * 0.2), ow = (area.r - area.l) * 0.28;
+    var x0 = area.l + pw, x1 = x0 + ow, sw = (area.r - x1) / RTH;
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 7));
+    M.band(ctx, area, y(P.vah), y(P.val), C.blueSoft);
+    // perfil
+    P.keys.forEach(function (k) {
+      var v = P.bins[k], bw = (pw - 8) * v / P.max, inVA = k * P.bin >= P.val && (k + 1) * P.bin <= P.vah;
+      ctx.fillStyle = k === P.pocKey ? C.blue : inVA ? 'rgba(127,176,255,.45)' : 'rgba(166,172,179,.25)';
+      ctx.fillRect(area.l, y((k + 1) * P.bin) + 0.5, bw, Math.max(1, y(k * P.bin) - y((k + 1) * P.bin) - 1));
+    });
+    // overnight como línea
+    ctx.strokeStyle = C.amber; ctx.lineWidth = 1.2; ctx.beginPath();
+    night.forEach(function (c, i) { var px = x0 + 6 + (ow - 12) * i / (ON - 1); if (i === 0) ctx.moveTo(px, y(c.c)); else ctx.lineTo(px, y(c.c)); });
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(238,240,242,.2)'; ctx.setLineDash([2, 4]);
+    [x0, x1].forEach(function (px) { ctx.beginPath(); ctx.moveTo(px, area.t); ctx.lineTo(px, area.b); ctx.stroke(); });
+    ctx.setLineDash([]);
+    ctx.fillStyle = C.axis; ctx.font = '10.5px "JetBrains Mono", monospace';
+    ctx.fillText('perfil', area.l, area.b + 16); ctx.fillText('overnight 18:00', x0 + 4, area.b + 16); ctx.fillText('09:30 NY', x1 + 4, area.b + 16);
+    M.hline(ctx, area, y(P.vah), C.ink2, 'VAH ' + M.fmt(P.vah, 2), { dash: [4, 4] });
+    M.hline(ctx, area, y(P.poc), C.blue, 'POC ' + M.fmt(P.poc, 2), { width: 1.5 });
+    M.hline(ctx, area, y(P.val), C.ink2, 'VAL ' + M.fmt(P.val, 2), { dash: [4, 4] });
+    M.drawCandles(ctx, S.slice(0, idx + 1), function (i) { return x1 + (i + .5) * sw; }, y, sw);
+    var sx = function (i) { return x1 + (i + .5) * sw; };
+    if (a.sweep >= 0) M.marker(ctx, sx(a.sweep), y(a.dir === 'L' ? S[a.sweep].l : S[a.sweep].h) + (a.dir === 'L' ? 12 : -12), C.amber, 'saque', a.dir === 'L');
+    if (a.conf >= 0) {
+      var L = a.dir === 'L', from = sx(a.conf) - sw / 2;
+      [[a.t2, C.lime, L ? 'VAH' : 'VAL'], [a.t1, C.lime, 'POC'], [a.entry, C.ink, 'Entrada'], [a.stop, C.red, 'Stop']].forEach(function (l) {
+        ctx.strokeStyle = l[1]; ctx.setLineDash(l[2] === 'Entrada' ? [] : [6, 3]);
+        ctx.beginPath(); ctx.moveTo(from, y(l[0])); ctx.lineTo(area.r, y(l[0])); ctx.stroke(); ctx.setLineDash([]);
+      });
+      ctx.fillStyle = C.red; ctx.font = '600 10.5px "JetBrains Mono", monospace'; ctx.fillText('Stop', from + 4, y(a.stop) + (L ? 12 : -4));
+      M.marker(ctx, sx(a.conf), y(a.entry), C.lime, L ? 'LARGO' : 'CORTO', !L);
+    }
+  });
+
+  function row(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', no: '✕', wait: '·', warn: '!' })[st] + '</i><span>' + t + '</span></div>'; }
+  function panel() {
+    var a = analyse();
+    $('ov-levels').innerHTML =
+      '<div class="kv"><span>VAH</span><span>' + M.fmt(P.vah, 2) + '</span></div>' +
+      '<div class="kv"><span>POC</span><span class="info-t">' + M.fmt(P.poc, 2) + '</span></div>' +
+      '<div class="kv"><span>VAL</span><span>' + M.fmt(P.val, 2) + '</span></div>' +
+      '<div class="kv"><span>Volumen dentro del área</span><span>' + M.fmt(P.vaVol, 1) + '%</span></div>' +
+      '<div class="kv"><span>Apertura 09:30</span><span>' + M.fmt(a.open, 2) + '</span></div>';
+    var inside = a.type === 'dentro';
+    var h = row('ok', 'Rango overnight y perfil construidos (' + ON + ' velas)');
+    h += row(inside ? 'ok' : 'warn', 'Apertura ' + a.type + ' del área de valor');
+    h += row(!inside ? 'no' : a.sweep >= 0 ? 'ok' : 'wait', a.sweep >= 0 ? 'Saque ' + (a.dir === 'L' ? 'bajo el VAL' : 'sobre el VAH') + ' a las ' + hhmm(a.sweep) : inside ? 'Sin saque de ningún extremo' : 'No aplica: el precio abre fuera');
+    h += row(a.conf >= 0 ? 'ok' : a.sweep >= 0 ? 'wait' : 'no', a.conf >= 0 ? 'Rechazo confirmado: cierre dentro a las ' + hhmm(a.conf) : 'Rechazo pendiente');
+    if (a.conf >= 0) {
+      var rr2 = Math.abs(a.t2 - a.entry) / Math.abs(a.entry - a.stop);
+      h += row(rr2 >= 1 ? 'ok' : 'no', 'Extremo opuesto a ' + M.fmt(rr2, 2) + 'R ' + (rr2 >= 1 ? '(≥ 1R)' : '(menos de 1R: no compensa)'));
+      h += row(a.hitT1 >= 0 ? 'ok' : 'wait', a.hitT1 >= 0 ? 'Objetivo POC alcanzado a las ' + hhmm(a.hitT1) : 'Camino al POC');
+      h += row(a.hitT2 >= 0 ? 'ok' : 'wait', a.hitT2 >= 0 ? 'Extremo opuesto alcanzado a las ' + hhmm(a.hitT2) : 'Extremo opuesto pendiente');
+    }
+    $('ov-checks').innerHTML = h;
+    var v = $('ov-verdict');
+    if (!inside) { v.className = 'verdict no'; v.innerHTML = '<strong>Fuera del método</strong>El precio abre fuera del valor y se acepta arriba (open-drive). Aquí no hay saque que operar.'; }
+    else if (a.conf >= 0 && Math.abs(a.t2 - a.entry) < Math.abs(a.entry - a.stop)) { v.className = 'verdict no'; v.innerHTML = '<strong>No compensa</strong>El barrido deja el stop tan lejos que el extremo opuesto está a menos de 1R.'; }
+    else if (a.conf >= 0) { v.className = 'verdict ok'; v.innerHTML = '<strong>' + (a.dir === 'L' ? 'Largo' : 'Corto') + ' tras el saque</strong>Entrada al cierre que vuelve dentro del área; stop más allá del barrido.'; }
+    else if (a.sweep >= 0) { v.className = 'verdict warn'; v.innerHTML = '<strong>Saque en curso</strong>No anticipes: espera un cierre de vuelta dentro del área de valor.'; }
+    else if (idx >= RTH - 1) { v.className = 'verdict no'; v.innerHTML = '<strong>Día de balance: no operar</strong>El precio rota alrededor del POC sin barrer ningún extremo.'; }
+    else { v.className = 'verdict warn'; v.innerHTML = '<strong>Esperando</strong>Precio dentro del área de valor, sin saque todavía.'; }
+    var t = $('ov-trade');
+    t.hidden = a.conf < 0;
+    if (!t.hidden) {
+      var R = Math.abs(a.entry - a.stop);
+      $('ov-plan').innerHTML =
+        '<div class="kv"><span>Entrada</span><span>' + M.fmt(a.entry, 2) + '</span></div>' +
+        '<div class="kv"><span>Stop tras el barrido</span><span class="down">' + M.fmt(a.stop, 2) + '</span></div>' +
+        '<div class="kv"><span>Objetivo 1 · POC</span><span class="up">' + M.fmt(a.t1, 2) + ' · ' + M.fmt(Math.abs(a.t1 - a.entry) / R, 2) + 'R</span></div>' +
+        '<div class="kv"><span>Objetivo 2 · ' + (a.dir === 'L' ? 'VAH' : 'VAL') + '</span><span class="up">' + M.fmt(a.t2, 2) + ' · ' + M.fmt(Math.abs(a.t2 - a.entry) / R, 2) + 'R</span></div>';
+    }
+    var cap;
+    if (!inside) cap = idx < 3 ? 'Apertura por encima del VAH: el mercado acepta precios fuera del valor del overnight.' : 'El precio no vuelve al área: desequilibrio direccional. Este método se queda fuera.';
+    else if (a.sweep < 0) cap = idx < 4 ? 'Apertura dentro del área de valor (zona de balance). Se espera un saque de uno de los extremos.' : 'Rotación dentro del valor. Sin saque no hay operación.';
+    else if (a.conf < 0) cap = 'Saque: el precio barre por fuera del ' + (a.dir === 'L' ? 'VAL y salta los stops de los cortos' : 'VAH y salta los stops de los largos') + '. Aún no se entra.';
+    else if (idx === a.conf) cap = 'Rechazo: la subasta no acepta precios fuera del valor y el cierre vuelve dentro. Entrada.';
+    else cap = a.hitT2 >= 0 ? 'Desplazamiento hasta el extremo opuesto del área: siguiente objetivo de liquidez.' : a.hitT1 >= 0 ? 'Recupera el POC: primer objetivo cumplido.' : 'Reversión en marcha hacia el POC.';
+    $('ov-caption').innerHTML = '<b>' + hhmm(idx) + ' ET</b>' + cap;
+  }
+
+  var rp = M.replay($('ov-replay'), RTH, RTH - 1, function (v) {
+    idx = v;
+    document.querySelector('#ov-replay [data-label]').textContent = 'Vela ' + (v + 1) + '/' + RTH + ' · ' + hhmm(v);
+    stage.redraw(); panel();
+  });
+  M.scenarios($('ov-side'), function (k) { key = k; rebuild(); rp.reset(RTH, RTH - 1); });
+  ['ov-va', 'ov-bin'].forEach(function (id) { $(id).addEventListener('input', function () { rebuild(); stage.redraw(); panel(); }); });
+  $('ov-send').addEventListener('click', function () {
+    var a = analyse();
+    M.risk('ov').set({ dir: a.dir, entry: a.entry, stop: a.stop, tp1: a.t1, tp2: a.t2 });
+    $('checklist').scrollIntoView();
+  });
+});
+</script>
+</body>
+</html>

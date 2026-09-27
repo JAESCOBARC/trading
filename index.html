@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Mesa de Estudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body data-root="./">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="home-hero">
+    <div class="left">
+      <p class="audience">[Mi mesa privada de trading: estudiar un método, simularlo y ejecutarlo con reglas]</p>
+      <p class="brand-xl">Mesa de Estudio</p>
+      <p class="eyebrow">Futuros · orderflow · análisis técnico</p>
+      <h1>Simula la estrategia. Ejecuta con checklist.</h1>
+      <p class="lede">Cada método en dos pasos: un simulador gráfico y la checklist que decide si se entra.</p>
+      <div class="row"><a class="btn" href="#estrategias">Ver estrategias</a><a class="btn ghost" href="fundamentos/velas-japonesas.html">Empezar por las velas</a></div>
+    </div>
+
+    <div class="win" aria-label="Accesos rápidos">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/inicio</div><span class="live">en este navegador</span></div>
+      <div class="win-body two" style="min-height:0">
+        <div class="side">
+          <span class="side-label">Estrategias</span>
+          <div class="mini-list">
+            <a href="estrategias/orderflow-world-cup.html">Orderflow World Cup</a>
+            <a href="estrategias/tendencial.html">Tendencial</a>
+            <a href="estrategias/volumen-overnight.html">Volumen overnight</a>
+            <a href="estrategias/little-rizzy.html">Little Rizzy</a>
+          </div>
+          <span class="side-label">Fundamentos</span>
+          <div class="mini-list">
+            <a href="fundamentos/velas-japonesas.html">Velas japonesas</a>
+            <a href="fundamentos/macd.html">MACD</a>
+          </div>
+        </div>
+        <div class="stage">
+          <div class="card">
+            <span class="card-label">Checklists marcadas</span>
+            <div id="progress"></div>
+          </div>
+          <div class="card">
+            <span class="card-label">Reglas de sesión</span>
+            <div class="kv"><span>Riesgo por operación</span><span>1% (máx. 2%)</span></div>
+            <div class="kv"><span>Stops por día</span><span class="down">2 y se cierra</span></div>
+            <div class="kv"><span>Ventana World Cup</span><span>90 min desde 09:30 NY</span></div>
+            <div class="kv"><span>Trades por día (Tendencial)</span><span>máx. 2</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-num">Ruta</span>
+      <h2>El mismo orden en todos los métodos</h2>
+      <p>Todos los métodos de la mesa siguen esta secuencia. Si un paso falla, no se pasa al siguiente.</p>
+    </div>
+    <div class="route">
+      <div><span class="n">1 · Contexto</span><b>Tendencia y régimen</b><span>1D, 4H/1H, gamma, estructura de valor.</span></div>
+      <div><span class="n">2 · Zona</span><b>Dónde se opera</b><span>Soporte, área de valor, Fibonacci, directriz.</span></div>
+      <div><span class="n">3 · Señal</span><b>Qué lo confirma</b><span>Vela, footprint, MACD, rechazo del saque.</span></div>
+      <div><span class="n">4 · Riesgo</span><b>Cuánto y hasta dónde</b><span>Stop, tamaño y límite diario antes de entrar.</span></div>
+    </div>
+  </section>
+
+  <section class="section" id="estrategias">
+    <div class="sec-head">
+      <span class="sec-num">Estrategias</span>
+      <h2>Cuatro métodos</h2>
+    </div>
+    <div class="grid-cards">
+      <a class="tile" href="estrategias/orderflow-world-cup.html">
+        <div class="chips"><span class="chip">MNQ / NQ</span><span class="chip ok">Largo</span></div>
+        <h3>Orderflow World Cup</h3>
+        <p>Golden Pocket 0.705–0.788 bajo el VAL, absorción, test &amp; fail e imbalance ≥ 400% en el footprint.</p>
+        <span class="go">Abrir simulador →</span>
+      </a>
+      <a class="tile" href="estrategias/tendencial.html">
+        <div class="chips"><span class="chip">MNQ · NQ · DAX · 6E</span><span class="chip info">Largo y corto</span></div>
+        <h3>Tendencial</h3>
+        <p>Retroceso a la EMA 21 dentro del 38,2–61,8% y vela de intención en los últimos 5 segundos.</p>
+        <span class="go">Abrir simulador →</span>
+      </a>
+      <a class="tile" href="estrategias/volumen-overnight.html">
+        <div class="chips"><span class="chip">NQ / MNQ</span><span class="chip info">Largo y corto</span></div>
+        <h3>Volumen overnight</h3>
+        <p>Perfil del overnight, saque de un extremo del área de valor y vuelta al POC.</p>
+        <span class="go">Abrir simulador →</span>
+      </a>
+      <a class="tile" href="estrategias/little-rizzy.html">
+        <div class="chips"><span class="chip">S&amp;P 500 · acciones</span><span class="chip info">Largo y corto</span></div>
+        <h3>Little Rizzy</h3>
+        <p>Directriz dibujable, distancia D en la vela pivote y proyección del objetivo.</p>
+        <span class="go">Abrir simulador →</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="sec-head">
+      <span class="sec-num">Fundamentos</span>
+      <h2>Leer el gráfico</h2>
+    </div>
+    <div class="grid-cards">
+      <a class="tile" href="fundamentos/velas-japonesas.html">
+        <div class="chips"><span class="chip">10 patrones</span></div>
+        <h3>Velas japonesas</h3>
+        <p>Construye una vela, estudia cada patrón en su contexto y mira qué pasa cuando se confirma o falla.</p>
+        <span class="go">Abrir simulador →</span>
+      </a>
+      <a class="tile" href="fundamentos/macd.html">
+        <div class="chips"><span class="chip">12 · 26 · 9</span></div>
+        <h3>MACD</h3>
+        <p>Cruces, línea cero, histograma y divergencias calculados en vivo, con los periodos que elijas.</p>
+        <span class="go">Abrir simulador →</span>
+      </a>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var ids = [['orderflow-world-cup', 'Orderflow World Cup'], ['tendencial', 'Tendencial'], ['volumen-overnight', 'Volumen overnight'], ['little-rizzy', 'Little Rizzy'], ['velas-japonesas', 'Velas japonesas'], ['macd', 'MACD']];
+  var html = '';
+  ids.forEach(function (p) {
+    var v = null;
+    try { v = localStorage.getItem('mesa:clp:' + p[0]); } catch (e) { v = null; }
+    var parts = v ? v.split('/') : null, pct = parts ? Math.round(+parts[0] / +parts[1] * 100) : 0;
+    html += '<div class="kv"><span>' + p[1] + '</span><span class="' + (pct === 100 ? 'up' : '') + '">' + (parts ? parts[0] + ' / ' + parts[1] : 'sin empezar') + '</span></div>';
+  });
+  document.getElementById('progress').innerHTML = html;
+});
+</script>
+</body>
+</html>

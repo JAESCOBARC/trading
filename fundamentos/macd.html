@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>MACD · Mesa de Estudio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Indicador de momentum: sirve para confirmar lo que ya dice el precio, no para adivinar el siguiente movimiento]</p>
+    <p class="eyebrow">Fundamentos</p>
+    <h1><span class="lime">MACD</span> 12 · 26 · 9</h1>
+    <p class="lede">Cruces, línea cero, histograma y divergencias, siempre con contexto.</p>
+    <div class="chips"><span class="chip">EMA 12 − EMA 26</span><span class="chip">Señal: EMA 9 del MACD</span><span class="chip">Histograma = MACD − señal</span></div>
+    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Simulador gráfico</h2>
+      <p>Las medias, el MACD, la señal y el histograma se calculan sobre la serie del escenario. Pasa el cursor (o el dedo) por el gráfico para leer cualquier vela; cambia los periodos para ver cómo cambia el indicador.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/fundamentos/macd · diario</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="md-side">
+          <span class="side-label">Escenarios</span>
+          <button class="scn" data-scn="alcista" aria-pressed="true">Tendencia alcista</button>
+          <button class="scn" data-scn="bajista" aria-pressed="false">Tendencia bajista</button>
+          <button class="scn" data-scn="lateral" aria-pressed="false">Mercado lateral</button>
+          <button class="scn" data-scn="divAlc" aria-pressed="false">Divergencia alcista</button>
+          <button class="scn" data-scn="divBaj" aria-pressed="false">Divergencia bajista</button>
+          <span class="side-label">Periodos</span>
+          <div class="field"><label for="md-f">EMA rápida</label><input type="number" id="md-f" value="12" min="2" max="50"></div>
+          <div class="field"><label for="md-s">EMA lenta</label><input type="number" id="md-s" value="26" min="3" max="100"></div>
+          <div class="field"><label for="md-g">Señal</label><input type="number" id="md-g" value="9" min="2" max="30"></div>
+          <label class="toggle"><input type="checkbox" id="md-emas">Ver EMAs en el precio</label>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="md-title"></span>
+            <div class="legend">
+              <span><i style="background:var(--ink)"></i>Precio</span>
+              <span><i style="background:var(--blue)"></i>MACD</span>
+              <span><i style="background:var(--amber)"></i>Señal</span>
+              <span><i style="background:var(--lime)"></i>Cruce alcista</span>
+              <span><i style="background:var(--red)"></i>Cruce bajista</span>
+            </div>
+          </div>
+          <div class="chart tall"><canvas id="md-chart" role="img" aria-label="Precio y panel MACD con señal e histograma"></canvas></div>
+          <div class="caption" id="md-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <span class="card-label" id="md-cur-label">Lectura</span>
+            <div id="md-kv"></div>
+          </div>
+          <div class="card">
+            <span class="card-label">Método en 6 pasos</span>
+            <div class="checks" id="md-checks"></div>
+          </div>
+          <div class="verdict" id="md-verdict"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Checklist de ejecución</h2>
+      <p>Regla práctica: contexto → zona → señal → confirmación → riesgo. Si falta el contexto, una señal MACD aislada vale poco.</p>
+    </div>
+    <div class="cl" data-checklist="macd">
+      <div class="cl-groups">
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Contexto y zona</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Tendencia general identificada</b><span>Máximos y mínimos crecientes, decrecientes o lateral.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Soportes y resistencias marcados</b><span>La señal aparece cerca de un nivel o de una ruptura relevante.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Señal</h3><span class="cl-count"></span></div>
+          <label class="cl-item"><input type="checkbox"><div><b>Cruce MACD / señal interpretado</b><span>En la misma dirección que el contexto.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Posición frente a la línea cero</b><span>Por encima: fortaleza relativa. Por debajo: debilidad relativa.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Histograma revisado</b><span>Barras que crecen: el momentum se fortalece. Barras que menguan: pierde fuerza.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Confirmación y riesgo</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Volumen y precio confirman</b><span>Ruptura, recuperación de soporte, patrón de precio o aumento de volumen.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Riesgo definido antes de actuar</b><span>Stop, tamaño y escenario alternativo.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Errores que evito</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>No entro solo porque aparece un cruce</b><span>Un cruce aislado no es una entrada.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>No uso el MACD en lateral sin filtros</b><span>En rango los cruces se suceden sin dirección.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>No confundo divergencia con reversión confirmada</b><span>La divergencia avisa; el precio confirma.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>No acumulo indicadores</b><span>Más indicadores dan señales contradictorias, no más certeza.</span></div></label>
+        </div>
+      </div>
+      <div class="cl-side">
+        <div class="card">
+          <span class="card-label">Progreso</span>
+          <div class="meter"><i data-meter></i></div>
+          <span class="mono muted" data-count></span>
+          <div class="verdict" data-verdict></div>
+          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
+        </div>
+        <div class="card">
+          <span class="card-label">Resumen</span>
+          <div class="kv"><span>Cruce alcista</span><span>tendencia + soporte</span></div>
+          <div class="kv"><span>Cruce bajista</span><span>resistencia + estructura</span></div>
+          <div class="kv"><span>MACD &gt; 0</span><span>no compres solo por eso</span></div>
+          <div class="kv"><span>MACD &lt; 0</span><span>no vendas solo por eso</span></div>
+          <div class="kv"><span>Divergencia</span><span>espera confirmación</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  var N = 170;
+  var PATHS = {
+    alcista: { t: 'Tendencia alcista', p: [[0, 100], [35, 106], [55, 103], [95, 115], [115, 112], [150, 124], [169, 128]] },
+    bajista: { t: 'Tendencia bajista', p: [[0, 128], [35, 122], [55, 125], [95, 113], [115, 116], [150, 104], [169, 100]] },
+    lateral: { t: 'Mercado lateral', p: [[0, 110], [12, 113], [24, 108], [36, 112.5], [48, 107.5], [60, 112], [72, 108], [84, 113], [96, 107.5], [108, 112], [120, 108.5], [132, 112.5], [144, 108], [156, 112], [169, 110]] },
+    divAlc: { t: 'Divergencia alcista', p: [[0, 124], [40, 121], [62, 101], [80, 108], [120, 97.5], [132, 103], [150, 108], [169, 113]] },
+    divBaj: { t: 'Divergencia bajista', p: [[0, 96], [40, 99], [62, 119], [80, 112], [120, 122.5], [132, 117], [150, 112], [169, 107]] }
+  };
+  var key = 'alcista', px, e1, e2, mac, sig, hist, start, cur = null;
+
+  function build() {
+    var r = M.rng(key.length * 97 + 13), pts = PATHS[key].p, out = [];
+    for (var q = 0; q < pts.length - 1; q++) for (var i = pts[q][0]; i < pts[q + 1][0]; i++) out[i] = pts[q][1] + (pts[q + 1][1] - pts[q][1]) * (i - pts[q][0]) / (pts[q + 1][0] - pts[q][0]);
+    out[N - 1] = pts[pts.length - 1][1];
+    var drift = 0;
+    px = out.map(function (v) { drift = drift * 0.6 + (r() - 0.5) * 1.1; return v + drift; });
+    compute();
+  }
+  function compute() {
+    var f = M.clamp(+$('md-f').value || 12, 2, 50), s = M.clamp(+$('md-s').value || 26, 3, 100), g = M.clamp(+$('md-g').value || 9, 2, 30);
+    if (s <= f) s = f + 1;
+    e1 = M.ema(px, f); e2 = M.ema(px, s);
+    mac = px.map(function (_, i) { return e1[i] - e2[i]; });
+    sig = M.ema(mac, g);
+    hist = mac.map(function (m, i) { return m - sig[i]; });
+    start = s + g;
+  }
+  function crosses() {
+    var out = [];
+    for (var i = start + 1; i < N; i++) {
+      var a = mac[i - 1] - sig[i - 1], b = mac[i] - sig[i];
+      if (a <= 0 && b > 0) out.push({ i: i, up: true });
+      if (a >= 0 && b < 0) out.push({ i: i, up: false });
+    }
+    return out;
+  }
+  function pivots(lowMode, upto) {
+    var w = 7, out = [];
+    for (var i = start + w; i <= upto - 3; i++) {
+      var ok = true;
+      for (var j = i - w; j <= Math.min(N - 1, i + w); j++) if (j !== i && (lowMode ? px[j] < px[i] : px[j] > px[i])) { ok = false; break; }
+      if (ok && (!out.length || i - out[out.length - 1] >= 10)) out.push(i);
+    }
+    return out;
+  }
+  function divergence(upto) {
+    var res = null;
+    var lows = pivots(true, upto), highs = pivots(false, upto);
+    if (lows.length >= 2) { var a = lows[lows.length - 2], b = lows[lows.length - 1]; if (px[b] < px[a] && mac[b] > mac[a]) res = { type: 'alcista', a: a, b: b }; }
+    if (highs.length >= 2) { var c = highs[highs.length - 2], d = highs[highs.length - 1]; if (px[d] > px[c] && mac[d] < mac[c] && (!res || d > res.b)) res = { type: 'bajista', a: c, b: d }; }
+    return res;
+  }
+
+  var geo = null;
+  build();
+  var stage = M.canvasStage($('md-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h;
+    var pA = { l: 12, r: w - 60, t: 14, b: h * 0.58 }, mA = { l: 12, r: w - 60, t: h * 0.62 + 6, b: h - 20 };
+    var cw = (pA.r - pA.l) / N, x = function (i) { return pA.l + (i + .5) * cw; };
+    var plo = Math.min.apply(null, px) - 1, phi = Math.max.apply(null, px) + 1, y = M.scale(plo, phi, pA.b, pA.t);
+    var vis = mac.slice(start).concat(sig.slice(start)).concat(hist.slice(start));
+    var mm = Math.max(0.2, Math.max.apply(null, vis.map(Math.abs))) * 1.1, ym = M.scale(-mm, mm, mA.b, mA.t);
+    geo = { x: x, cw: cw, pA: pA };
+    M.gridY(ctx, pA, y, M.niceTicks(plo, phi, 5));
+    ctx.fillStyle = 'rgba(255,255,255,.025)'; ctx.fillRect(pA.l, pA.t, x(start) - pA.l, mA.b - pA.t);
+    ctx.fillStyle = C.axis; ctx.font = '10px "JetBrains Mono", monospace'; ctx.fillText('calentamiento', pA.l + 4, mA.b - 4);
+    if ($('md-emas').checked) {
+      [[e1, C.blue], [e2, C.amber]].forEach(function (s) {
+        ctx.strokeStyle = s[1]; ctx.globalAlpha = .7; ctx.beginPath();
+        s[0].forEach(function (v, i) { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); }); ctx.stroke(); ctx.globalAlpha = 1;
+      });
+    }
+    ctx.strokeStyle = C.ink; ctx.lineWidth = 1.6; ctx.beginPath();
+    px.forEach(function (v, i) { if (i === 0) ctx.moveTo(x(i), y(v)); else ctx.lineTo(x(i), y(v)); }); ctx.stroke(); ctx.lineWidth = 1;
+    // MACD pane
+    ctx.strokeStyle = 'rgba(238,240,242,.25)'; ctx.beginPath(); ctx.moveTo(mA.l, ym(0)); ctx.lineTo(mA.r, ym(0)); ctx.stroke();
+    ctx.fillStyle = C.axis; ctx.fillText('0', mA.r + 6, ym(0) + 3); ctx.fillText('MACD', mA.r + 6, mA.t + 8);
+    for (var i = start; i < N; i++) {
+      var hv = hist[i], grow = i > 0 && Math.abs(hv) >= Math.abs(hist[i - 1]);
+      ctx.fillStyle = hv >= 0 ? (grow ? 'rgba(155,226,45,.75)' : 'rgba(155,226,45,.35)') : (grow ? 'rgba(242,86,91,.75)' : 'rgba(242,86,91,.35)');
+      ctx.fillRect(x(i) - cw * .35, Math.min(ym(0), ym(hv)), Math.max(1, cw * .7), Math.abs(ym(hv) - ym(0)));
+    }
+    [[mac, C.blue], [sig, C.amber]].forEach(function (s) {
+      ctx.strokeStyle = s[1]; ctx.lineWidth = 1.5; ctx.beginPath();
+      for (var j = start; j < N; j++) { if (j === start) ctx.moveTo(x(j), ym(s[0][j])); else ctx.lineTo(x(j), ym(s[0][j])); }
+      ctx.stroke(); ctx.lineWidth = 1;
+    });
+    crosses().forEach(function (c) {
+      ctx.fillStyle = c.up ? C.lime : C.red; ctx.beginPath(); ctx.arc(x(c.i), ym(mac[c.i]), 3.5, 0, Math.PI * 2); ctx.fill();
+    });
+    var dv = divergence(N - 1);
+    if (dv) {
+      var col = dv.type === 'alcista' ? C.lime : C.red;
+      ctx.strokeStyle = col; ctx.lineWidth = 2; ctx.setLineDash([6, 4]);
+      ctx.beginPath(); ctx.moveTo(x(dv.a), y(px[dv.a])); ctx.lineTo(x(dv.b), y(px[dv.b])); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(x(dv.a), ym(mac[dv.a])); ctx.lineTo(x(dv.b), ym(mac[dv.b])); ctx.stroke();
+      ctx.setLineDash([]); ctx.lineWidth = 1;
+      M.marker(ctx, x(dv.b), y(px[dv.b]) + (dv.type === 'alcista' ? 14 : -12), col, 'divergencia ' + dv.type, dv.type === 'alcista');
+    }
+    var ci = cur === null ? N - 1 : cur;
+    ctx.strokeStyle = 'rgba(238,240,242,.35)'; ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(x(ci), pA.t); ctx.lineTo(x(ci), mA.b); ctx.stroke(); ctx.setLineDash([]);
+  });
+
+  function row(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', no: '✕', warn: '!', wait: '·' })[st] + '</i><span>' + t + '</span></div>'; }
+  function panel() {
+    var i = cur === null ? N - 1 : Math.max(start, cur);
+    var cs = crosses().filter(function (c) { return c.i <= i; }), last = cs[cs.length - 1];
+    var look = 40, slope = (px[i] - px[Math.max(0, i - look)]);
+    var win = px.slice(Math.max(0, i - look), i + 1), rng = Math.max.apply(null, win) - Math.min.apply(null, win);
+    var trend = Math.abs(slope) > rng * 0.45 ? (slope > 0 ? 'alcista' : 'bajista') : 'lateral';
+    var dv = divergence(i), dvConf = false;
+    if (dv) {
+      var mid = px.slice(dv.a, dv.b + 1);
+      dvConf = dv.type === 'alcista' ? px[i] > Math.max.apply(null, mid) : px[i] < Math.min.apply(null, mid);
+    }
+    var growing = Math.abs(hist[i]) >= Math.abs(hist[i - 1]);
+    var recent = cs.filter(function (c) { return c.i > i - 60; }).length;
+    $('md-cur-label').textContent = cur === null ? 'Lectura en la última vela' : 'Lectura en la vela ' + (i + 1);
+    $('md-kv').innerHTML =
+      '<div class="kv"><span>Precio</span><span>' + M.fmt(px[i], 2) + '</span></div>' +
+      '<div class="kv"><span>MACD</span><span class="info-t">' + M.fmt(mac[i], 3) + '</span></div>' +
+      '<div class="kv"><span>Señal</span><span class="warn-t">' + M.fmt(sig[i], 3) + '</span></div>' +
+      '<div class="kv"><span>Histograma</span><span class="' + (hist[i] >= 0 ? 'up' : 'down') + '">' + M.fmtSigned(hist[i], 3) + '</span></div>' +
+      '<div class="kv"><span>Último cruce</span><span>' + (last ? (last.up ? 'alcista' : 'bajista') + ', hace ' + (i - last.i) + ' velas' : '—') + '</span></div>' +
+      '<div class="kv"><span>Cruces en 60 velas</span><span>' + recent + '</span></div>';
+    var aligned = last && ((last.up && trend === 'alcista') || (!last.up && trend === 'bajista'));
+    var zeroOk = trend === 'alcista' ? mac[i] > 0 : trend === 'bajista' ? mac[i] < 0 : false;
+    $('md-checks').innerHTML =
+      row(trend === 'lateral' ? 'no' : 'ok', 'Tendencia: ' + trend) +
+      row('wait', 'Zona: márcala tú en el gráfico real') +
+      row(!last ? 'wait' : aligned ? 'ok' : 'no', last ? 'Cruce ' + (last.up ? 'alcista' : 'bajista') + (aligned ? ' a favor del contexto' : ' contra el contexto') : 'Sin cruces') +
+      row(zeroOk ? 'ok' : 'warn', 'MACD ' + (mac[i] > 0 ? 'por encima' : 'por debajo') + ' de cero') +
+      row(growing ? 'ok' : 'warn', 'Histograma ' + (growing ? 'creciendo: momentum se fortalece' : 'menguando: pierde fuerza')) +
+      row(dv ? (dvConf ? 'ok' : 'warn') : 'wait', dv ? (dvConf ? 'Divergencia ' + dv.type + ' confirmada: el precio superó el extremo intermedio' : 'Divergencia ' + dv.type + ': necesita confirmación del precio') : 'Confirmación: volumen y acción del precio');
+    var v = $('md-verdict');
+    if (trend === 'lateral' || recent >= 7) { v.className = 'verdict no'; v.innerHTML = '<strong>Lateral: cruces sin valor</strong>' + recent + ' cruces en 60 velas. Sin filtros adicionales, el MACD aquí es ruido.'; }
+    else if (dv && dvConf) { v.className = 'verdict ok'; v.innerHTML = '<strong>Divergencia confirmada</strong>El precio ya rompió el extremo intermedio en la dirección de la divergencia. Aun así, define zona y riesgo antes de actuar.'; }
+    else if (dv) { v.className = 'verdict warn'; v.innerHTML = '<strong>Posible pérdida de momentum</strong>Divergencia ' + dv.type + ': el precio y el MACD no van de la mano. No es una reversión hasta que el precio lo confirme.'; }
+    else if (aligned && zeroOk) { v.className = 'verdict ok'; v.innerHTML = '<strong>Lectura coherente</strong>Cruce, línea cero y tendencia apuntan en la misma dirección. Falta confirmar zona y volumen antes de actuar.'; }
+    else { v.className = 'verdict warn'; v.innerHTML = '<strong>Señal incompleta</strong>Los elementos no coinciden. Una señal aislada tiene menos valor.'; }
+    var cap = key === 'lateral' ? 'En rango, el MACD cruza una y otra vez la señal sin que el precio vaya a ningún sitio.' :
+      key === 'divAlc' ? 'El precio marca un mínimo más bajo, pero el MACD marca un mínimo más alto: la presión vendedora pierde fuerza.' :
+      key === 'divBaj' ? 'El precio marca un máximo más alto, pero el MACD marca un máximo más bajo: el impulso comprador se agota.' :
+      'Los cruces a favor de la tendencia y por el lado correcto de cero son los que aportan información. Los que van contra la tendencia suelen ser correcciones.';
+    $('md-caption').innerHTML = '<b>' + PATHS[key].t + '</b>' + cap;
+    $('md-title').textContent = 'Diario · ' + PATHS[key].t + ' · MACD ' + $('md-f').value + ' · ' + $('md-s').value + ' · ' + $('md-g').value;
+  }
+
+  var cv = $('md-chart');
+  function hover(e) {
+    if (!geo) return;
+    var r = cv.getBoundingClientRect();
+    cur = M.clamp(Math.floor((e.clientX - r.left - geo.pA.l) / geo.cw), 0, N - 1);
+    stage.redraw(); panel();
+  }
+  cv.addEventListener('pointermove', hover);
+  cv.addEventListener('pointerdown', hover);
+  cv.addEventListener('pointerleave', function (e) { if (e.pointerType === 'mouse') { cur = null; stage.redraw(); panel(); } });
+  M.scenarios($('md-side'), function (k) { key = k; cur = null; build(); stage.redraw(); panel(); });
+  ['md-f', 'md-s', 'md-g'].forEach(function (id) { $(id).addEventListener('input', function () { compute(); stage.redraw(); panel(); }); });
+  $('md-emas').addEventListener('change', function () { stage.redraw(); });
+});
+</script>
+</body>
+</html>
