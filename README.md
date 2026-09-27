@@ -24,6 +24,7 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 | `estrategias/little-rizzy.html` | Directriz dibujable + distancia D + proyección |
 | `fundamentos/velas-japonesas.html` | Constructor de velas + 10 patrones en contexto |
 | `fundamentos/macd.html` | MACD, señal e histograma calculados + cruces y divergencias |
+| `fundamentos/wyckoff.html` | Simulador de acumulación/distribución con eventos + laboratorio de las 3 leyes, Operador Compuesto, rupturas, Spring/Upthrust y errores |
 | `recursos/interes-compuesto.html` | Interés compuesto por operativa: % riesgo, winrate, R:B y operaciones por periodo; retiros parciales por periodo, simulación de rachas (Montecarlo), plantillas y CSV |
 | `recursos/registro-trading.html` | Registro de trading: app de AppSheet embebida (iframe) con enlace para abrirla aparte |
 

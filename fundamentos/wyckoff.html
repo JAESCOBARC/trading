@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Método Wyckoff · Mesa de Estudio</title>
+<meta name="description" content="Método Wyckoff: las tres leyes, el ciclo de acumulación, markup, distribución y markdown, sus eventos clave y el trading de Springs y Upthrusts, con simulador.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Método Wyckoff · Mesa de Estudio">
+<meta property="og:description" content="Método Wyckoff: las tres leyes, el ciclo de acumulación, markup, distribución y markdown, sus eventos clave y el trading de Springs y Upthrusts, con simulador.">
+<meta property="og:url" content="https://trading.jhonyescobar.com/fundamentos/wyckoff.html">
+<meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/wyckoff.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Método Wyckoff · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Método Wyckoff · Mesa de Estudio">
+<meta name="twitter:description" content="Método Wyckoff: las tres leyes, el ciclo de acumulación, markup, distribución y markdown, sus eventos clave y el trading de Springs y Upthrusts, con simulador.">
+<meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/wyckoff.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  .lab-ctl{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px 18px;align-items:end}
+  .lab-ctl .field{padding:0;width:auto}
+  .lab-ctl .field label{display:flex;justify-content:space-between;gap:8px}
+  .lab-ctl .field label b{color:var(--lime);font-weight:500}
+  .lab-ctl .seg{grid-template-columns:repeat(var(--n,2),minmax(0,1fr))}
+  .lab-ctl .seg button{padding:8px 4px}
+  .lab-ctl .toggle{padding:4px 0}
+  .verdict .btn{margin-top:10px}
+</style>
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Para leer en el gráfico las huellas del dinero institucional: dónde acumula, dónde distribuye y cuándo empieza la tendencia]</p>
+    <p class="eyebrow">Fundamentos</p>
+    <h1>Método <span class="lime">Wyckoff</span></h1>
+    <p class="lede">Oferta y demanda, causa y efecto, esfuerzo y resultado: el ciclo completo del mercado.</p>
+    <div class="chips"><span class="chip">Acciones · cripto · Forex · futuros</span><span class="chip">Mejor en temporalidades altas</span><span class="chip">Precio + volumen</span></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <h2>Simulador gráfico</h2>
+      <p>Recorre vela a vela una acumulación, una distribución o el ciclo completo. Cada evento se marca en el gráfico y el panel explica qué es, qué ley de Wyckoff lo gobierna y cómo se lee el volumen.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/fundamentos/wyckoff · diario</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="wy-side">
+          <span class="side-label">Escenarios</span>
+          <button class="scn" data-scn="acum" aria-pressed="true">Acumulación y Spring</button>
+          <button class="scn" data-scn="dist" aria-pressed="false">Distribución y Upthrust</button>
+          <button class="scn" data-scn="ciclo" aria-pressed="false">Ciclo completo (4 fases)</button>
+          <span class="side-label">Capas</span>
+          <label class="toggle"><input type="checkbox" id="wy-range" checked>Soporte y resistencia</label>
+          <label class="toggle"><input type="checkbox" id="wy-phase" checked>Fases del ciclo</label>
+          <label class="toggle"><input type="checkbox" id="wy-vol" checked>Volumen</label>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="wy-title"></span>
+            <div class="legend">
+              <span><i style="background:var(--lime)"></i>Evento alcista</span>
+              <span><i style="background:var(--red)"></i>Evento bajista</span>
+              <span><i style="background:var(--blue)"></i>Rango</span>
+            </div>
+          </div>
+          <div class="chart tall"><canvas id="wy-chart" role="img" aria-label="Gráfico de velas con las fases y eventos del método Wyckoff y panel de volumen"></canvas></div>
+          <div class="replay" id="wy-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Vela actual">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="caption" id="wy-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <h3 class="card-label">Evento actual</h3>
+            <div id="wy-event"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Esfuerzo vs resultado</h3>
+            <div id="wy-effort"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Eventos del escenario</h3>
+            <div class="checks" id="wy-list"></div>
+          </div>
+          <div class="verdict" id="wy-plan" hidden></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="laboratorio">
+    <div class="sec-head">
+      <h2>Laboratorio de conceptos</h2>
+      <p>Cada concepto del método, convertido en un experimento: mueve los controles y mira cómo cambia el gráfico y su lectura.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/fundamentos/wyckoff · laboratorio</div><span class="live">interactivo</span></div>
+      <div class="win-body">
+        <div class="side" id="lab-side">
+          <span class="side-label">Las tres leyes</span>
+          <button class="scn" data-scn="oyd" aria-pressed="true">1 · Oferta y demanda</button>
+          <button class="scn" data-scn="cye" aria-pressed="false">2 · Causa y efecto</button>
+          <button class="scn" data-scn="eyr" aria-pressed="false">3 · Esfuerzo vs resultado</button>
+          <span class="side-label">Dinero inteligente</span>
+          <button class="scn" data-scn="oc" aria-pressed="false">Ciclo y Operador Compuesto</button>
+          <button class="scn" data-scn="rup" aria-pressed="false">Rupturas y volumen</button>
+          <span class="side-label">Operativa</span>
+          <button class="scn" data-scn="trade" aria-pressed="false">Operar Spring y Upthrust</button>
+          <button class="scn" data-scn="pasos" aria-pressed="false">Método en 4 pasos y errores</button>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="lab-title"></span>
+            <div class="legend" id="lab-legend"></div>
+          </div>
+          <div class="chart"><canvas id="lab-chart" role="img" aria-label="Experimento interactivo del concepto de Wyckoff seleccionado"></canvas></div>
+          <div class="lab-ctl" id="lab-ctl"></div>
+          <div class="caption" id="lab-caption"></div>
+        </div>
+        <div class="aside" id="lab-aside">
+          <div class="card">
+            <h3 class="card-label">Concepto</h3>
+            <p class="note" id="lab-concept" style="color:var(--ink-2)"></p>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Lectura</h3>
+            <div id="lab-read"></div>
+          </div>
+          <div class="verdict" id="lab-verdict" hidden></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  function k(o, h, l, c) { return { o: o, h: h, l: l, c: c }; }
+
+  var TXT = {
+    PS: ['Soporte preliminar', 'Primeras compras institucionales tras la caída: el volumen aumenta.', 'Oferta y demanda'],
+    SC: ['Clímax de venta', 'Venta de pánico con volumen extremo, absorbida por las manos fuertes. Fija el soporte del rango.', 'Esfuerzo vs resultado'],
+    ARa: ['Rally automático', 'Rebote rápido tras el clímax: la oferta se agota. Fija la resistencia del rango.', 'Oferta y demanda'],
+    STa: ['Prueba secundaria', 'Vuelta a la zona del SC con menos volumen: el soporte aguanta.', 'Esfuerzo vs resultado'],
+    Spring: ['Spring', 'Falsa ruptura del soporte que barre stops y revierte con fuerza. Mejor oportunidad de compra.', 'Oferta y demanda'],
+    SOS: ['Salida al Markup', 'Ruptura de la resistencia con volumen creciente: empieza la tendencia alcista.', 'Causa y efecto'],
+    PSY: ['Oferta preliminar', 'Primera venta significativa de las instituciones tras la subida.', 'Oferta y demanda'],
+    BC: ['Clímax de compra', 'Euforia del público con volumen extremo mientras las instituciones venden. Fija la resistencia.', 'Esfuerzo vs resultado'],
+    ARd: ['Reacción automática', 'Caída rápida tras el clímax de compra. Fija el soporte del rango.', 'Oferta y demanda'],
+    STd: ['Prueba secundaria', 'Subida que vuelve a la resistencia del BC con menos volumen.', 'Esfuerzo vs resultado'],
+    UT: ['Upthrust', 'Falsa ruptura de la resistencia que atrapa compradores antes de caer.', 'Oferta y demanda'],
+    SOW: ['Salida al Markdown', 'Ruptura del soporte con volumen: empieza la tendencia bajista.', 'Causa y efecto']
+  };
+  var LAW = {
+    'Oferta y demanda': 'El precio sube si la demanda supera a la oferta y cae en caso contrario.',
+    'Causa y efecto': 'El rango previo (causa) prepara el tamaño de la tendencia (efecto).',
+    'Esfuerzo vs resultado': 'Mucho volumen con poco avance del precio avisa de absorción y posible giro.'
+  };
+
+  /* Acumulación de referencia (60 velas); la distribución es su espejo */
+  function acumBase() {
+    var cs = M.candlesFromPath([[0, 131], [6, 118], [11, 110], [13, 107.5], [16, 101], [17, 97.5], [19, 104], [21, 108.5], [24, 102], [26, 99], [29, 104], [32, 101], [35, 106], [38, 101.5], [41, 105.5], [44, 101], [46, 98], [47, 96], [48, 99.5], [50, 103], [52, 106.5], [54, 110], [56, 107.5], [59, 117]], { seed: 31, noise: .8, wick: 1.2, tick: .25 });
+    cs[12] = k(110.5, 111, 107, 108.5);
+    cs[17] = k(101, 101.5, 96, 97.5);
+    cs[21] = k(106.5, 109, 106, 108.5);
+    cs[22] = k(108.5, 109, 105.75, 106.25);
+    cs[26] = k(101, 101.5, 97, 99);
+    cs[47] = k(98, 98.5, 94.5, 96);
+    cs[48] = k(96, 100, 95.75, 99.5);
+    cs[54] = k(107, 110.5, 106.75, 110);
+    for (var i = 1; i < cs.length; i++) { var o = cs[i - 1].c; if (Math.abs(cs[i].o - o) > 1.5) cs[i].o = o; cs[i].h = Math.max(cs[i].h, cs[i].o, cs[i].c); cs[i].l = Math.min(cs[i].l, cs[i].o, cs[i].c); }
+    var r = M.rng(7);
+    cs.forEach(function (c, i) {
+      var v = 900 + r() * 400;
+      if (i >= 44 && i <= 46) v *= 0.7;
+      if (i > 54) v *= c.c > c.o ? 1.5 : 0.8;
+      c.v = Math.round(v);
+    });
+    var spikes = { 12: 1.9, 17: 3.2, 21: 1.6, 26: 1.05, 47: 1.35, 48: 1.6, 54: 2.3 };
+    Object.keys(spikes).forEach(function (i) { cs[i].v = Math.round(1000 * spikes[i]); });
+    return cs;
+  }
+  function mirror(cs) { return cs.map(function (c) { return { o: 200 - c.o, h: 200 - c.l, l: 200 - c.h, c: 200 - c.c, v: c.v }; }); }
+
+  function cicloBase() {
+    var cs = M.candlesFromPath([[0, 122], [6, 106], [8, 100], [11, 108], [15, 102], [19, 107], [23, 101.5], [26, 98.5], [27, 103], [31, 110], [38, 124], [44, 138], [48, 147], [51, 139], [55, 145], [59, 139.5], [63, 145.5], [66, 149], [67, 143], [71, 138], [76, 124], [82, 112], [88, 104]], { seed: 44, noise: .9, wick: 1.3, tick: .25 });
+    var r = M.rng(9);
+    cs.forEach(function (c, i) {
+      var v = 900 + r() * 400;
+      if ((i > 27 && i < 47) && c.c > c.o) v *= 1.5;
+      if ((i > 27 && i < 47) && c.c <= c.o) v *= 0.75;
+      if (i > 67 && c.c < c.o) v *= 1.6;
+      c.v = Math.round(v);
+    });
+    [[8, 3], [26, 1.4], [48, 3], [66, 1.5], [70, 2]].forEach(function (s) { cs[s[0]].v = Math.round(1000 * s[1]); });
+    return cs;
+  }
+
+  var SC = {
+    acum: { title: 'Acumulación y Spring', data: acumBase(), start: 48,
+      events: [[12, 'PS', 1], [17, 'SC', 1], [21, 'ARa', 1], [26, 'STa', 1], [47, 'Spring', 1], [54, 'SOS', 1]],
+      phases: [[0, 11, 'Tendencia bajista', 'down'], [12, 53, 'Fase 1 · Acumulación', 'info'], [54, 59, 'Fase 2 · Markup', 'up']],
+      support: function (d) { return d[17].l; }, resist: function (d) { return d[21].h; },
+      trade: { at: 48, dir: 'L', ext: 47 } },
+    dist: { title: 'Distribución y Upthrust', start: 48,
+      events: [[12, 'PSY', 0], [17, 'BC', 0], [21, 'ARd', 0], [26, 'STd', 0], [47, 'UT', 0], [54, 'SOW', 0]],
+      phases: [[0, 11, 'Tendencia alcista', 'up'], [12, 53, 'Fase 3 · Distribución', 'warn'], [54, 59, 'Fase 4 · Markdown', 'down']],
+      support: function (d) { return d[21].l; }, resist: function (d) { return d[17].h; },
+      trade: { at: 48, dir: 'S', ext: 47 } },
+    ciclo: { title: 'Ciclo completo', data: cicloBase(), start: 88,
+      events: [[8, 'SC', 1], [26, 'Spring', 1], [48, 'BC', 0], [66, 'UT', 0]],
+      phases: [[0, 26, 'Fase 1 · Acumulación', 'info'], [27, 47, 'Fase 2 · Markup', 'up'], [48, 67, 'Fase 3 · Distribución', 'warn'], [68, 88, 'Fase 4 · Markdown', 'down']],
+      support: null, resist: null, trade: null }
+  };
+  SC.dist.data = mirror(SC.acum.data);
+
+  var key = 'acum', idx = 48;
+  var COL = { up: C.lime, down: C.red, info: C.blue, warn: C.amber };
+  var SOFT = { up: 'rgba(155,226,45,.05)', down: 'rgba(242,86,91,.05)', info: 'rgba(127,176,255,.06)', warn: 'rgba(242,184,75,.06)' };
+
+  function evAt(i) { return SC[key].events.filter(function (e) { return e[0] === i; })[0]; }
+  function lastEv() { var e = null; SC[key].events.forEach(function (x) { if (x[0] <= idx) e = x; }); return e; }
+  function plan() {
+    var s = SC[key], t = s.trade; if (!t) return null;
+    var d = s.data, L = t.dir === 'L', entry = d[t.at].c, stop = L ? d[t.ext].l - .25 : d[t.ext].h + .25;
+    var R = Math.abs(entry - stop), rangeT = L ? s.resist(d) : s.support(d);
+    return { L: L, entry: entry, stop: stop, tp: rangeT, tp2: entry + (L ? 2 : -2) * R, rr: Math.abs(rangeT - entry) / R };
+  }
+
+  var stage = M.canvasStage($('wy-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h, s = SC[key], d = s.data, n = d.length;
+    var showVol = $('wy-vol').checked;
+    var area = { l: 12, r: w - 60, t: 26, b: h - (showVol ? h * 0.22 : 22) };
+    var lo = Math.min.apply(null, d.map(function (c) { return c.l; })) - 2, hi = Math.max.apply(null, d.map(function (c) { return c.h; })) + 2;
+    var y = M.scale(lo, hi, area.b, area.t), cw = (area.r - area.l) / n, x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 6));
+    if ($('wy-phase').checked) {
+      s.phases.forEach(function (p) {
+        if (p[0] > idx) return;
+        var x0 = x(p[0]) - cw / 2, x1 = x(Math.min(p[1], idx)) + cw / 2;
+        ctx.fillStyle = SOFT[p[3]]; ctx.fillRect(x0, area.t - 18, x1 - x0, (showVol ? h - 4 : area.b) - area.t + 18);
+        ctx.fillStyle = COL[p[3]]; ctx.font = '600 10.5px "JetBrains Mono", monospace';
+        ctx.save(); ctx.beginPath(); ctx.rect(x0, 0, x1 - x0, area.t); ctx.clip(); ctx.fillText(p[2].toUpperCase(), x0 + 5, area.t - 6); ctx.restore();
+      });
+    }
+    if ($('wy-range').checked && s.support && idx >= 21) {
+      var from = x(12) - cw / 2;
+      [[s.resist(d), key === 'acum' ? 'Resistencia (AR)' : 'Resistencia (BC)'], [s.support(d), key === 'acum' ? 'Soporte (SC)' : 'Soporte (AR)']].forEach(function (lv) {
+        ctx.strokeStyle = C.blue; ctx.setLineDash([5, 4]); ctx.beginPath(); ctx.moveTo(from, y(lv[0])); ctx.lineTo(area.r, y(lv[0])); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = C.blue; ctx.font = '600 10.5px "JetBrains Mono", monospace'; ctx.fillText(lv[1] + ' ' + M.fmt(lv[0], 2), from + 4, y(lv[0]) - 5);
+      });
+    }
+    M.drawCandles(ctx, d.slice(0, idx + 1), x, y, cw);
+    s.events.forEach(function (e) {
+      if (e[0] > idx) return;
+      var c = d[e[0]], bull = e[2] === 1, lowSide = (key === 'acum' || (key === 'ciclo' && bull)) ? ['PS', 'SC', 'STa', 'Spring'].indexOf(e[1]) >= 0 : ['ARd', 'UT', 'SOW'].indexOf(e[1]) < 0 && ['PSY', 'BC', 'STd', 'UT'].indexOf(e[1]) < 0;
+      if (key === 'dist') lowSide = ['ARd', 'SOW'].indexOf(e[1]) >= 0;
+      if (key === 'ciclo') lowSide = ['SC', 'Spring'].indexOf(e[1]) >= 0;
+      if (key === 'acum') lowSide = ['PS', 'SC', 'STa', 'Spring'].indexOf(e[1]) >= 0;
+      var label = e[1].replace(/[ad]$/, '').replace('ARa', 'AR');
+      M.marker(ctx, x(e[0]), lowSide ? y(c.l) + 12 : y(c.h) - 12, bull ? C.lime : C.red, label, lowSide);
+    });
+    var p = plan();
+    if (p && idx >= SC[key].trade.at) {
+      var f = x(SC[key].trade.at) - cw / 2;
+      [[p.tp, C.lime, 'Objetivo'], [p.entry, C.ink, 'Entrada'], [p.stop, C.red, 'Stop']].forEach(function (l) {
+        ctx.strokeStyle = l[1]; ctx.setLineDash(l[2] === 'Entrada' ? [] : [6, 3]); ctx.beginPath(); ctx.moveTo(f, y(l[0])); ctx.lineTo(area.r, y(l[0])); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = l[1]; ctx.font = '600 10.5px "JetBrains Mono", monospace'; ctx.fillText(l[2], area.r - 60, y(l[0]) + (l[2] === 'Stop' ? 13 : -4));
+      });
+    }
+    if (showVol) {
+      var vt = area.b + 18, vb = h - 6, vmax = Math.max.apply(null, d.map(function (c) { return c.v; }));
+      ctx.fillStyle = C.axis; ctx.font = '10.5px "JetBrains Mono", monospace'; ctx.fillText('volumen', area.r + 6, vt + 8);
+      d.slice(0, idx + 1).forEach(function (c, i) {
+        var bh = (vb - vt) * c.v / vmax, isEv = !!evAt(i);
+        ctx.fillStyle = isEv ? C.ink : (c.c >= c.o ? 'rgba(155,226,45,.45)' : 'rgba(242,86,91,.45)');
+        ctx.fillRect(x(i) - Math.max(1, cw * .3), vb - bh, Math.max(2, cw * .6), bh);
+      });
+    }
+  });
+
+  function row(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', wait: '·' })[st] + '</i><span>' + t + '</span></div>'; }
+  function panel() {
+    var s = SC[key], d = s.data, e = lastEv(), c = d[idx];
+    if (e) {
+      var t = TXT[e[1]];
+      $('wy-event').innerHTML = '<div class="kv"><span>' + e[1].replace(/[ad]$/, '').replace('ARa', 'AR') + '</span><span class="' + (e[2] ? 'up' : 'down') + '">' + t[0] + '</span></div><p class="note" style="margin-top:6px;color:var(--ink-2)">' + t[1] + '</p><div class="kv"><span>Ley</span><span>' + t[2] + '</span></div><p class="note">' + LAW[t[2]] + '</p>';
+    } else $('wy-event').innerHTML = '<p class="note">Aún no hay eventos: el precio está en tendencia.</p>';
+    var from = Math.max(0, idx - 20), avgV = 0, avgR = 0;
+    for (var i = from; i < idx; i++) { avgV += d[i].v; avgR += d[i].h - d[i].l; }
+    var cnt = Math.max(1, idx - from); avgV /= cnt; avgR /= cnt;
+    var ev = c.v / avgV, rs = (c.h - c.l) / (avgR || 1), body = Math.abs(c.c - c.o) / ((c.h - c.l) || 1);
+    var read = ev >= 1.5 && body < 0.5 ? ['warn-t', 'Divergencia: mucho esfuerzo, poco resultado (absorción)'] : ev >= 1.5 ? ['up', 'Convergencia: el volumen respalda el movimiento'] : ev < 0.8 && rs > 1 ? ['warn-t', 'Movimiento sin volumen: sospechoso'] : ['', 'Actividad normal'];
+    $('wy-effort').innerHTML = '<div class="kv"><span>Volumen vs media 20</span><span>×' + M.fmt(ev, 2) + '</span></div><div class="kv"><span>Rango vs media 20</span><span>×' + M.fmt(rs, 2) + '</span></div><div class="kv"><span>Cuerpo de la vela</span><span>' + M.fmt(body * 100, 0) + '%</span></div><p class="note ' + read[0] + '" style="margin-top:4px">' + read[1] + '</p>';
+    $('wy-list').innerHTML = s.events.map(function (x) { return row(x[0] <= idx ? 'ok' : 'wait', '<b>' + x[1].replace(/[ad]$/, '').replace('ARa', 'AR') + '</b> · ' + TXT[x[1]][0]); }).join('');
+    var p = plan(), pv = $('wy-plan');
+    if (p && idx >= s.trade.at) {
+      pv.hidden = false; pv.className = 'verdict ' + (p.L ? 'ok' : 'no');
+      pv.innerHTML = '<strong>' + (p.L ? 'Largo tras el Spring' : 'Corto tras el Upthrust') + '</strong>Entrada ' + M.fmt(p.entry, 2) + ' (cierre de vuelta dentro del rango) · stop ' + M.fmt(p.stop, 2) + ' · objetivo ' + (p.L ? 'techo' : 'suelo') + ' del rango ' + M.fmt(p.tp, 2) + ' (' + M.fmt(p.rr, 2) + 'R) o 1:2 en ' + M.fmt(p.tp2, 2) + '.';
+    } else pv.hidden = true;
+    var ph = null; s.phases.forEach(function (q) { if (idx >= q[0] && idx <= q[1]) ph = q; });
+    var cap = e && e[0] === idx ? TXT[e[1]][1] : ph ? (ph[2] + ': ' + ({ 'Fase 1 · Acumulación': 'el precio lateraliza mientras las manos fuertes compran.', 'Fase 2 · Markup': 'máximos y mínimos más altos; el volumen crece en los impulsos.', 'Fase 3 · Distribución': 'el precio lateraliza mientras las manos fuertes venden.', 'Fase 4 · Markdown': 'mínimos y máximos más bajos; el pánico acelera la caída.', 'Tendencia bajista': 'la oferta domina; se espera el primer soporte.', 'Tendencia alcista': 'la demanda domina; se espera la primera oferta.' })[ph[2]]) : '';
+    $('wy-caption').innerHTML = '<b>Vela ' + (idx + 1) + '</b>' + cap;
+    $('wy-title').textContent = 'Diario · ' + s.title;
+  }
+
+  var rp = M.replay($('wy-replay'), SC[key].data.length, 48, function (v) {
+    idx = v;
+    document.querySelector('#wy-replay [data-label]').textContent = 'Vela ' + (v + 1) + ' / ' + SC[key].data.length;
+    stage.redraw(); panel();
+  });
+  M.scenarios($('wy-side'), function (k2) { key = k2; rp.reset(SC[k2].data.length, SC[k2].start); });
+  ['wy-range', 'wy-phase', 'wy-vol'].forEach(function (id) { $(id).addEventListener('change', function () { stage.redraw(); }); });
+
+  /* ================= Laboratorio de conceptos ================= */
+  var MONO = '10.5px "JetBrains Mono", monospace', MONOB = '600 10.5px "JetBrains Mono", monospace';
+  function txt(ctx, s, px, py, col, align, bold) { ctx.save(); ctx.font = bold ? MONOB : MONO; ctx.fillStyle = col; ctx.textAlign = align || 'left'; ctx.fillText(s, px, py); ctx.restore(); }
+  function seg(ctx, x0, x1, py, col, dash) { ctx.save(); ctx.strokeStyle = col; if (dash) ctx.setLineDash(dash); ctx.beginPath(); ctx.moveTo(x0, py); ctx.lineTo(x1, py); ctx.stroke(); ctx.restore(); }
+  function mirrorAt(cs, m) { return cs.map(function (c) { return { o: m - c.o, h: m - c.l, l: m - c.h, c: m - c.c, v: c.v }; }); }
+  function vols(cs, seed, base) { var r = M.rng(seed); cs.forEach(function (c) { c.v = Math.round((base || 900) + r() * 400); }); return cs; }
+  /* velas + volumen en un área común; devuelve las escalas */
+  function priceChart(ctx, w, h, d, n, opt) {
+    opt = opt || {};
+    var volH = opt.vol ? h * 0.2 : 0;
+    var area = { l: 12, r: w - 58, t: opt.top || 24, b: h - volH - (opt.vol ? 16 : 22) };
+    var lo = opt.lo, hi = opt.hi;
+    if (lo === undefined) { lo = Math.min.apply(null, d.map(function (c) { return c.l; })) - 1.5; hi = Math.max.apply(null, d.map(function (c) { return c.h; })) + 1.5; }
+    var y = M.scale(lo, hi, area.b, area.t), cw = (area.r - area.l) / n, x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 5));
+    if (opt.under) opt.under(area, x, y, cw);
+    M.drawCandles(ctx, d, x, y, cw, opt.candles);
+    if (opt.vol) {
+      var vt = area.b + 20, vb = h - 6, vmax = opt.vmax || Math.max.apply(null, d.map(function (c) { return c.v; }));
+      txt(ctx, 'volumen', area.r + 6, vt + 8, C.axis);
+      d.forEach(function (c, i) {
+        var bh = (vb - vt) * Math.min(1, c.v / vmax), hl = opt.hlVol && opt.hlVol(i);
+        ctx.fillStyle = hl ? C.ink : (c.c >= c.o ? 'rgba(155,226,45,.45)' : 'rgba(242,86,91,.45)');
+        ctx.fillRect(x(i) - Math.max(1, cw * .3), vb - bh, Math.max(2, cw * .6), bh);
+      });
+    }
+    return { area: area, x: x, y: y, cw: cw };
+  }
+  function simTrade(d, t) {
+    var L = t.dir === 'L', R = Math.abs(t.e - t.stop);
+    for (var i = t.at + 1; i < d.length; i++) {
+      var c = d[i];
+      if (L ? c.l <= t.stop : c.h >= t.stop) return { i: i, r: -1, px: t.stop };
+      if (L ? c.h >= t.tp : c.l <= t.tp) return { i: i, r: Math.abs(t.tp - t.e) / R, px: t.tp };
+    }
+    var last = d[d.length - 1].c;
+    return { i: d.length - 1, r: (L ? last - t.e : t.e - last) / R, px: last, open: true };
+  }
+  function drawTrade(ctx, g, t, res) {
+    var x0 = g.x(t.at), x1 = g.x(res.i), L = t.dir === 'L';
+    ctx.save();
+    ctx.fillStyle = res.r > 0 ? 'rgba(155,226,45,.10)' : 'rgba(242,86,91,.10)';
+    ctx.fillRect(x0, Math.min(g.y(t.e), g.y(t.tp)), x1 - x0, Math.abs(g.y(t.tp) - g.y(t.e)));
+    ctx.restore();
+    seg(ctx, x0, x1, g.y(t.tp), C.lime, [5, 3]); seg(ctx, x0, x1, g.y(t.stop), C.red, [5, 3]); seg(ctx, x0, x1, g.y(t.e), C.ink);
+    M.marker(ctx, x0, g.y(t.e), L ? C.lime : C.red, t.label || (L ? 'L' : 'C'), !L);
+    ctx.save(); ctx.font = '700 13px "JetBrains Mono", monospace'; ctx.textAlign = 'center';
+    ctx.fillStyle = res.open ? C.amber : res.r > 0 ? C.lime : C.red;
+    ctx.fillText(res.open ? '…' : res.r > 0 ? '✓' : '✗', x1 + 8, g.y(res.px) + 4); ctx.restore();
+  }
+  function rowL(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', wait: '·', no: '✗', warn: '!' })[st] + '</i><span>' + t + '</span></div>'; }
+  function kv(a, b, cls) { return '<div class="kv"><span>' + a + '</span><span' + (cls ? ' class="' + cls + '"' : '') + '>' + b + '</span></div>'; }
+  function leg(items) { return items.map(function (it) { return '<span><i style="background:' + it[0] + '"></i>' + it[1] + '</span>'; }).join(''); }
+  function f2(v) { return M.fmt(v, 2); }
+
+  /* --- datos fijos de los módulos --- */
+  var ACUM = SC.acum.data, CICLO = SC.ciclo.data;
+  function rangeCandles(n, seed, endP) {
+    var pts = [[0, 105]], r = M.rng(seed), up = true;
+    for (var i = 3; i < n; i += 3 + Math.floor(r() * 3)) { pts.push([i, up ? 108.5 - r() * 1.5 : 101.5 + r() * 1.5]); up = !up; }
+    if (pts[pts.length - 1][0] >= n - 3) pts.pop();
+    pts.push([n - 1, endP || 104]);
+    var cs = M.candlesFromPath(pts, { seed: seed, noise: .7, wick: .9, tick: .25 });
+    cs.forEach(function (c) { c.h = Math.min(c.h, 109.75); c.l = Math.max(c.l, 100.25); c.o = M.clamp(c.o, c.l, c.h); c.c = M.clamp(c.c, c.l, c.h); });
+    return vols(cs, seed + 1);
+  }
+  var RUP_BASE = rangeCandles(30, 21), TR_BASE = rangeCandles(26, 12, 101.75);
+  var INV = CICLO.map(function (c, i) {
+    if (i <= 26) return 10 + 80 * i / 26;
+    if (i <= 47) return 90;
+    if (i <= 67) return 90 - 80 * (i - 47) / 20;
+    return 10;
+  });
+  var PH4 = SC.ciclo.phases;
+
+  var MODS = {
+    oyd: {
+      title: 'Ley 1 · Oferta y demanda', tag: 'Ley 1',
+      concept: 'El precio solo se mueve por el desequilibrio entre compradores y vendedores. Si la demanda supera a la oferta, sube; si la oferta supera a la demanda, cae; si se equilibran, lateraliza. Precio y volumen revelan quién tiene el control.',
+      legend: [[C.lime, 'Demanda'], [C.red, 'Oferta']],
+      ctl: [{ t: 'range', id: 'D', label: 'Demanda (compradores)', min: 0, max: 100, step: 1, val: 65 }, { t: 'range', id: 'S', label: 'Oferta (vendedores)', min: 0, max: 100, step: 1, val: 40 }],
+      data: function (v) {
+        var r = M.rng(5), p = 100, out = [], diff = (v.D - v.S) / 100, bal = M.clamp(1 - (Math.abs(v.D - v.S) - 6) / 10, 0, 1);
+        for (var i = 0; i < 60; i++) {
+          var o = p, c = o + diff * 1.3 + (r() - .5) * 1.6 - (o - 100) * 0.15 * bal;
+          out.push({ o: o, c: c, h: Math.max(o, c) + r() * .8, l: Math.min(o, c) - r() * .8, v: Math.round((v.D + v.S + 20) * 10 * (.7 + r() * .6)) });
+          p = c;
+        }
+        return out;
+      },
+      draw: function (ctx, w, h, v) {
+        var d = this.data(v), lo = Math.min.apply(null, d.map(function (c) { return c.l; })), hi = Math.max.apply(null, d.map(function (c) { return c.h; }));
+        var mid = (lo + hi) / 2, half = Math.max(8, (hi - lo) / 2 + 1.5);
+        var g = priceChart(ctx, w, h, d, 60, { vol: true, vmax: 2400, lo: mid - half, hi: mid + half, top: 36 });
+        var tot = (v.D + v.S) || 1, bw = g.area.r - g.area.l, sx = g.area.l + bw * v.D / tot;
+        ctx.fillStyle = 'rgba(155,226,45,.55)'; ctx.fillRect(g.area.l, 8, sx - g.area.l, 8);
+        ctx.fillStyle = 'rgba(242,86,91,.55)'; ctx.fillRect(sx, 8, g.area.r - sx, 8);
+        txt(ctx, 'DEMANDA ' + v.D, g.area.l, 29, C.lime, 'left', true); txt(ctx, 'OFERTA ' + v.S, g.area.r, 29, C.red, 'right', true);
+      },
+      read: function (v) {
+        var diff = v.D - v.S, bal = Math.abs(diff) < 12;
+        return {
+          html: kv('Demanda', v.D) + kv('Oferta', v.S) + kv('Desequilibrio', M.fmtSigned(diff, 0), diff > 0 ? 'up' : diff < 0 ? 'down' : '') + kv('Participación (volumen)', v.D + v.S) +
+            '<p class="note" style="margin-top:6px">El volumen mide cuánta gente participa, no quién gana: eso lo dice la dirección del precio.</p>',
+          verdict: bal ? ['warn', 'Equilibrio: rango lateral', 'Nadie controla el precio. Es el terreno donde el Operador Compuesto acumula (tras una caída) o distribuye (tras una subida).'] :
+            diff > 0 ? ['ok', 'La demanda manda: tendencia alcista', 'Máximos y mínimos más altos: es la fase de markup.'] : ['no', 'La oferta manda: tendencia bajista', 'Mínimos y máximos más bajos: es la fase de markdown.'],
+          caption: 'Iguala las dos fuerzas y el precio se queda en rango; desequilíbralas y aparece la tendencia.'
+        };
+      }
+    },
+    cye: {
+      title: 'Ley 2 · Causa y efecto', tag: 'Ley 2',
+      concept: 'Los grandes movimientos (efecto) nacen de periodos de preparación (causa): los rangos. Cuanto más larga y amplia es la causa, mayor es el efecto que puede generar.',
+      legend: [[C.blue, 'Causa (rango)'], [C.lime, 'Efecto (tendencia)']],
+      ctl: [{ t: 'range', id: 'N', label: 'Duración del rango (velas)', min: 10, max: 50, step: 2, val: 24 }, { t: 'range', id: 'W', label: 'Anchura del rango (puntos)', min: 4, max: 12, step: 1, val: 8 }],
+      eff: function (v) { return v.W * v.N / 10; },
+      draw: function (ctx, w, h, v) {
+        var W = v.W, N = v.N, res = 100 + W, tgt = res + this.eff(v), s0 = 8, s1 = s0 + N, end = s1 + 18;
+        var pts = [[0, res + 12], [s0, 100.5]], up = true;
+        for (var i = s0 + 4; i < s1 - 4; i += 5) { pts.push([i, up ? res - .75 : 100.75]); up = !up; }
+        pts.push([s1 - 3, 100.5], [s1 - 2, 99.5], [s1, res + .5], [end, tgt]);
+        var d = M.candlesFromPath(pts, { seed: 3, noise: .45, wick: .6, tick: .25 });
+        var g = priceChart(ctx, w, h, d, end + 5, {
+          lo: 97, hi: tgt + 3, top: 20,
+          under: function (a, x, y, cw) {
+            ctx.fillStyle = C.blueSoft; ctx.fillRect(x(s0) - cw / 2, y(res), x(s1 - 1) - x(s0) + cw, y(100) - y(res));
+            seg(ctx, x(s0) - cw / 2, a.r, y(res), C.blue, [5, 4]); seg(ctx, x(s0) - cw / 2, x(s1), y(100), C.blue, [5, 4]);
+            seg(ctx, x(s1), a.r, y(tgt), C.lime, [6, 3]);
+          }
+        });
+        var bx0 = g.x(s0) - g.cw / 2, bx1 = g.x(s1 - 1) + g.cw / 2, by = g.y(100) + 14;
+        seg(ctx, bx0, bx1, by, C.blue); seg(ctx, bx0, bx0, by - 5, C.blue); seg(ctx, bx1, bx1, by - 5, C.blue);
+        txt(ctx, 'CAUSA · ' + N + ' velas × ' + W + ' pts', (bx0 + bx1) / 2, by + 14, C.blue, 'center', true);
+        var ax = g.x(end + 2);
+        ctx.save(); ctx.strokeStyle = C.lime; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(ax, g.y(res)); ctx.lineTo(ax, g.y(tgt)); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(ax - 5, g.y(tgt) + 8); ctx.lineTo(ax, g.y(tgt)); ctx.lineTo(ax + 5, g.y(tgt) + 8); ctx.stroke(); ctx.restore();
+        txt(ctx, 'EFECTO +' + M.fmt(this.eff(v), 1), ax - 8, (g.y(res) + g.y(tgt)) / 2, C.lime, 'right', true);
+      },
+      read: function (v) {
+        var e = this.eff(v), big = v.N * v.W >= 240;
+        return {
+          html: kv('Causa: duración', v.N + ' velas') + kv('Causa: anchura', v.W + ' pts') + kv('Efecto proyectado', '+' + M.fmt(e, 1) + ' pts', 'up') + kv('Objetivo', M.fmt(100 + v.W + e, 1)) +
+            '<p class="note" style="margin-top:6px">La proporción (anchura × duración / 10) es ilustrativa. Wyckoff medía la causa con el recuento horizontal del gráfico de punto y figura.</p>',
+          verdict: big ? ['ok', 'Causa grande: efecto amplio', 'Un rango largo y ancho acumula mucho inventario: prepara una tendencia de recorrido largo.'] : ['warn', 'Causa pequeña: efecto limitado', 'Un rango corto prepara un movimiento modesto. No esperes una gran tendencia de una causa pequeña.'],
+          caption: 'Alarga o ensancha el rango y mira cómo crece la tendencia que prepara.'
+        };
+      }
+    },
+    eyr: {
+      title: 'Ley 3 · Esfuerzo vs resultado', tag: 'Ley 3',
+      concept: 'El volumen es el esfuerzo y el avance del precio, el resultado. Si convergen, el movimiento es genuino y la tendencia sigue; si divergen, avisan de una posible reversión. Dónde ocurre (soporte o resistencia) dice quién está absorbiendo.',
+      legend: [[C.lime, 'Convergencia'], [C.amber, 'Divergencia']],
+      ctl: [{ t: 'range', id: 'E', label: 'Esfuerzo: volumen vs media (×)', min: .3, max: 3, step: .05, val: 2.4, dec: 2 }, { t: 'range', id: 'R', label: 'Resultado: avance vs media (×)', min: .3, max: 3, step: .05, val: .6, dec: 2 },
+        { t: 'seg', id: 'loc', label: 'Dónde ocurre', opts: [['sop', 'Soporte'], ['res', 'Resistencia'], ['tend', 'Tendencia']], val: 'sop' }],
+      cls: function (v) {
+        var hiE = v.E >= 1, hiR = v.R >= 1;
+        if (hiE && hiR) return ['ok', 'Convergencia: movimiento genuino', 'El volumen respalda el avance: la tendencia tiene gasolina para seguir.'];
+        if (hiE && !hiR) return v.loc === 'sop' ? ['ok', 'Absorción alcista', 'Mucha venta y el precio no cae: las manos fuertes compran todo lo que se vende en el soporte. Aviso de giro al alza.'] :
+          v.loc === 'res' ? ['no', 'Distribución bajista', 'Mucha compra y el precio no sube: las manos fuertes venden a todo el que compra en la resistencia. Aviso de giro a la baja.'] :
+          ['warn', 'Divergencia: la tendencia se agota', 'Mucho esfuerzo con poco avance: alguien frena el movimiento. Posible reversión.'];
+        if (!hiE && hiR) return ['warn', 'Resultado sin esfuerzo: sospechoso', 'Gran avance con poco volumen: no hay respaldo institucional. Si es una ruptura, lo más probable es que sea falsa.'];
+        return v.loc === 'sop' ? ['ok', 'Falta de oferta: prueba superada', 'El precio vuelve al soporte con poco volumen y poco recorrido: ya no quedan vendedores (como en la prueba secundaria, ST).'] :
+          ['warn', 'Falta de interés', 'Poco volumen y poco avance: nadie empuja. Mejor esperar.'];
+      },
+      geo: function (w, h) { var qw = Math.min(w * .62, w - 150); return { l: 44, r: qw, t: 16, b: h - 34, px: qw + 24 }; },
+      draw: function (ctx, w, h, v) {
+        var q = this.geo(w, h), X = M.scale(.3, 3, q.l, q.r), Y = M.scale(.3, 3, q.b, q.t), mx = X(1), my = Y(1), k = this.cls(v)[0];
+        [[q.l, my, mx, q.b, 'rgba(255,255,255,.02)', 'FALTA DE INTERÉS'], [mx, my, q.r, q.b, 'rgba(242,184,75,.08)', 'DIVERGENCIA'], [q.l, q.t, mx, my, 'rgba(242,184,75,.05)', 'SIN RESPALDO'], [mx, q.t, q.r, my, 'rgba(155,226,45,.08)', 'CONVERGENCIA']].forEach(function (z) {
+          ctx.fillStyle = z[4]; ctx.fillRect(z[0], z[1], z[2] - z[0], z[3] - z[1]);
+          txt(ctx, z[5], (z[0] + z[2]) / 2, (z[1] + z[3]) / 2, z[5] === 'CONVERGENCIA' ? C.lime : z[5] === 'FALTA DE INTERÉS' ? C.axis : C.amber, 'center', true);
+        });
+        ctx.strokeStyle = C.axis; ctx.strokeRect(q.l, q.t, q.r - q.l, q.b - q.t);
+        seg(ctx, mx, mx, q.t, C.axis, [3, 3]); ctx.save(); ctx.strokeStyle = C.axis; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(mx, q.t); ctx.lineTo(mx, q.b); ctx.stroke(); ctx.restore();
+        seg(ctx, q.l, q.r, my, C.axis, [3, 3]);
+        txt(ctx, 'ESFUERZO (volumen) →', q.r, q.b + 22, C.axis, 'right'); txt(ctx, '1×', mx, q.b + 12, C.axis, 'center');
+        ctx.save(); ctx.translate(q.l - 14, q.b); ctx.rotate(-Math.PI / 2); txt(ctx, 'RESULTADO (precio) →', 0, 0, C.axis); ctx.restore();
+        var col = k === 'ok' && v.E >= 1 && v.R >= 1 ? C.lime : k === 'ok' ? C.lime : k === 'no' ? C.red : C.amber;
+        ctx.save(); ctx.fillStyle = col; ctx.shadowColor = col; ctx.shadowBlur = 10; ctx.beginPath(); ctx.arc(X(v.E), Y(v.R), 7, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+        /* vela media frente a vela actual */
+        var bear = v.loc === 'sop', px = q.px, pw = w - px - 10, cy = M.scale(0, 3.4, q.b - 60, q.t + 10), base = 1.7;
+        txt(ctx, 'MEDIA', px + pw * .25, q.t + 4, C.axis, 'center'); txt(ctx, 'ACTUAL', px + pw * .72, q.t + 4, C.ink, 'center');
+        function cand(cx, r, color) {
+          var o = bear ? base + r / 2 : base - r / 2, c = bear ? base - r / 2 : base + r / 2;
+          ctx.strokeStyle = color; ctx.beginPath(); ctx.moveTo(cx, cy(Math.max(o, c) + .25)); ctx.lineTo(cx, cy(Math.min(o, c) - .25)); ctx.stroke();
+          ctx.fillStyle = color; ctx.fillRect(cx - 9, cy(Math.max(o, c)), 18, Math.max(1.5, cy(Math.min(o, c)) - cy(Math.max(o, c))));
+        }
+        cand(px + pw * .25, 1, C.ink2); cand(px + pw * .72, v.R, bear ? C.red : C.lime);
+        var vb = q.b, vt = q.b - 52, vmax = 3;
+        ctx.fillStyle = 'rgba(166,172,179,.5)'; ctx.fillRect(px + pw * .25 - 9, vb - (vb - vt) / vmax, 18, (vb - vt) / vmax);
+        ctx.fillStyle = C.ink; ctx.fillRect(px + pw * .72 - 9, vb - (vb - vt) * v.E / vmax, 18, (vb - vt) * v.E / vmax);
+        txt(ctx, 'volumen', px + pw / 2, vb + 12, C.axis, 'center');
+      },
+      pick: function (w, h, px, py, v) { var q = this.geo(w, h); if (px < q.l || px > q.r || py < q.t || py > q.b) return false; v.E = Math.round(M.scale(q.l, q.r, .3, 3)(px) * 20) / 20; v.R = Math.round(M.scale(q.b, q.t, .3, 3)(py) * 20) / 20; return true; },
+      read: function (v) {
+        var c = this.cls(v);
+        return { html: kv('Esfuerzo (volumen)', '×' + f2(v.E)) + kv('Resultado (avance)', '×' + f2(v.R)) + kv('Ubicación', { sop: 'Soporte', res: 'Resistencia', tend: 'En tendencia' }[v.loc]), verdict: c,
+          caption: 'Arrastra el punto por el mapa (o usa los controles) y cambia la ubicación: el mismo volumen se lee distinto en un soporte que en una resistencia.' };
+      }
+    },
+    oc: {
+      title: 'Ciclo de mercado y Operador Compuesto', tag: 'Ciclo',
+      concept: 'El Operador Compuesto es la metáfora de Wyckoff para la acción conjunta de las grandes instituciones: acumulan abajo, cuando el público vende con miedo, y distribuyen arriba, cuando el público compra con euforia. La idea es operar en su misma dirección.',
+      legend: [[C.lime, 'Inventario del OC'], [C.amber, 'Inventario del público']],
+      ctl: [{ t: 'range', id: 't', label: 'Vela del ciclo', min: 0, max: 88, step: 1, val: 20, fmt: function (x) { return (x + 1) + ' / 89'; } },
+        { t: 'seg', id: 'ph', label: 'Ir a la fase', opts: [['0', 'F1'], ['1', 'F2'], ['2', 'F3'], ['3', 'F4']], val: '', jump: true }],
+      phase: function (t) { for (var i = 0; i < 4; i++) if (t <= PH4[i][1]) return i; return 3; },
+      draw: function (ctx, w, h, v) {
+        var t = v.t, split = h * .64, COLS = [C.blue, C.lime, C.amber, C.red], SOFTS = ['rgba(127,176,255,.06)', 'rgba(155,226,45,.05)', 'rgba(242,184,75,.06)', 'rgba(242,86,91,.05)'];
+        var g = priceChart(ctx, w, split, CICLO.slice(0, t + 1), 89, {
+          lo: 95, hi: 152, top: 24,
+          under: function (a, x, y, cw) {
+            PH4.forEach(function (p, i) {
+              if (p[0] > t) return;
+              var x0 = x(p[0]) - cw / 2, x1 = x(Math.min(p[1], t)) + cw / 2;
+              ctx.fillStyle = SOFTS[i]; ctx.fillRect(x0, 4, x1 - x0, h - 8);
+              ctx.save(); ctx.beginPath(); ctx.rect(x0, 0, x1 - x0, 24); ctx.clip(); txt(ctx, p[2].replace('Fase ', 'F').toUpperCase(), x0 + 4, 16, COLS[i], 'left', true); ctx.restore();
+            });
+          }
+        });
+        var y2 = M.scale(0, 100, h - 10, split + 14);
+        txt(ctx, '100%', g.area.r + 6, y2(100) + 4, C.axis); txt(ctx, '0%', g.area.r + 6, y2(0) + 4, C.axis);
+        seg(ctx, g.area.l, g.area.r, y2(50), C.grid);
+        [[function (i) { return INV[i]; }, C.lime], [function (i) { return 100 - INV[i]; }, C.amber]].forEach(function (s) {
+          ctx.save(); ctx.strokeStyle = s[1]; ctx.lineWidth = 2; ctx.beginPath();
+          for (var i = 0; i <= t; i++) { var px = g.x(i), py = y2(s[0](i)); if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py); }
+          ctx.stroke(); ctx.restore();
+        });
+        var lx = t > 60 ? g.x(t) - 6 : g.x(t) + 6, la = t > 60 ? 'right' : 'left', oUp = INV[t] >= 50;
+        txt(ctx, 'OC ' + M.fmt(INV[t], 0) + '%', lx, y2(INV[t]) + (oUp ? -6 : 14), C.lime, la, true);
+        txt(ctx, 'PÚBLICO ' + M.fmt(100 - INV[t], 0) + '%', lx, y2(100 - INV[t]) + (oUp ? 14 : -6), C.amber, la, true);
+      },
+      read: function (v) {
+        var p = this.phase(v.t), P = [
+          ['Compra con paciencia sin subir el precio', 'Pesimismo extremo: vende con miedo', ['ok', 'Alinéate: prepara compras', 'Marca el rango y espera el Spring para comprar junto al dinero inteligente.']],
+          ['Mantiene el inventario e impulsa el precio', 'Entra tarde, atraído por la subida', ['ok', 'Alinéate: tendencia alcista', 'Compra retrocesos con volumen bajo; los impulsos llegan con volumen alto.']],
+          ['Vende poco a poco sin hundir el precio', 'Euforia: compra el techo', ['warn', 'Alinéate: prepara ventas', 'Deja de comprar. Marca el rango y espera el Upthrust para vender.']],
+          ['Fuera: ya vendió arriba', 'Pánico: vende abajo', ['no', 'Alinéate: tendencia bajista', 'Vende los rebotes hasta que la venta se agote y empiece una nueva acumulación.']]][p];
+        return { html: kv('Fase', PH4[p][2]) + kv('Operador Compuesto', P[0], 'up') + kv('Público', P[1]) + kv('Inventario OC', M.fmt(INV[v.t], 0) + '%') +
+          '<p class="note" style="margin-top:6px">Curva de inventario ilustrativa: en el mercado real no se ve; se deduce del precio y el volumen.</p>', verdict: P[2],
+          caption: 'Recorre el ciclo: el inventario pasa del público al Operador Compuesto en la acumulación y vuelve al público en la distribución.' };
+      }
+    },
+    rup: {
+      title: 'Rupturas y volumen', tag: 'Volumen',
+      concept: 'El volumen son las huellas del dinero inteligente. Una ruptura con volumen alto es significativa; con poco volumen, lo más probable es que sea falsa y el precio vuelva al rango (Upthrust arriba, Spring abajo).',
+      legend: [[C.blue, 'Rango'], [C.ink, 'Volumen de la ruptura']],
+      ctl: [{ t: 'seg', id: 'dir', label: 'Ruptura de', opts: [['up', 'Resistencia'], ['dn', 'Soporte']], val: 'up' }, { t: 'seg', id: 'vol', label: 'Volumen de la ruptura', opts: [['hi', 'Alto'], ['lo', 'Bajo']], val: 'lo' },
+        { t: 'range', id: 't', label: 'Velas tras la ruptura', min: 0, max: 12, step: 1, val: 12 }],
+      data: function (v) {
+        var cs = RUP_BASE.map(function (c) { return { o: c.o, h: c.h, l: c.l, c: c.c, v: c.v }; }), hi = v.vol === 'hi';
+        cs.push({ o: 108.75, h: 112.5, l: 108.5, c: 112, v: hi ? 2500 : 700 });
+        var path = hi ? [[0, 112], [3, 113.5], [5, 112.75], [12, 121]] : [[0, 112], [1, 109], [3, 106], [12, 101.5]];
+        var tail = M.candlesFromPath(path, { seed: hi ? 8 : 9, noise: .5, wick: .8, tick: .25 }).slice(1), r = M.rng(4);
+        tail.forEach(function (c) { c.v = Math.round(hi ? (c.c > c.o ? 1400 : 900) + r() * 300 : 900 + r() * 350); });
+        cs = cs.concat(tail);
+        return v.dir === 'up' ? cs : mirrorAt(cs, 210);
+      },
+      draw: function (ctx, w, h, v) {
+        var d = this.data(v).slice(0, 31 + v.t);
+        priceChart(ctx, w, h, d, 43, {
+          vol: true, vmax: 2600, lo: v.dir === 'up' ? 97 : 88, hi: v.dir === 'up' ? 122 : 113, top: 20, hlVol: function (i) { return i === 30; },
+          candles: { mark: function (i) { return i === 30; } },
+          under: function (a, x, y, cw) {
+            ctx.fillStyle = C.blueSoft; ctx.fillRect(a.l, y(110), x(29) + cw / 2 - a.l, y(100) - y(110));
+            seg(ctx, a.l, a.r, y(110), C.blue, [5, 4]); seg(ctx, a.l, a.r, y(100), C.blue, [5, 4]);
+            txt(ctx, 'RESISTENCIA 110', a.l + 4, y(110) - 5, C.blue, 'left', true); txt(ctx, 'SOPORTE 100', a.l + 4, y(100) + 13, C.blue, 'left', true);
+          }
+        });
+      },
+      read: function (v) {
+        var d = this.data(v), up = v.dir === 'up', hi = v.vol === 'hi', avg = 0;
+        for (var i = 10; i < 30; i++) avg += d[i].v; avg /= 20;
+        var last = d[30 + v.t].c, inside = last < 110 && last > 100, fake = up ? 'Upthrust' : 'Spring';
+        var verdict = v.t < 2 ? (hi ? ['ok', 'Ruptura con respaldo', 'Volumen alto: lo más probable es que la ruptura sea genuina. Avanza las velas para ver el desenlace.'] : ['warn', 'Ruptura sospechosa', 'Volumen bajo: no hay dinero institucional detrás. Avanza las velas para ver el desenlace.']) :
+          inside ? ['no', 'Falsa ruptura: ' + fake, 'El precio volvió dentro del rango y atrapó a quien ' + (up ? 'compró' : 'vendió') + ' la ruptura. ' + (up ? 'Señal bajista.' : 'Señal alcista.')] :
+          ['ok', 'Ruptura confirmada', 'El precio sigue fuera del rango: ' + (up ? 'empieza el markup.' : 'empieza el markdown.')];
+        return { html: kv('Volumen de la ruptura', '×' + f2(d[30].v / avg) + ' la media', hi ? 'up' : 'warn-t') + kv('Velas tras la ruptura', v.t) + kv('Precio actual', f2(last)) + kv('Posición', inside ? 'dentro del rango' : 'fuera del rango', inside ? 'down' : 'up') +
+          '<p class="note" style="margin-top:6px">El volumen inclina las probabilidades, no las garantiza.</p>', verdict: verdict,
+          caption: 'Cambia el volumen de la ruptura y avanza las velas: la misma ruptura termina distinto según el esfuerzo que la respalda.' };
+      }
+    },
+    trade: {
+      title: 'Operar el Spring y el Upthrust', tag: 'Operativa',
+      concept: 'Spring (largo): entrada al cerrar de nuevo por encima del soporte tras la falsa ruptura, stop justo por debajo de su mínimo, objetivo en el techo del rango o a 1:2. Upthrust (corto): lo mismo en espejo. Mejor con una vela de confirmación, como una envolvente.',
+      legend: [[C.ink, 'Entrada'], [C.red, 'Stop'], [C.lime, 'Objetivo']],
+      ctl: [{ t: 'seg', id: 'typ', label: 'Operación', opts: [['L', 'Spring · largo'], ['S', 'Upthrust · corto']], val: 'L' },
+        { t: 'range', id: 'dep', label: 'Profundidad de la falsa ruptura (pts)', min: .5, max: 5, step: .25, val: 1.5, dec: 2 },
+        { t: 'check', id: 'back', label: 'Cierra de vuelta dentro del rango', val: true }, { t: 'check', id: 'eng', label: 'Vela envolvente de confirmación', val: true }],
+      data: function (v) {
+        var cs = TR_BASE.map(function (c) { return { o: c.o, h: c.h, l: c.l, c: c.c, v: c.v }; }), last = cs[cs.length - 1].c;
+        var sc = v.back ? 100.75 : 100 - v.dep * .6, sp = { o: last, h: last + .25, l: 100 - v.dep, c: sc, v: 1300 };
+        cs.push(sp);
+        if (!v.back) cs.push({ o: sc, h: sc + .25, l: sc - 1.75, c: sc - 1.5, v: 1400 });
+        else if (v.eng) cs.push({ o: sc, h: sp.o + 1.25, l: sc - .25, c: sp.o + 1, v: 1500 });
+        else cs.push({ o: sc, h: sc + .75, l: sc - .25, c: sc + .25, v: 800 });
+        return v.typ === 'L' ? cs : mirrorAt(cs, 210);
+      },
+      plan: function (v) {
+        var L = v.typ === 'L', d = this.data(v), at = v.eng ? 27 : 26, e = d[at].c, stop = L ? d[26].l - .25 : d[26].h + .25, R = Math.abs(e - stop), tp = L ? 110 : 100;
+        return { L: L, at: at, e: e, stop: stop, R: R, tp: tp, tp2: e + (L ? 2 : -2) * R, rr: Math.abs(tp - e) / R, d: d };
+      },
+      draw: function (ctx, w, h, v) {
+        var p = this.plan(v), d = p.d, L = p.L;
+        var g = priceChart(ctx, w, h, d, 34, {
+          vol: true, vmax: 2000, lo: L ? Math.min(93, p.stop - 1) : Math.min(98, p.tp2 - 1.5), hi: L ? Math.max(112, p.tp2 + 1.5) : Math.max(117, p.stop + 1), top: 20, hlVol: function (i) { return i >= 26; }, candles: { mark: function (i) { return i === 26 || (v.eng && v.back && i === 27); } },
+          under: function (a, x, y, cw) {
+            ctx.fillStyle = C.blueSoft; ctx.fillRect(a.l, y(110), a.r - a.l, y(100) - y(110));
+            txt(ctx, (L ? 'TECHO ' : 'RESISTENCIA ') + '110', a.l + 4, y(110) - 5, C.blue, 'left', true); txt(ctx, (L ? 'SOPORTE ' : 'SUELO ') + '100', a.l + 4, y(100) + 13, C.blue, 'left', true);
+          }
+        });
+        M.marker(ctx, g.x(26), L ? g.y(d[26].l) + 12 : g.y(d[26].h) - 12, v.back ? (L ? C.lime : C.red) : C.amber, v.back ? (L ? 'Spring' : 'UT') : 'Ruptura', L);
+        if (!v.back) return;
+        var x0 = g.x(p.at);
+        [[p.tp, C.lime, 'Objetivo rango'], [p.tp2, 'rgba(155,226,45,.6)', '1:2'], [p.e, C.ink, 'Entrada'], [p.stop, C.red, 'Stop']].forEach(function (l) {
+          seg(ctx, x0, g.area.r, g.y(l[0]), l[1], l[2] === 'Entrada' ? null : [6, 3]);
+          txt(ctx, l[2], g.area.r - 4, g.y(l[0]) + (l[2] === 'Stop' ? (L ? 13 : -5) : (L ? -5 : 13)), l[1], 'right', true);
+        });
+      },
+      read: function (v) {
+        var p = this.plan(v), L = p.L;
+        if (!v.back) return { html: kv('Cierre de la vela', 'fuera del rango', 'down') + kv('Confluencia', '—'),
+          verdict: ['no', 'No hay ' + (L ? 'Spring' : 'Upthrust'), 'El precio no ha vuelto al rango: es una ruptura ' + (L ? 'bajista' : 'alcista') + ' real. Operarla como falsa ruptura es entrar sin confirmación.'],
+          caption: 'Sin cierre de vuelta dentro del rango no hay trampa: activa la casilla para ver la operación.' };
+        var html = kv('Entrada', f2(p.e) + (v.eng ? ' (cierre de la envolvente)' : ' (cierre dentro del rango)')) + kv('Stop', f2(p.stop), 'down') + kv('Riesgo (1R)', f2(p.R) + ' pts') +
+          kv('Objetivo rango', f2(p.tp) + ' · ' + f2(p.rr) + 'R', p.rr >= 1.5 ? 'up' : 'warn-t') + kv('Objetivo 1:2', f2(p.tp2)) + kv('Confluencia', v.eng ? 'vela envolvente' : 'ninguna', v.eng ? 'up' : 'warn-t');
+        var verdict = p.rr < 1 ? ['warn', (L ? 'Spring' : 'Upthrust') + ' válido, recorrido corto', 'El ' + (L ? 'techo' : 'suelo') + ' del rango da menos de 1R: usa el objetivo 1:2 o descarta la operación.'] :
+          [L ? 'ok' : 'no', (L ? 'Largo tras el Spring' : 'Corto tras el Upthrust') + (v.eng ? ' con confluencia' : ''), 'Falsa ruptura que vuelve al rango' + (v.eng ? ' y vela envolvente que la confirma.' : '. Sin vela de confirmación la señal es más débil.')];
+        return { html: html, verdict: verdict, caption: 'Hazla más profunda y mira cómo crece el stop y cae el R:R; la envolvente confirma, pero retrasa la entrada.' };
+      }
+    },
+    pasos: {
+      title: 'Método en 4 pasos y errores comunes', tag: 'Método',
+      concept: '1) Identificar la fase del mercado. 2) Analizar la estructura del rango o de la tendencia. 3) Formular una hipótesis clara, alcista o bajista. 4) Definir entrada, stop y objetivo exactos. Cada error del selector se ejecuta sobre el mismo gráfico.',
+      legend: [[C.lime, 'Operación ganadora'], [C.red, 'Operación perdedora']],
+      ctl: [{ t: 'seg', id: 'st', label: 'Paso del método', opts: [['1', '1'], ['2', '2'], ['3', '3'], ['4', '4']], val: '4' },
+        { t: 'select', id: 'err', label: 'Error común', opts: [['', 'Ninguno: seguir el método'], ['fase', 'Identificar mal la fase'], ['antes', 'Entrar antes de la confirmación'], ['vol', 'Ignorar el volumen'], ['stop', 'Stop sin justificación técnica'], ['contra', 'Operar contra la tendencia'], ['sobre', 'Sobreoperar']], val: '' }],
+      ERR: {
+        fase: { t: [{ at: 47, dir: 'S', e: 96, stop: 98.75, tp: 90.5 }], why: 'Confunde el Spring con el inicio del markdown y vende la ruptura del soporte, justo donde el dinero inteligente compra.' },
+        antes: { t: [{ at: 46, dir: 'L', e: 97.5, stop: 95.75, tp: 109 }], why: 'Compra anticipando el Spring, antes de que el precio cierre de vuelta dentro del rango: la falsa ruptura le barre el stop.' },
+        stop: { t: [{ at: 48, dir: 'L', e: 99.5, stop: 99, tp: 109 }], why: 'Buena entrada, pero el stop va a 0,5 puntos, por comodidad, en vez de bajo el mínimo del Spring: el ruido normal lo saca.' },
+        contra: { t: [{ at: 56, dir: 'S', e: 108, stop: 110.75, tp: 102.5 }], why: 'Vende un retroceso cuando el precio ya ha salido del rango con volumen (markup): opera contra la tendencia principal.' },
+        sobre: { t: [{ at: 29, dir: 'L', e: 104, stop: 102, tp: 106 }, { at: 32, dir: 'S', e: 100.75, stop: 102.75, tp: 98.75 }, { at: 35, dir: 'L', e: 105.25, stop: 103.25, tp: 107.25 }, { at: 38, dir: 'S', e: 101.5, stop: 103.5, tp: 99.5 }, { at: 41, dir: 'L', e: 105.75, stop: 103.75, tp: 107.75 }, { at: 43, dir: 'S', e: 101.75, stop: 103.75, tp: 99.75 }],
+          why: 'Persigue cada vela fuerte en mitad del rango, donde no hay ventaja: muchas operaciones, poco criterio.' },
+        vol: { t: [], why: 'Tomar una ruptura sin mirar el volumen es comprar el Upthrust o vender el Spring. Míralo en el módulo «Rupturas y volumen».' }
+      },
+      good: { at: 48, dir: 'L', e: 99.5, stop: 94.25, tp: 109 },
+      draw: function (ctx, w, h, v) {
+        var st = +v.st, err = v.err, n = err || st === 4 ? 60 : 48, d = ACUM.slice(0, n), sup = ACUM[17].l, res = ACUM[21].h, self = this;
+        var g = priceChart(ctx, w, h, d, 60, {
+          lo: 92, hi: 134, top: 22,
+          under: function (a, x, y, cw) {
+            if (st >= 1) {
+              ctx.fillStyle = 'rgba(242,86,91,.05)'; ctx.fillRect(x(0) - cw / 2, a.t - 18, x(11) - x(0) + cw, a.b - a.t + 18);
+              ctx.fillStyle = 'rgba(127,176,255,.06)'; ctx.fillRect(x(12) - cw / 2, a.t - 18, x(Math.min(n - 1, 53)) - x(12) + cw, a.b - a.t + 18);
+              txt(ctx, 'BAJISTA', x(0), a.t - 6, C.red, 'left', true); txt(ctx, 'PASO 1 · FASE: ACUMULACIÓN', x(12), a.t - 6, C.blue, 'left', true);
+            }
+            if (st >= 2) {
+              seg(ctx, x(12), a.r, y(res), C.blue, [5, 4]); seg(ctx, x(12), a.r, y(sup), C.blue, [5, 4]);
+              txt(ctx, 'PASO 2 · RANGO ' + f2(sup) + ' – ' + f2(res), x(24), y(res) - 6, C.blue, 'left', true);
+            }
+          }
+        });
+        if (st >= 2) [[17, 'SC'], [21, 'AR'], [26, 'ST']].forEach(function (e) { var low = e[1] !== 'AR'; M.marker(ctx, g.x(e[0]), low ? g.y(ACUM[e[0]].l) + 12 : g.y(ACUM[e[0]].h) - 12, C.lime, e[1], low); });
+        if (st >= 3) {
+          M.marker(ctx, g.x(47), g.y(ACUM[47].l) + 12, C.lime, 'Spring', true);
+          txt(ctx, 'PASO 3 · HIPÓTESIS ALCISTA', g.x(25), g.y(sup) + 30, C.lime, 'left', true);
+        }
+        var trades = err ? this.ERR[err].t : st === 4 ? [this.good] : [];
+        trades.forEach(function (t) { drawTrade(ctx, g, t, simTrade(ACUM, t)); });
+        if (st === 4 && !err) txt(ctx, 'PASO 4 · PLAN', g.x(49), g.y(self.good.stop) + 14, C.ink, 'left', true);
+      },
+      read: function (v) {
+        var st = +v.st, err = v.err, names = ['Identificar la fase', 'Analizar la estructura', 'Formular la hipótesis', 'Definir entrada, stop y objetivo'];
+        var steps = names.map(function (s, i) { return rowL(i < st ? 'ok' : 'wait', '<b>' + (i + 1) + '</b> · ' + s); }).join('');
+        if (!err) {
+          if (st < 4) return { html: steps, verdict: null, caption: ['Tendencia bajista y después lateral: el mercado está acumulando.', 'SC fija el soporte, AR la resistencia y ST confirma el suelo.', 'Hipótesis: el Spring y el cierre de vuelta dentro del rango avisan de un giro al alza.'][st - 1] };
+          var r = simTrade(ACUM, this.good);
+          return { html: steps + kv('Resultado', (r.r > 0 ? '+' : '') + f2(r.r) + 'R en la vela ' + (r.i + 1), r.r > 0 ? 'up' : 'down'),
+            verdict: ['ok', 'Plan completo: ' + M.fmtSigned(r.r, 2) + 'R', 'Largo en ' + f2(this.good.e) + ', stop bajo el Spring en ' + f2(this.good.stop) + ' y objetivo en el techo del rango ' + f2(this.good.tp) + '.'],
+            caption: 'Cuatro pasos, una operación: entrada tras el Spring, stop con justificación y objetivo en el rango.' };
+        }
+        var E = this.ERR[err], tot = 0, rows = E.t.map(function (t, i) { var r = simTrade(ACUM, t); tot += r.r; return rowL(r.r > 0 ? 'ok' : 'no', (t.dir === 'L' ? 'Largo' : 'Corto') + ' en ' + f2(t.e) + ' → ' + M.fmtSigned(r.r, 2) + 'R'); }).join('');
+        var html = err === 'vol' ? '<p class="note">Este error se ve mejor en el módulo de rupturas.</p>' : '<div class="checks">' + rows + '</div>' + kv('Total', M.fmtSigned(tot, 2) + 'R', tot > 0 ? 'up' : 'down');
+        var sel = this.ctl[1].opts.filter(function (o) { return o[0] === err; })[0][1];
+        return { html: html, verdict: ['no', sel, E.why + (err === 'vol' ? '<br><button class="btn ghost sm" data-go="rup">Ir a «Rupturas y volumen»</button>' : ' Resultado en este gráfico: ' + M.fmtSigned(tot, 2) + 'R, frente a ' + M.fmtSigned(simTrade(ACUM, this.good).r, 2) + 'R del plan.')],
+          caption: 'Error ejecutado sobre la misma acumulación: compara su resultado con el del plan de 4 pasos.' };
+      }
+    }
+  };
+
+  var cur = 'oyd', VALS = {};
+  Object.keys(MODS).forEach(function (m) { VALS[m] = {}; MODS[m].ctl.forEach(function (c) { if (!c.jump) VALS[m][c.id] = c.val; }); });
+  var lab = M.canvasStage($('lab-chart'), function (st) { MODS[cur].draw(st.ctx, st.w, st.h, VALS[cur]); });
+  function ctlHtml(m) {
+    return MODS[m].ctl.map(function (c) {
+      var v = VALS[m][c.id], id = 'lab-' + m + '-' + c.id, show = c.fmt ? c.fmt(v) : c.dec ? f2(v) : v;
+      if (c.t === 'range') return '<div class="field"><label for="' + id + '">' + c.label + ' <b data-out="' + c.id + '">' + show + '</b></label><input type="range" id="' + id + '" data-k="' + c.id + '" min="' + c.min + '" max="' + c.max + '" step="' + c.step + '" value="' + v + '"></div>';
+      if (c.t === 'seg') return '<div class="field"><label>' + c.label + '</label><div class="seg" style="--n:' + c.opts.length + '">' + c.opts.map(function (o) { return '<button type="button" data-k="' + c.id + '" data-v="' + o[0] + '" aria-pressed="' + (String(v) === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div></div>';
+      if (c.t === 'check') return '<label class="toggle"><input type="checkbox" data-k="' + c.id + '"' + (v ? ' checked' : '') + '>' + c.label + '</label>';
+      return '<div class="field"><label for="' + id + '">' + c.label + '</label><select id="' + id + '" data-k="' + c.id + '">' + c.opts.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === v ? ' selected' : '') + '>' + o[1] + '</option>'; }).join('') + '</select></div>';
+    }).join('');
+  }
+  function labPanel() {
+    var m = MODS[cur], r = m.read(VALS[cur]), vd = $('lab-verdict');
+    $('lab-read').innerHTML = r.html;
+    $('lab-caption').innerHTML = '<b>' + m.tag + '</b>' + r.caption;
+    if (r.verdict) { vd.hidden = false; vd.className = 'verdict ' + r.verdict[0]; vd.innerHTML = '<strong>' + r.verdict[1] + '</strong>' + r.verdict[2]; } else vd.hidden = true;
+  }
+  function labUpdate() {
+    var ctl = $('lab-ctl');
+    MODS[cur].ctl.forEach(function (c) {
+      var v = VALS[cur][c.id];
+      if (c.t === 'range') { var inp = ctl.querySelector('input[data-k="' + c.id + '"]'); if (inp && +inp.value !== v) inp.value = v; ctl.querySelector('[data-out="' + c.id + '"]').textContent = c.fmt ? c.fmt(v) : c.dec ? f2(v) : v; }
+      if (c.t === 'seg' && !c.jump) Array.prototype.forEach.call(ctl.querySelectorAll('button[data-k="' + c.id + '"]'), function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-v') === String(v))); });
+    });
+    lab.redraw(); labPanel();
+  }
+  function labSelect(m) {
+    cur = m;
+    $('lab-title').textContent = MODS[m].title;
+    $('lab-legend').innerHTML = leg(MODS[m].legend);
+    $('lab-concept').textContent = MODS[m].concept;
+    $('lab-ctl').innerHTML = ctlHtml(m);
+    labUpdate();
+  }
+  $('lab-ctl').addEventListener('input', function (e) {
+    var k = e.target.getAttribute('data-k'); if (!k) return;
+    VALS[cur][k] = e.target.type === 'checkbox' ? e.target.checked : e.target.tagName === 'SELECT' ? e.target.value : +e.target.value;
+    labUpdate();
+  });
+  $('lab-ctl').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-k]'); if (!b) return;
+    var k = b.getAttribute('data-k'), val = b.getAttribute('data-v');
+    if (cur === 'oc' && k === 'ph') VALS.oc.t = PH4[+val][1]; else VALS[cur][k] = val;
+    labUpdate();
+  });
+  var dragging = false;
+  function labPick(e) {
+    if (!MODS[cur].pick) return false;
+    var rc = $('lab-chart').getBoundingClientRect();
+    if (MODS[cur].pick(rc.width, rc.height, e.clientX - rc.left, e.clientY - rc.top, VALS[cur])) { labUpdate(); return true; }
+    return false;
+  }
+  $('lab-chart').addEventListener('pointerdown', function (e) { if (labPick(e)) { dragging = true; $('lab-chart').setPointerCapture(e.pointerId); } });
+  $('lab-chart').addEventListener('pointermove', function (e) { if (dragging) labPick(e); });
+  $('lab-chart').addEventListener('pointerup', function () { dragging = false; });
+  var pickLab = M.scenarios($('lab-side'), labSelect);
+  $('lab-aside').addEventListener('click', function (e) { var b = e.target.closest('[data-go]'); if (b) { pickLab(b.getAttribute('data-go')); $('laboratorio').scrollIntoView({ behavior: 'smooth', block: 'start' }); } });
+});
+</script>
+</body>
+</html>
