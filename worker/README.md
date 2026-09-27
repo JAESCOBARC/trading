@@ -10,19 +10,21 @@
 
 ## Instalación (una sola vez, en el panel de Cloudflare en español)
 
-Nombres de menú en español con el original en inglés entre paréntesis (traducción aproximada: la interfaz cambia).
+Nombres de menú tal como aparecen en el panel en español (comprobados en septiembre de 2026).
 
-0. **Zero Trust → Acceso (Access) → Aplicaciones (Applications)**: si existe "Mesa de Estudio", **Eliminar (Delete)**.
-1. **Almacenamiento y bases de datos (Storage & Databases) → KV → Crear (Create)**: nombre `mesa-acceso`.
-2. **Workers y Pages (Workers & Pages) → Crear (Create) → Worker**, plantilla "Hello World", nombre `mesa-acceso` → **Implementar (Deploy)**.
-3. **Editar código (Edit code)**: borra todo, pega el contenido de `worker/acceso.js` → **Implementar (Deploy)**.
-4. **Configuración (Settings) → Enlaces (Bindings) → Añadir (Add) → Espacio de nombres KV (KV namespace)**:
+0. **Zero Trust → Acceso → Aplicaciones**: si existe una aplicación para `trading`, eliminarla.
+1. Desde **Inicio de la cuenta**: **Desarrollo → Almacenamiento y bases de datos → Workers KV → Crear**: nombre `mesa-acceso`.
+   (No confundir con "Almacenamiento y caché", que es la caché del dominio.)
+2. **Desarrollo → Cómputo → Workers y Pages → Crear → Worker** ("Deploy Hello World"): nombre `mesa-acceso`,
+   sin activar "Protect with Cloudflare Access" → **Implementar**.
+3. **Editar código**: borra todo y pega `worker/acceso.js` completo desde
+   `https://raw.githubusercontent.com/JAESCOBARC/trading/main/worker/acceso.js` → **Implementar**.
+4. Worker → pestaña **Configuración → Vinculaciones → Agregar vinculación → Espacio de nombres KV**:
    nombre de variable `AUTH`, espacio `mesa-acceso`.
-5. **Configuración (Settings) → Variables y secretos (Variables and Secrets) → Añadir (Add)**: tipo **Secreto (Secret)**,
-   nombre `SETUP_KEY`, valor = una frase larga que solo tú sepas.
-6. **Configuración (Settings) → Dominios y rutas (Domains & Routes) → Añadir (Add) → Ruta (Route)**:
-   zona `jhonyescobar.com`, ruta `trading.jhonyescobar.com/*`.
-   Tiene que ser **Ruta (Route)**, no **Dominio personalizado (Custom domain)**: eso sustituiría a GitHub Pages.
+5. Misma pantalla, **Runtime variables and secrets → Agregar variable**: tipo **Secreto**, nombre `SETUP_KEY`,
+   valor = una frase larga que solo tú sepas.
+6. Worker → pestaña **Dominios → Añadir ruta** (no "Añadir dominio"): zona `jhonyescobar.com`,
+   ruta `trading.jhonyescobar.com/*`. En esa misma pestaña, desactivar `workers.dev` y "Vista previa".
 7. Abre `https://trading.jhonyescobar.com/acceso/setup`, escribe la `SETUP_KEY`, tu usuario y contraseña.
    Entras directamente al panel `/acceso/admin`, donde creas el resto de usuarios.
 
