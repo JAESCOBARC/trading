@@ -12,6 +12,8 @@
 - Toda página nueva se añade al menú en `PAGES` de `assets/site.js` y a su bloque en `index.html`.
 - Capa SEO en cada página (aunque el sitio es noindex, sirve para previsualizar enlaces y accesibilidad):
   un solo `h1`, secciones con `h2`, bloques con `h3`; `meta description`; Open Graph y Twitter con imagen
-  `assets/og/<pagina>.png` (1200×630) y URL absoluta sobre `https://jaescobarc.github.io/trading/`;
+  `assets/og/<pagina>.png` (1200×630) y URL absoluta sobre `https://trading.jhonyescobar.com/`;
   favicon JT (`assets/icons/`) y `site.webmanifest`. Copiar el bloque de `<head>` de una página existente.
+- Dominio: `https://trading.jhonyescobar.com/` (GitHub Pages + DNS en Cloudflare, registro CNAME en modo "DNS only").
+  El archivo `CNAME` de la raíz es necesario para el dominio: no borrarlo.
 - Diseño común en `assets/site.css` y utilidades en `assets/site.js` (ver README.md).

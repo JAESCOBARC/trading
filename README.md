@@ -1,5 +1,7 @@
 # Mesa de Estudio
 
+Publicado en **https://trading.jhonyescobar.com/** (GitHub Pages; DNS en Cloudflare).
+
 Sitio estático privado para estudiar, simular y ejecutar estrategias de trading, en tres bloques:
 
 - **Fundamentos**: simuladores para aprender a leer el gráfico (sin checklist).
