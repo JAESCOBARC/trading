@@ -35,8 +35,12 @@ export default {
     if (!env.AUTH) return page('Configuración incompleta', '<p>Falta el enlace KV con el nombre <code>AUTH</code> en el Worker.</p>', 500);
 
     if (path.startsWith('/acceso/') || path === '/acceso') {
-      try { return await route(request, env, url); }
-      catch (e) { return page('Error', '<p>Ha ocurrido un error inesperado. Vuelve a intentarlo.</p>', 500); }
+      const had = getCookie(request, CSRF_COOKIE);
+      const csrf = had && /^[A-Za-z0-9_-]{20,64}$/.test(had) ? had : randomId(24);
+      let res;
+      try { res = await route(request, env, url, csrf); }
+      catch (e) { res = page('Error', '<p>Ha ocurrido un error inesperado. Vuelve a intentarlo.</p>', 500); }
+      return withCsrf(res, csrf, csrf !== had);
     }
 
     if (PUBLIC_PATHS.includes(path) || PUBLIC_PREFIXES.some((p) => path.startsWith(p))) return fetch(request);
@@ -56,11 +60,14 @@ export default {
 
 /* ---------------- rutas ---------------- */
 
-async function route(request, env, url) {
+async function route(request, env, url, csrf) {
   const path = url.pathname.replace(/\/+$/, '') || '/acceso';
   const method = request.method;
 
-  if (method === 'POST' && !sameOrigin(request, url)) return page('Petición rechazada', '<p>El formulario no viene de este sitio.</p>', 403);
+  if (method === 'POST') {
+    const check = await csrfCheck(request, url, csrf);
+    if (check) return page('Petición rechazada', '<p>' + esc(check) + '</p><p class="muted">Recarga la página del formulario y vuelve a enviarlo.</p><p><a class="btn ghost" href="' + esc(url.pathname) + '">Volver a intentarlo</a></p>', 403);
+  }
 
   if (path === '/acceso/setup') return setup(request, env, method);
   if (path === '/acceso/login') return login(request, env, url, method);
@@ -251,7 +258,7 @@ async function pbkdf2(pass, salt, iter) {
   return new Uint8Array(bits);
 }
 async function createSession(env, u) {
-  const sid = b64(crypto.getRandomValues(new Uint8Array(32))).replace(/[+/=]/g, (c) => ({ '+': '-', '/': '_', '=': '' })[c]);
+  const sid = randomId(32);
   await env.AUTH.put('sess:' + sid, JSON.stringify({ u: u, t: Date.now() }), { expirationTtl: SESSION_DAYS * 86400 });
   return sid;
 }
@@ -281,11 +288,32 @@ function getCookie(request, name) {
   const m = c.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]+)'));
   return m ? m[1] : null;
 }
-function sameOrigin(request, url) {
+/* Anti-CSRF: token en cookie (SameSite=Lax) + campo oculto en cada formulario.
+   Solo se rechaza un Origin explícito de otro sitio; un Origin vacío o "null" se acepta si el token coincide. */
+const CSRF_COOKIE = 'mesa_csrf';
+async function csrfCheck(request, url, csrf) {
   const o = request.headers.get('Origin');
-  if (o) return o === url.origin;
-  const r = request.headers.get('Referer');
-  return !!r && r.startsWith(url.origin + '/');
+  if (o && o !== 'null' && o !== url.origin) return 'El formulario viene de otro sitio (origen recibido: ' + o + '; esperado: ' + url.origin + ').';
+  let sent = '';
+  try { sent = String((await request.clone().formData()).get('_csrf') || ''); } catch (e) { sent = ''; }
+  const had = getCookie(request, CSRF_COOKIE);
+  if (!had || !sent || !safeEqual(sent, had) || sent !== csrf) return 'El formulario ha caducado o no tiene el código de seguridad.';
+  return '';
+}
+async function withCsrf(res, csrf, setCookie) {
+  const type = res.headers.get('Content-Type') || '';
+  let out = res;
+  if (type.startsWith('text/html')) {
+    const html = (await res.text()).replace(/<form method="post"([^>]*)>/g, '<form method="post"$1><input type="hidden" name="_csrf" value="' + csrf + '">');
+    out = new Response(html, { status: res.status, headers: res.headers });
+  } else {
+    out = new Response(res.body, res);
+  }
+  if (setCookie) out.headers.append('Set-Cookie', CSRF_COOKIE + '=' + csrf + '; Path=/acceso; HttpOnly; Secure; SameSite=Lax');
+  return out;
+}
+function randomId(n) {
+  return b64(crypto.getRandomValues(new Uint8Array(n))).replace(/[+/=]/g, (c) => ({ '+': '-', '/': '_', '=': '' })[c]);
 }
 function safeNext(v) { const s = String(v || ''); return s.startsWith('/') && !s.startsWith('//') && !s.startsWith('/acceso/') ? s : ''; }
 function safeEqual(a, b) {
