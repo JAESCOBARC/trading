@@ -30,12 +30,10 @@
     <h1>Velas <span class="lime">japonesas</span></h1>
     <p class="lede">Contexto antes que nombre del patrón. Confirmación antes que entrada.</p>
     <div class="chips"><span class="chip">Apertura · máximo · mínimo · cierre</span><span class="chip">10 patrones</span><span class="chip">Cualquier marco temporal</span></div>
-    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
   </section>
 
   <section class="section" id="simulador">
     <div class="sec-head">
-      <span class="sec-num">01</span>
       <h2>Simulador gráfico</h2>
       <p>Construye una vela moviendo apertura, máximo, mínimo y cierre, o elige un patrón para verlo en su contexto. Activa la confirmación para ver qué pasa después: a veces el patrón funciona y a veces falla.</p>
     </div>
@@ -91,48 +89,6 @@
     </div>
   </section>
 
-  <section class="section" id="checklist">
-    <div class="sec-head">
-      <span class="sec-num">02</span>
-      <h2>Checklist de ejecución</h2>
-      <p>El orden de análisis de la guía: tendencia, niveles, vela, volumen, confirmación y riesgo. Ningún patrón garantiza el siguiente movimiento.</p>
-    </div>
-    <div class="cl" data-checklist="velas-japonesas">
-      <div class="cl-groups">
-        <div class="cl-group">
-          <div class="cl-group-head"><h3>Contexto</h3><span class="cl-count"></span></div>
-          <label class="cl-item killer"><input type="checkbox"><div><b>¿Cuál es la tendencia?</b><span>Alcista, bajista o lateral. Un martillo tras una caída pesa más que dentro de un rango.</span></div></label>
-          <label class="cl-item killer"><input type="checkbox"><div><b>¿Dónde están los niveles clave?</b><span>Soportes y resistencias marcados antes de mirar la vela.</span></div></label>
-          <label class="cl-item"><input type="checkbox"><div><b>Marco temporal adecuado</b><span>1–5 min tiene mucho ruido; 15 min–1 h para corto plazo; diario y semanal para estructura.</span></div></label>
-        </div>
-        <div class="cl-group">
-          <div class="cl-group-head"><h3>La formación</h3><span class="cl-count"></span></div>
-          <label class="cl-item"><input type="checkbox"><div><b>¿Hay una formación relevante?</b><span>Doji, martillo, envolvente, estrella, harami, soldados o cuervos.</span></div></label>
-          <label class="cl-item"><input type="checkbox"><div><b>Forma completa observada</b><span>Tamaño del cuerpo y de las dos mechas, no solo el color.</span></div></label>
-          <label class="cl-item"><input type="checkbox"><div><b>¿Qué muestra el volumen?</b><span>Una formación con aumento de participación merece más atención.</span></div></label>
-        </div>
-        <div class="cl-group">
-          <div class="cl-group-head"><h3>Confirmación y riesgo</h3><span class="cl-count"></span></div>
-          <label class="cl-item killer"><input type="checkbox"><div><b>¿Existe confirmación?</b><span>La vela siguiente respalda la lectura (por ejemplo: soporte → martillo → vela alcista).</span></div></label>
-          <label class="cl-item killer"><input type="checkbox"><div><b>¿Qué invalidaría la lectura?</b><span>Definido de antemano: normalmente un cierre más allá del extremo del patrón.</span></div></label>
-          <label class="cl-item killer"><input type="checkbox"><div><b>¿Cuál es el riesgo?</b><span>Escenario alternativo y gestión del capital antes de actuar.</span></div></label>
-        </div>
-      </div>
-      <div class="cl-side">
-        <div class="card">
-          <span class="card-label">Progreso</span>
-          <div class="meter"><i data-meter></i></div>
-          <span class="mono muted" data-count></span>
-          <div class="verdict" data-verdict></div>
-          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
-        </div>
-        <div class="card">
-          <span class="card-label">Ruta de estudio</span>
-          <p class="note">Aprende → observa → analiza → practica → mejora. Un buen analista no adivina el mercado: identifica escenarios, probabilidades y riesgos.</p>
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer id="foot"></footer>

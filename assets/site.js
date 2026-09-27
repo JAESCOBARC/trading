@@ -6,16 +6,18 @@
   var ROOT = (document.body && document.body.getAttribute('data-root')) || './';
 
   var PAGES = [
-    { group: 'Inicio', items: [{ href: 'index.html', label: 'Inicio' }] },
-    { group: 'Fundamentos', items: [
-      { href: 'fundamentos/velas-japonesas.html', label: 'Velas japonesas', desc: 'Patrones y confirmación' },
+    { group: 'Fundamentos', dir: 'fundamentos', items: [
+      { href: 'fundamentos/velas-japonesas.html', label: 'Velas japonesas', desc: 'Anatomía y 10 patrones en contexto' },
       { href: 'fundamentos/macd.html', label: 'MACD', desc: 'Cruces, histograma, divergencias' }
     ] },
-    { group: 'Estrategias', items: [
+    { group: 'Estrategias', dir: 'estrategias', items: [
       { href: 'estrategias/orderflow-world-cup.html', label: 'Orderflow World Cup', desc: 'VAL + Golden Pocket + footprint' },
       { href: 'estrategias/tendencial.html', label: 'Tendencial', desc: 'EMA 21 + Fibonacci + vela gatillo' },
       { href: 'estrategias/volumen-overnight.html', label: 'Volumen overnight', desc: 'Saque del área de valor' },
       { href: 'estrategias/little-rizzy.html', label: 'Little Rizzy', desc: 'Distancia D sobre la directriz' }
+    ] },
+    { group: 'Recursos', dir: 'recursos', items: [
+      { href: 'recursos/interes-compuesto.html', label: 'Interés compuesto', desc: 'Crecimiento por periodo con retiros parciales' }
     ] }
   ];
 
@@ -23,17 +25,27 @@
     var top = document.getElementById('topbar');
     if (top) {
       var here = location.pathname.replace(/\\/g, '/');
+      var isHome = !PAGES.some(function (g) { return here.indexOf('/' + g.dir + '/') >= 0; });
       var html = '<div class="wrap"><a class="brand" href="' + ROOT + 'index.html">Mesa de Estudio</a><nav class="nav" aria-label="Secciones">';
-      PAGES.forEach(function (g, gi) {
-        if (gi > 0) html += '<span class="sep" aria-hidden="true"></span>';
+      html += '<a class="nav-link" href="' + ROOT + 'index.html"' + (isHome ? ' aria-current="page"' : '') + '>Inicio</a>';
+      PAGES.forEach(function (g) {
+        var inGroup = here.indexOf('/' + g.dir + '/') >= 0;
+        html += '<details class="menu"><summary' + (inGroup ? ' class="on"' : '') + '>' + g.group + '</summary><div class="menu-pop">';
         g.items.forEach(function (it) {
-          var isHere = here.endsWith('/' + it.href) || (it.href === 'index.html' && (here.endsWith('/') || here.endsWith('/index.html')) && !/estrategias|fundamentos/.test(here));
-          html += '<a href="' + ROOT + it.href + '"' + (isHere ? ' aria-current="page"' : '') + '>' + it.label + '</a>';
+          var cur = here.endsWith('/' + it.href);
+          html += '<a href="' + ROOT + it.href + '"' + (cur ? ' aria-current="page"' : '') + '><b>' + it.label + '</b><span>' + it.desc + '</span></a>';
         });
+        html += '</div></details>';
       });
       html += '</nav></div>';
       top.className = 'topbar';
       top.innerHTML = html;
+      var menus = top.querySelectorAll('details.menu');
+      menus.forEach(function (m) {
+        m.addEventListener('toggle', function () { if (m.open) menus.forEach(function (o) { if (o !== m) o.open = false; }); });
+      });
+      document.addEventListener('click', function (e) { menus.forEach(function (m) { if (!m.contains(e.target)) m.open = false; }); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') menus.forEach(function (m) { m.open = false; }); });
     }
     var foot = document.getElementById('foot');
     if (foot) {
@@ -56,7 +68,10 @@
   function fmt(n, d) {
     if (n === null || n === undefined || !isFinite(n)) return '—';
     d = d === undefined ? 2 : d;
-    return Number(n).toLocaleString('es-ES', { minimumFractionDigits: d, maximumFractionDigits: d });
+    var parts = Math.abs(n).toFixed(d).split('.');
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    var neg = n < 0 && +Math.abs(n).toFixed(d) !== 0;
+    return (neg ? '-' : '') + parts[0] + (d ? ',' + parts[1] : '');
   }
   function fmtSigned(n, d) { return (n > 0 ? '+' : '') + fmt(n, d); }
   function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }

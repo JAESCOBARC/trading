@@ -24,12 +24,10 @@
     <h1><span class="lime">MACD</span> 12 · 26 · 9</h1>
     <p class="lede">Cruces, línea cero, histograma y divergencias, siempre con contexto.</p>
     <div class="chips"><span class="chip">EMA 12 − EMA 26</span><span class="chip">Señal: EMA 9 del MACD</span><span class="chip">Histograma = MACD − señal</span></div>
-    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
   </section>
 
   <section class="section" id="simulador">
     <div class="sec-head">
-      <span class="sec-num">01</span>
       <h2>Simulador gráfico</h2>
       <p>Las medias, el MACD, la señal y el histograma se calculan sobre la serie del escenario. Pasa el cursor (o el dedo) por el gráfico para leer cualquier vela; cambia los periodos para ver cómo cambia el indicador.</p>
     </div>
@@ -78,57 +76,6 @@
     </div>
   </section>
 
-  <section class="section" id="checklist">
-    <div class="sec-head">
-      <span class="sec-num">02</span>
-      <h2>Checklist de ejecución</h2>
-      <p>Regla práctica: contexto → zona → señal → confirmación → riesgo. Si falta el contexto, una señal MACD aislada vale poco.</p>
-    </div>
-    <div class="cl" data-checklist="macd">
-      <div class="cl-groups">
-        <div class="cl-group">
-          <div class="cl-group-head"><h3>Contexto y zona</h3><span class="cl-count"></span></div>
-          <label class="cl-item killer"><input type="checkbox"><div><b>Tendencia general identificada</b><span>Máximos y mínimos crecientes, decrecientes o lateral.</span></div></label>
-          <label class="cl-item killer"><input type="checkbox"><div><b>Soportes y resistencias marcados</b><span>La señal aparece cerca de un nivel o de una ruptura relevante.</span></div></label>
-        </div>
-        <div class="cl-group">
-          <div class="cl-group-head"><h3>Señal</h3><span class="cl-count"></span></div>
-          <label class="cl-item"><input type="checkbox"><div><b>Cruce MACD / señal interpretado</b><span>En la misma dirección que el contexto.</span></div></label>
-          <label class="cl-item"><input type="checkbox"><div><b>Posición frente a la línea cero</b><span>Por encima: fortaleza relativa. Por debajo: debilidad relativa.</span></div></label>
-          <label class="cl-item"><input type="checkbox"><div><b>Histograma revisado</b><span>Barras que crecen: el momentum se fortalece. Barras que menguan: pierde fuerza.</span></div></label>
-        </div>
-        <div class="cl-group">
-          <div class="cl-group-head"><h3>Confirmación y riesgo</h3><span class="cl-count"></span></div>
-          <label class="cl-item killer"><input type="checkbox"><div><b>Volumen y precio confirman</b><span>Ruptura, recuperación de soporte, patrón de precio o aumento de volumen.</span></div></label>
-          <label class="cl-item killer"><input type="checkbox"><div><b>Riesgo definido antes de actuar</b><span>Stop, tamaño y escenario alternativo.</span></div></label>
-        </div>
-        <div class="cl-group">
-          <div class="cl-group-head"><h3>Errores que evito</h3><span class="cl-count"></span></div>
-          <label class="cl-item killer"><input type="checkbox"><div><b>No entro solo porque aparece un cruce</b><span>Un cruce aislado no es una entrada.</span></div></label>
-          <label class="cl-item"><input type="checkbox"><div><b>No uso el MACD en lateral sin filtros</b><span>En rango los cruces se suceden sin dirección.</span></div></label>
-          <label class="cl-item"><input type="checkbox"><div><b>No confundo divergencia con reversión confirmada</b><span>La divergencia avisa; el precio confirma.</span></div></label>
-          <label class="cl-item"><input type="checkbox"><div><b>No acumulo indicadores</b><span>Más indicadores dan señales contradictorias, no más certeza.</span></div></label>
-        </div>
-      </div>
-      <div class="cl-side">
-        <div class="card">
-          <span class="card-label">Progreso</span>
-          <div class="meter"><i data-meter></i></div>
-          <span class="mono muted" data-count></span>
-          <div class="verdict" data-verdict></div>
-          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
-        </div>
-        <div class="card">
-          <span class="card-label">Resumen</span>
-          <div class="kv"><span>Cruce alcista</span><span>tendencia + soporte</span></div>
-          <div class="kv"><span>Cruce bajista</span><span>resistencia + estructura</span></div>
-          <div class="kv"><span>MACD &gt; 0</span><span>no compres solo por eso</span></div>
-          <div class="kv"><span>MACD &lt; 0</span><span>no vendas solo por eso</span></div>
-          <div class="kv"><span>Divergencia</span><span>espera confirmación</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer id="foot"></footer>
