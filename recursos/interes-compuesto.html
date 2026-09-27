@@ -14,19 +14,25 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="../assets/site.css">
 <style>
-  .ic{display:grid;grid-template-columns:340px minmax(0,1fr);gap:20px;align-items:start}
+  .ic{display:grid;grid-template-columns:350px minmax(0,1fr);gap:20px;align-items:start}
   .ic-form{display:flex;flex-direction:column;gap:14px}
   .ic-form .field{padding:0}
   .ic-form .two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
   .ic-form hr{border:none;border-top:1px solid var(--line);margin:2px 0;width:100%}
-  .err{font-size:12.5px;color:var(--red);min-height:0}
+  .ic-form .hint{font-size:11.5px;color:var(--ink-3);line-height:1.4}
+  .err{font-size:12.5px;color:var(--red)}
   .tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
   .tile-s{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
   .tile-s .card-label{font-size:10px}
   .tile-s strong{font-family:var(--display);font-weight:800;font-size:clamp(20px,2.4vw,28px);letter-spacing:-.02em;line-height:1.05;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
   .tile-s small{font-size:12px;color:var(--ink-3)}
+  .sim{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+  .sim div{padding:12px 14px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:3px;min-width:0}
+  .sim div:last-child{border-right:none}
+  .sim b{font-family:var(--mono);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
+  .sim small{font-size:11.5px;color:var(--ink-3)}
   .table-wrap{overflow:auto;max-height:560px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
-  table.tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:760px}
+  table.tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:880px}
   .tbl th{position:sticky;top:0;background:var(--panel-2);z-index:1;text-align:right;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:10px 12px;border-bottom:1px solid var(--line-2);white-space:nowrap}
   .tbl th:first-child,.tbl td:first-child{text-align:left}
   .tbl td{padding:6px 12px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -39,7 +45,7 @@
   .bulk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
   .bulk .field{padding:0}
   @media (max-width:980px){.ic{grid-template-columns:minmax(0,1fr)}}
-  @media (max-width:640px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:640px){.tiles{grid-template-columns:repeat(2,minmax(0,1fr))}.sim{grid-template-columns:repeat(2,minmax(0,1fr))}.sim div:nth-child(2){border-right:none}.sim div:nth-child(-n+2){border-bottom:1px solid var(--line)}}
 </style>
 </head>
 <body data-root="../">
@@ -47,10 +53,10 @@
 
 <main class="wrap">
   <section class="hero">
-    <p class="audience">[Cuánto crece una cuenta si repite la misma rentabilidad cada periodo, y cuánto cuesta cada retiro por el camino]</p>
+    <p class="audience">[Cuánto crece la cuenta operando con tu riesgo, tu winrate y tu R:B, y cuánto cuesta cada retiro por el camino]</p>
     <p class="eyebrow">Recursos</p>
     <h1>Interés <span class="lime">compuesto</span></h1>
-    <p class="lede">Rentabilidad por periodo, retiros parciales en cualquier periodo y comparación con no retirar nada.</p>
+    <p class="lede">Riesgo por operación, winrate, R:B y operaciones por periodo. Con retiros parciales y el rango real que dejan las rachas.</p>
   </section>
 
   <section class="section" id="calculadora">
@@ -61,15 +67,24 @@
           <div class="row" style="flex-wrap:nowrap"><select id="ic-tpl" style="flex:1;min-width:0"><option value="">Seleccionar</option></select><button class="icon-btn" type="button" id="ic-tpl-del" title="Borrar plantilla">Borrar</button></div>
         </div>
         <div class="two">
-          <div class="field"><label for="ic-bal">Balance inicial</label><input type="number" id="ic-bal" min="0" step="any" value="10000"></div>
+          <div class="field"><label for="ic-bal">Balance inicial (capital)</label><input type="number" id="ic-bal" min="0" step="any"></div>
           <div class="field"><label for="ic-cur">Moneda</label><select id="ic-cur"><option value="$">$</option><option value="€">€</option><option value="">Sin símbolo</option></select></div>
         </div>
         <div class="two">
-          <div class="field"><label for="ic-n">Periodos</label><input type="number" id="ic-n" min="1" max="1000" step="1" value="24"></div>
-          <div class="field"><label for="ic-r">Ganancia por periodo (%)</label><input type="number" id="ic-r" step="any" value="5"></div>
+          <div class="field"><label for="ic-risk">% riesgo por operación</label><input type="number" id="ic-risk" min="0" max="100" step="any"></div>
+          <div class="field"><label for="ic-base">Base del riesgo</label><select id="ic-base"><option value="cur">Balance actual (compuesto)</option><option value="ini">Balance inicial (fijo)</option></select></div>
+        </div>
+        <p class="hint" id="ic-risk-hint"></p>
+        <div class="two">
+          <div class="field"><label for="ic-wr">% winrate</label><input type="number" id="ic-wr" min="0" max="100" step="any"></div>
+          <div class="field"><label for="ic-rb">R:B (beneficio por 1 de riesgo)</label><input type="number" id="ic-rb" min="0" step="any"></div>
+        </div>
+        <div class="two">
+          <div class="field"><label for="ic-ops">Operaciones por periodo</label><input type="number" id="ic-ops" min="1" max="500" step="1"></div>
+          <div class="field"><label for="ic-n">Periodos</label><input type="number" id="ic-n" min="1" max="1000" step="1"></div>
         </div>
         <div class="field"><label for="ic-when">Momento del retiro</label>
-          <select id="ic-when"><option value="end">Al final del periodo (tras la ganancia)</option><option value="start">Al inicio del periodo (antes de la ganancia)</option></select>
+          <select id="ic-when"><option value="end">Al final del periodo (tras operar)</option><option value="start">Al inicio del periodo (antes de operar)</option></select>
         </div>
         <p class="err" id="ic-err" hidden></p>
         <hr>
@@ -89,17 +104,27 @@
       </div>
 
       <div style="display:flex;flex-direction:column;gap:16px;min-width:0">
+        <div class="verdict" id="ic-edge"></div>
         <div class="tiles" id="ic-tiles"></div>
         <div class="card">
           <div class="stage-head">
             <span class="card-label">Evolución del balance</span>
             <div class="legend">
-              <span><i style="background:var(--lime)"></i>Con retiros</span>
-              <span><i style="background:var(--ink-3)"></i>Sin retiros</span>
+              <span><i style="background:var(--lime)"></i>Esperado con retiros</span>
+              <span><i style="background:var(--ink-3)"></i>Esperado sin retiros</span>
+              <span><i style="background:rgba(127,176,255,.5)"></i>Rango simulado 10–90%</span>
               <span><i style="background:var(--amber)"></i>Retiro</span>
             </div>
           </div>
-          <div class="chart" style="height:260px"><canvas id="ic-chart" role="img" aria-label="Evolución del balance por periodo, con y sin retiros"></canvas></div>
+          <div class="chart" style="height:280px"><canvas id="ic-chart" role="img" aria-label="Balance esperado por periodo, con y sin retiros, y rango de las simulaciones"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="stage-head">
+            <span class="card-label" id="ic-sim-label">Rachas: simulaciones aleatorias</span>
+            <button class="icon-btn" type="button" id="ic-resim">Otra tanda</button>
+          </div>
+          <div class="sim" id="ic-sim"></div>
+          <p class="note">Cada simulación juega todas las operaciones al azar con tu winrate. El valor esperado es un promedio que suben los caminos con rachas muy buenas; por eso la mediana, el resultado de una cuenta típica, suele quedar por debajo.</p>
         </div>
       </div>
     </div>
@@ -108,11 +133,11 @@
   <section class="section" id="tabla">
     <div class="sec-head">
       <h2>Tabla por periodo</h2>
-      <p>Escribe un importe en la columna <b>Retiro</b> de cualquier periodo. Si el retiro supera el saldo disponible, se limita a ese saldo y la fila se marca en rojo.</p>
+      <p>Valores esperados. Escribe un importe en la columna <b>Retiro</b> de cualquier periodo. Si el retiro supera el saldo disponible, se limita a ese saldo y la fila se marca en rojo.</p>
     </div>
     <div class="table-wrap">
       <table class="tbl">
-        <thead><tr><th>Periodo</th><th>Balance inicial</th><th>Ganancia</th><th>Retiro</th><th>Balance final</th><th>Ganancia acumulada</th><th>Retirado acumulado</th></tr></thead>
+        <thead><tr><th>Periodo</th><th>Balance inicial</th><th>Riesgo por op.</th><th>Ganancia esperada</th><th>Retiro</th><th>Balance final</th><th>Ganancia acumulada</th><th>Retirado acumulado</th></tr></thead>
         <tbody id="ic-body"></tbody>
         <tfoot><tr id="ic-foot"></tr></tfoot>
       </table>
@@ -125,57 +150,102 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
-  var KEY_TPL = 'mesa:ic:plantillas', KEY_LAST = 'mesa:ic:ultimo';
-  var DEFAULT = { bal: 10000, n: 24, r: 5, cur: '$', when: 'end', w: { 12: 2000 } };
-  var w = {}, rows = [], res = null;
+  var KEY_TPL = 'mesa:ic:plantillas', KEY_LAST = 'mesa:ic2:ultimo';
+  var DEFAULT = { bal: 10000, risk: 1, base: 'cur', wr: 45, rb: 1.5, ops: 20, n: 24, cur: '$', when: 'end', w: { 12: 2000 } };
+  var FIELDS = ['bal', 'risk', 'base', 'wr', 'rb', 'ops', 'n', 'cur', 'when'];
+  var w = {}, rows = [], res = null, sim = null, seed = 1, simTimer = null;
 
   function get(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }
   function put(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 
   function state() {
-    return { bal: parseFloat($('ic-bal').value), n: parseInt($('ic-n').value, 10), r: parseFloat($('ic-r').value), cur: $('ic-cur').value, when: $('ic-when').value, w: Object.assign({}, w) };
+    var s = { w: Object.assign({}, w) };
+    FIELDS.forEach(function (f) { var v = $('ic-' + f).value; s[f] = (f === 'base' || f === 'cur' || f === 'when') ? v : parseFloat(v); });
+    s.n = Math.floor(s.n); s.ops = Math.floor(s.ops);
+    return s;
   }
-  function apply(s) {
-    $('ic-bal').value = s.bal; $('ic-n').value = s.n; $('ic-r').value = s.r; $('ic-cur').value = s.cur || '$'; $('ic-when').value = s.when || 'end';
+  function apply(src) {
+    var s = Object.assign({}, DEFAULT, src || {});
+    FIELDS.forEach(function (f) { $('ic-' + f).value = s[f]; });
     w = Object.assign({}, s.w || {});
     buildRows(); recalc();
   }
-  function money(v) { var c = $('ic-cur').value; return (v < 0 ? '−' : '') + (c ? c : '') + M.fmt(Math.abs(v), 2); }
+  function money(v) { var c = $('ic-cur').value; return (v < 0 ? '−' : '') + c + M.fmt(Math.abs(v), 2); }
 
   function validate(s) {
-    if (!isFinite(s.bal) || s.bal <= 0) return 'El balance inicial debe ser mayor que 0.';
-    if (!isFinite(s.n) || s.n < 1 || s.n > 1000) return 'Los periodos deben estar entre 1 y 1.000.';
-    if (!isFinite(s.r) || s.r <= -100) return 'La ganancia por periodo debe ser mayor que −100%.';
+    if (!(s.bal > 0)) return 'El balance inicial debe ser mayor que 0.';
+    if (!(s.risk > 0) || s.risk > 100) return 'El % de riesgo debe estar entre 0 y 100.';
+    if (!(s.wr >= 0) || s.wr > 100) return 'El winrate debe estar entre 0 y 100%.';
+    if (!(s.rb > 0)) return 'El R:B debe ser mayor que 0.';
+    if (!(s.ops >= 1) || s.ops > 500) return 'Las operaciones por periodo deben estar entre 1 y 500.';
+    if (!(s.n >= 1) || s.n > 1000) return 'Los periodos deben estar entre 1 y 1.000.';
     return '';
   }
 
-  /* cálculo: el retiro se descuenta al final (tras la ganancia) o al inicio (antes) y nunca deja el saldo en negativo */
+  /* Valor esperado por operación, en R: winrate × R:B − (1 − winrate) */
+  function expectancy(s) { var p = s.wr / 100; return p * s.rb - (1 - p); }
+
+  /* Camino esperado. El riesgo por operación se fija al inicio de cada periodo:
+     sobre el balance actual (compuesto) o sobre el balance inicial (fijo). */
   function compute(s) {
-    var out = [], b = s.bal, nb = s.bal, gain = 0, took = 0, r = s.r / 100;
+    var E = expectancy(s), r = s.risk / 100, out = [], b = s.bal, nb = s.bal, gain = 0, took = 0;
     for (var i = 1; i <= s.n; i++) {
-      var want = +s.w[i] || 0, start = b, wd = 0, g, end, capped = false;
-      if (s.when === 'start') {
-        wd = Math.min(want, b); capped = want > b + 1e-9; b -= wd;
-        g = b * r; end = b + g;
-      } else {
-        g = b * r; end = b + g;
-        wd = Math.min(want, end); capped = want > end + 1e-9; end -= wd;
-      }
-      gain += g; took += wd; b = end; nb = nb * (1 + r);
-      out.push({ i: i, start: start, g: g, want: want, wd: wd, capped: capped, end: end, gain: gain, took: took, noW: nb });
+      var want = +s.w[i] || 0, start = b, wd = 0, capped = false, riskAmt, g, end;
+      if (s.when === 'start') { wd = Math.min(want, b); capped = want > b + 1e-9; b -= wd; }
+      riskAmt = Math.max(0, (s.base === 'ini' ? s.bal : b) * r);
+      if (b <= 0) riskAmt = 0;
+      g = Math.max(-b, s.ops * riskAmt * E);
+      end = b + g;
+      if (s.when === 'end') { wd = Math.min(want, end); capped = want > end + 1e-9; end -= wd; }
+      gain += g; took += wd; b = Math.max(0, end);
+      var nr = (s.base === 'ini' ? s.bal : nb) * r;
+      nb = Math.max(0, nb + (nb > 0 ? s.ops * nr * E : 0));
+      out.push({ i: i, start: start, risk: riskAmt, g: g, want: want, wd: wd, capped: capped, end: b, gain: gain, took: took, noW: nb });
     }
-    return { rows: out, final: b, gain: gain, took: took, noW: nb };
+    return { rows: out, final: b, gain: gain, took: took, noW: nb, E: E, pctPer: s.ops * r * E * 100 };
+  }
+
+  /* Montecarlo: cada operación gana riesgo × R:B con probabilidad = winrate, o pierde el riesgo */
+  function simulate(s) {
+    var work = s.n * s.ops, runs = Math.max(200, Math.min(1000, Math.floor(2e7 / work)));
+    var rnd = M.rng(seed * 7919 + 17), p = s.wr / 100, r = s.risk / 100;
+    var finals = [], below = 0, ruin = 0, streaks = [], dds = [];
+    var per = []; for (var i = 0; i < s.n; i++) per.push([]);
+    for (var k = 0; k < runs; k++) {
+      var b = s.bal, peak = s.bal, maxDD = 0, cur = 0, maxL = 0, dead = false;
+      for (var i2 = 1; i2 <= s.n; i2++) {
+        var want = +s.w[i2] || 0;
+        if (s.when === 'start') b -= Math.min(want, b);
+        var riskAmt = (s.base === 'ini' ? s.bal : b) * r;
+        for (var t = 0; t < s.ops && b > 0; t++) {
+          if (rnd() < p) { b += riskAmt * s.rb; cur = 0; }
+          else { b -= Math.min(riskAmt, b); cur++; if (cur > maxL) maxL = cur; }
+          if (b > peak) peak = b;
+          var dd = peak > 0 ? (peak - b) / peak : 0; if (dd > maxDD) maxDD = dd;
+        }
+        if (s.when === 'end') b -= Math.min(want, b);
+        if (b <= 0 && !dead) { dead = true; b = 0; }
+        per[i2 - 1].push(b);
+      }
+      finals.push(b); streaks.push(maxL); dds.push(maxDD);
+      if (b < s.bal) below++;
+      if (dead) ruin++;
+    }
+    var q = function (arr, f) { var a = arr.slice().sort(function (x, y) { return x - y; }); return a[Math.min(a.length - 1, Math.floor(f * (a.length - 1)))]; };
+    return {
+      runs: runs, p10: q(finals, .1), p50: q(finals, .5), p90: q(finals, .9),
+      below: below / runs, ruin: ruin / runs, streak: q(streaks, .5), streakBad: q(streaks, .9), dd: q(dds, .5), ddBad: q(dds, .9),
+      band: per.map(function (a) { return [q(a, .1), q(a, .9)]; })
+    };
   }
 
   function buildRows() {
-    var n = parseInt($('ic-n').value, 10);
-    if (!isFinite(n) || n < 1) n = 0;
-    n = Math.min(n, 1000);
+    var n = Math.min(1000, Math.max(0, parseInt($('ic-n').value, 10) || 0));
     var body = $('ic-body'), frag = document.createDocumentFragment();
     body.innerHTML = ''; rows = [];
     for (var i = 1; i <= n; i++) {
       var tr = document.createElement('tr');
-      tr.innerHTML = '<td>' + i + '</td><td></td><td></td><td class="w"><input type="number" min="0" step="any" placeholder="0" aria-label="Retiro del periodo ' + i + '" id="ic-w' + i + '"></td><td></td><td></td><td></td>';
+      tr.innerHTML = '<td>' + i + '</td><td></td><td></td><td></td><td class="w"><input type="number" min="0" step="any" placeholder="0" aria-label="Retiro del periodo ' + i + '" id="ic-w' + i + '"></td><td></td><td></td><td></td>';
       var inp = tr.querySelector('input');
       if (w[i]) inp.value = w[i];
       (function (idx, el) {
@@ -193,50 +263,92 @@ document.addEventListener('DOMContentLoaded', function () {
   }
 
   function tile(label, value, sub, cls) { return '<div class="tile-s"><span class="card-label">' + label + '</span><strong class="' + (cls || '') + '">' + value + '</strong>' + (sub ? '<small>' + sub + '</small>' : '') + '</div>'; }
+  function pct(v, d) { return M.fmt(v * 100, d === undefined ? 1 : d) + '%'; }
 
   function recalc() {
     var s = state(), e = validate(s);
     $('ic-err').hidden = !e; $('ic-err').textContent = e;
-    if (e) { res = null; $('ic-tiles').innerHTML = ''; chart.redraw(); return; }
+    if (e) { res = null; sim = null; $('ic-tiles').innerHTML = ''; $('ic-sim').innerHTML = ''; $('ic-edge').hidden = true; chart.redraw(); return; }
     if (rows.length !== s.n) buildRows();
     res = compute(s);
+    if (!isFinite(res.final) || !isFinite(res.noW) || res.noW > 1e15) {
+      res = null; sim = null; clearTimeout(simTimer);
+      $('ic-tiles').innerHTML = ''; $('ic-sim').innerHTML = ''; $('ic-foot').innerHTML = '';
+      $('ic-edge').hidden = false; $('ic-edge').className = 'verdict no';
+      $('ic-edge').innerHTML = '<strong>Resultado fuera de escala</strong>Con estos valores la cuenta supera los mil billones: el cálculo deja de tener sentido. Reduce el riesgo, las operaciones o los periodos.';
+      chart.redraw(); return;
+    }
+    var riskNow = s.bal * s.risk / 100;
+    $('ic-risk-hint').textContent = 'Riesgo de la 1.ª operación: ' + money(riskNow) + ' · si acierta gana ' + money(riskNow * s.rb) + '.';
     res.rows.forEach(function (r, k) {
       var td = rows[k].td;
       td[1].textContent = money(r.start);
-      td[2].textContent = money(r.g); td[2].className = r.g >= 0 ? 'up' : 'down';
-      td[4].textContent = money(r.end);
-      td[5].textContent = money(r.gain);
-      td[6].textContent = money(r.took);
+      td[2].textContent = money(r.risk);
+      td[3].textContent = money(r.g); td[3].className = r.g >= 0 ? 'up' : 'down';
+      td[5].textContent = money(r.end);
+      td[6].textContent = money(r.gain);
+      td[7].textContent = money(r.took);
       rows[k].tr.className = r.capped ? 'capped' : r.wd > 0 ? 'has-w' : '';
       rows[k].tr.title = r.capped ? 'Retiro limitado a ' + money(r.wd) + ' (saldo disponible)' : '';
     });
-    $('ic-foot').innerHTML = '<td>Total</td><td>' + money(s.bal) + '</td><td class="up">' + money(res.gain) + '</td><td class="warn-t">' + money(res.took) + '</td><td>' + money(res.final) + '</td><td></td><td></td>';
+    $('ic-foot').innerHTML = '<td>Total</td><td>' + money(s.bal) + '</td><td></td><td class="' + (res.gain >= 0 ? 'up' : 'down') + '">' + money(res.gain) + '</td><td class="warn-t">' + money(res.took) + '</td><td>' + money(res.final) + '</td><td></td><td></td>';
+
+    var be = 1 / (1 + s.rb) * 100, edge = $('ic-edge');
+    edge.hidden = false;
+    if (res.E > 0) { edge.className = 'verdict ok'; edge.innerHTML = '<strong>Sistema con ventaja: ' + M.fmtSigned(res.E, 3) + 'R por operación</strong>Con R:B ' + M.fmt(s.rb, 2) + ' necesitas más de un ' + M.fmt(be, 1) + '% de acierto para ganar; tienes ' + M.fmt(s.wr, 1) + '%.'; }
+    else if (res.E === 0) { edge.className = 'verdict warn'; edge.innerHTML = '<strong>Sistema en equilibrio: 0R por operación</strong>Con R:B ' + M.fmt(s.rb, 2) + ' el winrate de equilibrio es ' + M.fmt(be, 1) + '%. Sin ventaja, los costes te harán perder.'; }
+    else { edge.className = 'verdict no'; edge.innerHTML = '<strong>Sistema sin ventaja: ' + M.fmtSigned(res.E, 3) + 'R por operación</strong>Con R:B ' + M.fmt(s.rb, 2) + ' necesitas más de un ' + M.fmt(be, 1) + '% de acierto; con ' + M.fmt(s.wr, 1) + '% la cuenta pierde dinero a largo plazo.'; }
+
     var roi = res.gain / s.bal * 100, cost = res.noW - res.final - res.took;
     $('ic-tiles').innerHTML =
-      tile('Periodos', M.fmt(s.n, 0), M.fmt(s.r, 2) + '% por periodo') +
-      tile('Balance inicial', money(s.bal)) +
-      tile('Balance final', money(res.final), 'Sin retiros: ' + money(res.noW), 'up') +
-      tile('Beneficio total', money(res.gain), 'Suma de las ganancias de cada periodo') +
+      tile('Rentabilidad esperada', M.fmtSigned(res.pctPer, 2) + '%', 'por periodo · ' + s.ops + ' ops × ' + M.fmt(s.risk, 2) + '% × ' + M.fmtSigned(res.E, 3) + 'R', res.pctPer >= 0 ? 'up' : 'down') +
+      tile('Balance inicial', money(s.bal), M.fmt(s.n, 0) + ' periodos') +
+      tile('Balance final esperado', money(res.final), 'Sin retiros: ' + money(res.noW), res.final >= s.bal ? 'up' : 'down') +
+      tile('Beneficio total', money(res.gain), 'Suma de las ganancias esperadas', res.gain >= 0 ? '' : 'down') +
       tile('Total retirado', money(res.took), res.took > 0 ? 'Crecimiento que dejas de obtener: ' + money(Math.max(0, cost)) : 'Sin retiros', 'warn-t') +
       tile('Ganancias totales', M.fmtSigned(roi, 2) + '%', 'Beneficio total ÷ balance inicial', roi >= 0 ? 'up' : 'down');
     put(KEY_LAST, s);
+    scheduleSim();
     chart.redraw();
+  }
+
+  function scheduleSim() {
+    clearTimeout(simTimer);
+    simTimer = setTimeout(function () {
+      var s = state(); if (validate(s)) return;
+      sim = simulate(s);
+      $('ic-sim-label').textContent = 'Rachas: ' + M.fmt(sim.runs, 0) + ' simulaciones aleatorias';
+      $('ic-sim').innerHTML =
+        '<div><span class="card-label">Balance final 10% peor</span><b class="down">' + money(sim.p10) + '</b><small>mediana ' + money(sim.p50) + '</small></div>' +
+        '<div><span class="card-label">Balance final 10% mejor</span><b class="up">' + money(sim.p90) + '</b><small>esperado ' + money(res ? res.final : 0) + '</small></div>' +
+        '<div><span class="card-label">Terminan en pérdida</span><b class="' + (sim.below > .2 ? 'down' : '') + '">' + pct(sim.below) + '</b><small>cuenta a cero: ' + pct(sim.ruin) + '</small></div>' +
+        '<div><span class="card-label">Peor racha perdedora</span><b>' + sim.streak + ' seguidas</b><small>1 de cada 10: ' + sim.streakBad + ' · drawdown típico ' + pct(sim.dd, 0) + '</small></div>';
+      chart.redraw();
+    }, 120);
   }
 
   var chart = M.canvasStage($('ic-chart'), function (st) {
     if (!res) return;
-    var ctx = st.ctx, W = st.w, H = st.h, pts = res.rows;
+    var ctx = st.ctx, W = st.w, H = st.h, pts = res.rows, n = pts.length;
     var area = { l: 12, r: W - 78, t: 12, b: H - 24 };
-    var hi = Math.max.apply(null, pts.map(function (p) { return Math.max(p.end, p.noW, p.start); }));
-    var y = M.scale(0, hi * 1.05, area.b, area.t), n = pts.length;
+    var vals = pts.map(function (p) { return Math.max(p.end, p.noW, p.start); });
+    if (sim) sim.band.forEach(function (b) { vals.push(b[1]); });
+    var hi = Math.max.apply(null, vals.concat([1]));
+    var y = M.scale(0, hi * 1.05, area.b, area.t);
     var x = function (i) { return area.l + (area.r - area.l) * (n === 1 ? .5 : i / (n - 1)); };
-    var ticks = M.niceTicks(0, hi * 1.05, 5);
     ctx.save(); ctx.font = '10.5px "JetBrains Mono", monospace'; ctx.textBaseline = 'middle';
-    ticks.forEach(function (t) {
+    M.niceTicks(0, hi * 1.05, 5).forEach(function (t) {
       var py = Math.round(y(t)) + .5; ctx.strokeStyle = C.grid; ctx.beginPath(); ctx.moveTo(area.l, py); ctx.lineTo(area.r, py); ctx.stroke();
       ctx.fillStyle = C.axis; ctx.fillText(t >= 1e6 ? M.fmt(t / 1e6, 1) + ' M' : t >= 1e3 ? M.fmt(t / 1e3, 0) + ' k' : M.fmt(t, 0), area.r + 8, py);
     });
     ctx.restore();
+    if (sim && sim.band.length === n) {
+      ctx.beginPath();
+      sim.band.forEach(function (b, i) { if (i === 0) ctx.moveTo(x(i), y(b[1])); else ctx.lineTo(x(i), y(b[1])); });
+      for (var j = n - 1; j >= 0; j--) ctx.lineTo(x(j), y(sim.band[j][0]));
+      ctx.closePath(); ctx.fillStyle = 'rgba(127,176,255,.14)'; ctx.fill();
+      ctx.strokeStyle = 'rgba(127,176,255,.45)'; ctx.stroke();
+    }
     var maxW = Math.max.apply(null, pts.map(function (p) { return p.wd; }).concat([1]));
     pts.forEach(function (p, i) {
       if (p.wd <= 0) return;
@@ -245,12 +357,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     ctx.strokeStyle = C.axis; ctx.setLineDash([4, 4]); ctx.lineWidth = 1.4; ctx.beginPath();
     pts.forEach(function (p, i) { if (i === 0) ctx.moveTo(x(i), y(p.noW)); else ctx.lineTo(x(i), y(p.noW)); }); ctx.stroke(); ctx.setLineDash([]);
-    ctx.beginPath(); ctx.moveTo(x(0), area.b);
-    pts.forEach(function (p, i) { ctx.lineTo(x(i), y(p.end)); }); ctx.lineTo(x(n - 1), area.b); ctx.closePath();
-    ctx.fillStyle = 'rgba(155,226,45,.10)'; ctx.fill();
-    ctx.strokeStyle = C.lime; ctx.lineWidth = 2; ctx.beginPath();
+    ctx.strokeStyle = C.lime; ctx.lineWidth = 2.2; ctx.beginPath();
     pts.forEach(function (p, i) { if (i === 0) ctx.moveTo(x(i), y(p.end)); else ctx.lineTo(x(i), y(p.end)); }); ctx.stroke(); ctx.lineWidth = 1;
-    var last = pts[n - 1]; M.marker(ctx, x(n - 1), y(last.end), C.lime);
+    M.marker(ctx, x(n - 1), y(pts[n - 1].end), C.lime);
     ctx.fillStyle = C.axis; ctx.font = '10.5px "JetBrains Mono", monospace';
     ctx.fillText('1', area.l, H - 6); ctx.textAlign = 'right'; ctx.fillText('periodo ' + n, area.r, H - 6); ctx.textAlign = 'left';
   });
@@ -264,7 +373,10 @@ document.addEventListener('DOMContentLoaded', function () {
   }
   $('ic-tpl').addEventListener('change', function () {
     var t = tpls()[this.value];
-    if (t) { apply(t); $('ic-msg').textContent = 'Plantilla "' + this.value + '" cargada.'; }
+    if (!t) return;
+    var old = t.risk === undefined;
+    apply(t);
+    $('ic-msg').textContent = 'Plantilla "' + this.value + '" cargada.' + (old ? ' Es de la versión anterior: revisa riesgo, winrate, R:B y operaciones.' : '');
   });
   $('ic-save').addEventListener('click', function () {
     var name = $('ic-name').value.trim(), s = state();
@@ -279,7 +391,6 @@ document.addEventListener('DOMContentLoaded', function () {
     $('ic-msg').textContent = 'Plantilla "' + k + '" borrada.';
   });
 
-  /* retiros en bloque */
   $('ic-bulk').addEventListener('click', function () {
     var amt = parseFloat($('ic-bw').value), every = parseInt($('ic-be').value, 10), from = parseInt($('ic-bs').value, 10), n = parseInt($('ic-n').value, 10);
     if (!(amt > 0) || !(every >= 1) || !(from >= 1)) { $('ic-msg').textContent = 'Revisa importe, frecuencia y periodo inicial del retiro recurrente.'; return; }
@@ -290,18 +401,19 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   $('ic-clearw').addEventListener('click', function () { w = {}; rows.forEach(function (r) { r.tr.querySelector('input').value = ''; }); $('ic-msg').textContent = 'Retiros eliminados.'; recalc(); });
   $('ic-reset').addEventListener('click', function () { $('ic-tpl').value = ''; $('ic-msg').textContent = 'Valores de ejemplo restaurados.'; apply(DEFAULT); });
+  $('ic-resim').addEventListener('click', function () { seed++; scheduleSim(); });
 
   $('ic-csv').addEventListener('click', function () {
     if (!res) return;
-    var lines = ['Periodo;Balance inicial;Ganancia;Retiro;Balance final;Ganancia acumulada;Retirado acumulado'];
     var f = function (v) { return v.toFixed(2).replace('.', ','); };
-    res.rows.forEach(function (r) { lines.push([r.i, f(r.start), f(r.g), f(r.wd), f(r.end), f(r.gain), f(r.took)].join(';')); });
+    var lines = ['Periodo;Balance inicial;Riesgo por operacion;Ganancia esperada;Retiro;Balance final;Ganancia acumulada;Retirado acumulado'];
+    res.rows.forEach(function (r) { lines.push([r.i, f(r.start), f(r.risk), f(r.g), f(r.wd), f(r.end), f(r.gain), f(r.took)].join(';')); });
     var blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
     var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'interes-compuesto.csv';
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
   });
 
-  ['ic-bal', 'ic-r', 'ic-cur', 'ic-when'].forEach(function (id) { $(id).addEventListener('input', recalc); });
+  ['ic-bal', 'ic-risk', 'ic-base', 'ic-wr', 'ic-rb', 'ic-ops', 'ic-cur', 'ic-when'].forEach(function (id) { $(id).addEventListener('input', recalc); });
   $('ic-n').addEventListener('input', function () { buildRows(); recalc(); });
 
   fillTpl('');

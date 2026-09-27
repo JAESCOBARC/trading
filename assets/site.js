@@ -157,6 +157,7 @@
     return f;
   }
   function niceTicks(min, max, count) {
+    if (!isFinite(min) || !isFinite(max) || max <= min) return [];
     var span = max - min, step = Math.pow(10, Math.floor(Math.log10(span / count)));
     var err = span / count / step;
     if (err >= 7.5) step *= 10; else if (err >= 3.5) step *= 5; else if (err >= 1.5) step *= 2;
