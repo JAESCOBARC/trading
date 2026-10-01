@@ -54,15 +54,17 @@
   .sim b{font-family:var(--mono);font-size:15px;font-weight:600;font-variant-numeric:tabular-nums}
   .sim small{font-size:11.5px;color:var(--ink-3)}
   .table-wrap{overflow:auto;max-height:560px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
-  table.tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:880px}
+  table.tbl{width:100%;border-collapse:collapse;font-size:13px;min-width:1080px}
   .tbl th{position:sticky;top:0;background:var(--panel-2);z-index:1;text-align:right;font-family:var(--mono);font-size:10.5px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);padding:10px 12px;border-bottom:1px solid var(--line-2);white-space:nowrap}
   .tbl th:first-child,.tbl td:first-child{text-align:left}
   .tbl td{padding:6px 12px;border-bottom:1px solid var(--line);text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
   .tbl tr:hover td{background:var(--panel-2)}
   .tbl tr.has-w td{background:rgba(242,184,75,.06)}
   .tbl tr.capped td{background:var(--red-soft)}
-  .tbl td.w input{width:120px;text-align:right;padding:5px 8px;font-size:12.5px}
+  .tbl td.w input,.tbl td.r input{width:110px;text-align:right;padding:5px 8px;font-size:12.5px}
   .tbl td.w input:not(:placeholder-shown){border-color:rgba(242,184,75,.6);color:var(--amber)}
+  .tbl td.r input.pos{border-color:rgba(155,226,45,.6);color:var(--lime)}
+  .tbl td.r input.neg{border-color:rgba(242,86,91,.6);color:var(--red)}
   .tbl tfoot td{position:sticky;bottom:0;background:var(--panel-2);font-weight:700;border-top:1px solid var(--line-2);border-bottom:none}
   .bulk{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
   .bulk .field{padding:0}
@@ -159,11 +161,12 @@
   <section class="section" id="tabla">
     <div class="sec-head">
       <h2>Tabla por periodo</h2>
-      <p>Valores esperados. Escribe un importe en la columna <b>Retiro</b> de cualquier periodo. Si el retiro supera el saldo disponible, se limita a ese saldo y la fila se marca en rojo.</p>
+      <p>Valores esperados. Escribe en <b>Real</b> lo que ganaste o perdiste de verdad ese periodo, para comparar con la ganancia esperada; se guarda con la plantilla. Escribe un importe en <b>Retiro</b> de cualquier periodo: si supera el saldo disponible, se limita a ese saldo y la fila se marca en rojo.</p>
     </div>
+    <div class="row"><button class="btn ghost sm" type="button" id="ic-clearreal">Borrar columna Real</button></div>
     <div class="table-wrap">
       <table class="tbl">
-        <thead><tr><th>Periodo</th><th>Balance inicial</th><th>Riesgo por op.</th><th>Ganancia esperada</th><th>Retiro</th><th>Balance final</th><th>Ganancia acumulada</th><th>Retirado acumulado</th></tr></thead>
+        <thead><tr><th>Periodo</th><th>Balance inicial</th><th>Riesgo por op.</th><th>Ganancia esperada</th><th>Real</th><th>Retiro</th><th>Balance final</th><th>Ganancia acumulada</th><th>Real acumulado</th><th>Retirado acumulado</th></tr></thead>
         <tbody id="ic-body"></tbody>
         <tfoot><tr id="ic-foot"></tr></tfoot>
       </table>
@@ -179,13 +182,13 @@ document.addEventListener('DOMContentLoaded', function () {
   var KEY_TPL = 'mesa:ic:plantillas', KEY_LAST = 'mesa:ic2:ultimo';
   var DEFAULT = { bal: 10000, risk: 1, base: 'cur', wr: 45, rb: 1.5, ops: 20, n: 24, cur: '$', when: 'end', w: { 12: 2000 } };
   var FIELDS = ['bal', 'risk', 'base', 'wr', 'rb', 'ops', 'n', 'cur', 'when'];
-  var w = {}, rows = [], res = null, sim = null, seed = 1, simTimer = null;
+  var w = {}, real = {}, rows = [], res = null, sim = null, seed = 1, simTimer = null;
 
   function get(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } }
   function put(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
 
   function state() {
-    var s = { w: Object.assign({}, w) };
+    var s = { w: Object.assign({}, w), real: Object.assign({}, real) };
     FIELDS.forEach(function (f) { var v = $('ic-' + f).value; s[f] = (f === 'base' || f === 'cur' || f === 'when') ? v : parseFloat(v); });
     s.n = Math.floor(s.n); s.ops = Math.floor(s.ops);
     return s;
@@ -194,6 +197,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var s = Object.assign({}, DEFAULT, src || {});
     FIELDS.forEach(function (f) { $('ic-' + f).value = s[f]; });
     w = Object.assign({}, s.w || {});
+    real = Object.assign({}, s.real || {});
     buildRows(); recalc();
   }
   function money(v) { var c = $('ic-cur').value; return (v < 0 ? '−' : '') + c + M.fmt(Math.abs(v), 2); }
@@ -271,21 +275,33 @@ document.addEventListener('DOMContentLoaded', function () {
     body.innerHTML = ''; rows = [];
     for (var i = 1; i <= n; i++) {
       var tr = document.createElement('tr');
-      tr.innerHTML = '<td>' + i + '</td><td></td><td></td><td></td><td class="w"><input type="number" min="0" step="any" placeholder="0" aria-label="Retiro del periodo ' + i + '" id="ic-w' + i + '"></td><td></td><td></td><td></td>';
-      var inp = tr.querySelector('input');
-      if (w[i]) inp.value = w[i];
+      tr.innerHTML = '<td>' + i + '</td><td></td><td></td><td></td>' +
+        '<td class="r"><input type="number" step="any" placeholder="0" aria-label="Real del periodo ' + i + '" id="ic-real' + i + '"></td>' +
+        '<td class="w"><input type="number" min="0" step="any" placeholder="0" aria-label="Retiro del periodo ' + i + '" id="ic-w' + i + '"></td>' +
+        '<td></td><td></td><td></td><td></td>';
+      var realInp = tr.querySelector('#ic-real' + i), wInp = tr.querySelector('#ic-w' + i);
+      if (w[i]) wInp.value = w[i];
+      if (real[i] !== undefined) realInp.value = real[i];
       (function (idx, el) {
         el.addEventListener('input', function () {
           var v = parseFloat(el.value);
           if (isFinite(v) && v > 0) w[idx] = v; else delete w[idx];
           recalc();
         });
-      })(i, inp);
+      })(i, wInp);
+      (function (idx, el) {
+        el.addEventListener('input', function () {
+          var v = parseFloat(el.value);
+          if (isFinite(v)) real[idx] = v; else delete real[idx];
+          recalc();
+        });
+      })(i, realInp);
       rows.push({ tr: tr, td: tr.children });
       frag.appendChild(tr);
     }
     body.appendChild(frag);
     Object.keys(w).forEach(function (k) { if (+k > n) delete w[k]; });
+    Object.keys(real).forEach(function (k) { if (+k > n) delete real[k]; });
   }
 
   function tile(label, value, sub, cls) { return '<div class="tile-s"><h3 class="card-label">' + label + '</h3><strong class="' + (cls || '') + '">' + value + '</strong>' + (sub ? '<small>' + sub + '</small>' : '') + '</div>'; }
@@ -306,18 +322,23 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     var riskNow = s.bal * s.risk / 100;
     $('ic-risk-hint').textContent = 'Riesgo de la 1.ª operación: ' + money(riskNow) + ' · si acierta gana ' + money(riskNow * s.rb) + '.';
+    var realAcc = 0;
     res.rows.forEach(function (r, k) {
       var td = rows[k].td;
       td[1].textContent = money(r.start);
       td[2].textContent = money(r.risk);
       td[3].textContent = money(r.g); td[3].className = r.g >= 0 ? 'up' : 'down';
-      td[5].textContent = money(r.end);
-      td[6].textContent = money(r.gain);
-      td[7].textContent = money(r.took);
+      var rv = real[r.i], realInp = td[4].querySelector('input');
+      realInp.className = rv > 0 ? 'pos' : rv < 0 ? 'neg' : '';
+      if (rv !== undefined) realAcc += rv;
+      td[6].textContent = money(r.end);
+      td[7].textContent = money(r.gain);
+      td[8].textContent = money(realAcc); td[8].className = realAcc >= 0 ? 'up' : 'down';
+      td[9].textContent = money(r.took);
       rows[k].tr.className = r.capped ? 'capped' : r.wd > 0 ? 'has-w' : '';
       rows[k].tr.title = r.capped ? 'Retiro limitado a ' + money(r.wd) + ' (saldo disponible)' : '';
     });
-    $('ic-foot').innerHTML = '<td>Total</td><td>' + money(s.bal) + '</td><td></td><td class="' + (res.gain >= 0 ? 'up' : 'down') + '">' + money(res.gain) + '</td><td class="warn-t">' + money(res.took) + '</td><td>' + money(res.final) + '</td><td></td><td></td>';
+    $('ic-foot').innerHTML = '<td>Total</td><td>' + money(s.bal) + '</td><td></td><td class="' + (res.gain >= 0 ? 'up' : 'down') + '">' + money(res.gain) + '</td><td></td><td class="warn-t">' + money(res.took) + '</td><td>' + money(res.final) + '</td><td></td><td class="' + (realAcc >= 0 ? 'up' : 'down') + '">' + money(realAcc) + '</td><td></td>';
 
     var be = 1 / (1 + s.rb) * 100, edge = $('ic-edge');
     var tot = s.n * s.ops, wins = tot * s.wr / 100, loss = tot - wins, r1 = s.bal * s.risk / 100;
@@ -427,15 +448,20 @@ document.addEventListener('DOMContentLoaded', function () {
     $('ic-msg').textContent = c + ' retiros de ' + money(amt) + ' añadidos.';
     recalc();
   });
-  $('ic-clearw').addEventListener('click', function () { w = {}; rows.forEach(function (r) { r.tr.querySelector('input').value = ''; }); $('ic-msg').textContent = 'Retiros eliminados.'; recalc(); });
+  $('ic-clearw').addEventListener('click', function () { w = {}; rows.forEach(function (r) { r.td[5].querySelector('input').value = ''; }); $('ic-msg').textContent = 'Retiros eliminados.'; recalc(); });
+  $('ic-clearreal').addEventListener('click', function () { real = {}; rows.forEach(function (r) { r.td[4].querySelector('input').value = ''; }); $('ic-msg').textContent = 'Columna Real borrada.'; recalc(); });
   $('ic-reset').addEventListener('click', function () { $('ic-tpl').value = ''; $('ic-msg').textContent = 'Valores de ejemplo restaurados.'; apply(DEFAULT); });
   $('ic-resim').addEventListener('click', function () { seed++; scheduleSim(); });
 
   $('ic-csv').addEventListener('click', function () {
     if (!res) return;
     var f = function (v) { return v.toFixed(2).replace('.', ','); };
-    var lines = ['Periodo;Balance inicial;Riesgo por operacion;Ganancia esperada;Retiro;Balance final;Ganancia acumulada;Retirado acumulado'];
-    res.rows.forEach(function (r) { lines.push([r.i, f(r.start), f(r.risk), f(r.g), f(r.wd), f(r.end), f(r.gain), f(r.took)].join(';')); });
+    var lines = ['Periodo;Balance inicial;Riesgo por operacion;Ganancia esperada;Real;Retiro;Balance final;Ganancia acumulada;Real acumulado;Retirado acumulado'];
+    var realAcc = 0;
+    res.rows.forEach(function (r) {
+      var rv = real[r.i]; if (rv !== undefined) realAcc += rv;
+      lines.push([r.i, f(r.start), f(r.risk), f(r.g), rv === undefined ? '' : f(rv), f(r.wd), f(r.end), f(r.gain), f(realAcc), f(r.took)].join(';'));
+    });
     var blob = new Blob(['﻿' + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
     var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'interes-compuesto.csv';
     document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
