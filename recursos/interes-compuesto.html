@@ -125,6 +125,7 @@
         </div>
         <div class="row"><button class="btn ghost sm" type="button" id="ic-bulk">Aplicar a la tabla</button><button class="btn ghost sm" type="button" id="ic-clearw">Quitar retiros</button></div>
         <hr>
+        <button class="btn ghost sm" type="button" id="ic-update" hidden>Guardar cambios en esta plantilla</button>
         <div class="field"><label for="ic-name">Guardar como plantilla</label>
           <div class="row" style="flex-wrap:nowrap"><input type="text" id="ic-name" placeholder="Nombre" style="flex:1;min-width:0"><button class="btn sm" type="button" id="ic-save">Guardar</button></div>
         </div>
@@ -422,13 +423,22 @@ document.addEventListener('DOMContentLoaded', function () {
     var t = tpls(), o = '<option value="">Seleccionar</option>';
     Object.keys(t).sort().forEach(function (k) { o += '<option value="' + k.replace(/"/g, '&quot;') + '">' + k.replace(/</g, '&lt;') + '</option>'; });
     $('ic-tpl').innerHTML = o; $('ic-tpl').value = sel || '';
+    $('ic-update').hidden = !sel;
   }
   $('ic-tpl').addEventListener('change', function () {
+    if (!this.value) { $('ic-update').hidden = true; return; }
     var t = tpls()[this.value];
     if (!t) return;
     var old = t.risk === undefined;
     apply(t);
+    $('ic-update').hidden = false;
     $('ic-msg').textContent = 'Plantilla "' + this.value + '" cargada.' + (old ? ' Es de la versión anterior: revisa riesgo, winrate, R:B y operaciones.' : '');
+  });
+  $('ic-update').addEventListener('click', function () {
+    var k = $('ic-tpl').value, s = state(); if (!k) return;
+    if (validate(s)) { $('ic-msg').textContent = 'Corrige los valores antes de guardar.'; return; }
+    var t = tpls(); t[k] = s; put(KEY_TPL, t);
+    $('ic-msg').textContent = 'Plantilla "' + k + '" actualizada con los valores y la columna Real actuales.';
   });
   $('ic-save').addEventListener('click', function () {
     var name = $('ic-name').value.trim(), s = state();
@@ -453,7 +463,7 @@ document.addEventListener('DOMContentLoaded', function () {
   });
   $('ic-clearw').addEventListener('click', function () { w = {}; rows.forEach(function (r) { r.td[5].querySelector('input').value = ''; }); $('ic-msg').textContent = 'Retiros eliminados.'; recalc(); });
   $('ic-clearreal').addEventListener('click', function () { real = {}; rows.forEach(function (r) { r.td[4].querySelector('input').value = ''; }); $('ic-msg').textContent = 'Columna Real borrada.'; recalc(); });
-  $('ic-reset').addEventListener('click', function () { $('ic-tpl').value = ''; $('ic-msg').textContent = 'Valores de ejemplo restaurados.'; apply(DEFAULT); });
+  $('ic-reset').addEventListener('click', function () { $('ic-tpl').value = ''; $('ic-update').hidden = true; $('ic-msg').textContent = 'Valores de ejemplo restaurados.'; apply(DEFAULT); });
   $('ic-resim').addEventListener('click', function () { seed++; scheduleSim(); });
 
   $('ic-csv').addEventListener('click', function () {
