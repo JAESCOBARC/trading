@@ -349,11 +349,13 @@ document.addEventListener('DOMContentLoaded', function () {
     else { edge.className = 'verdict no'; edge.innerHTML = '<strong>Sistema sin ventaja: ' + M.fmtSigned(res.E, 3) + 'R por operación</strong>Con R:B ' + M.fmt(s.rb, 2) + ' necesitas más de un ' + M.fmt(be, 1) + '% de acierto; con ' + M.fmt(s.wr, 1) + '% la cuenta pierde dinero a largo plazo.' + desglose; }
 
     var roi = res.gain / s.bal * 100, cost = res.noW - res.final - res.took;
+    var hasReal = Object.keys(real).length > 0, diff = realAcc - res.gain;
     $('ic-tiles').innerHTML =
       tile('Rentabilidad esperada', M.fmtSigned(res.pctPer, 2) + '%', 'por periodo · ' + s.ops + ' ops × ' + M.fmt(s.risk, 2) + '% × ' + M.fmtSigned(res.E, 3) + 'R', res.pctPer >= 0 ? 'up' : 'down') +
       tile('Balance inicial', money(s.bal), M.fmt(s.n, 0) + ' periodos') +
       tile('Balance final esperado', money(res.final), 'Sin retiros: ' + money(res.noW), res.final >= s.bal ? 'up' : 'down') +
       tile('Beneficio total', money(res.gain), 'Suma de las ganancias esperadas', res.gain >= 0 ? '' : 'down') +
+      tile('Real acumulado', hasReal ? money(realAcc) : '—', hasReal ? (diff >= 0 ? '+' : '') + money(diff) + ' vs. lo esperado' : 'Sin registros en la columna Real', hasReal ? (realAcc >= 0 ? 'up' : 'down') : '') +
       tile('Total retirado', money(res.took), res.took > 0 ? 'Crecimiento que dejas de obtener: ' + money(Math.max(0, cost)) : 'Sin retiros', 'warn-t') +
       tile('Ganancias totales', M.fmtSigned(roi, 2) + '%', 'Beneficio total ÷ balance inicial', roi >= 0 ? 'up' : 'down');
     put(KEY_LAST, s);
