@@ -15,6 +15,9 @@
  *   /acceso/logout  cerrar sesión
  *   /acceso/admin   panel: crear, borrar y cambiar contraseña de usuarios (solo administradores)
  *   /acceso/cuenta  cambiar la contraseña propia
+ *   /acceso/datos/:ns  API JSON privada por usuario (GET lee, PUT guarda) para que páginas del
+ *                   sitio guarden datos propios (p. ej. las plantillas de interés compuesto, ns=ic)
+ *                   y sobrevivan a un borrado de caché del navegador. Requiere sesión; no es pública.
  *
  * Las contraseñas se guardan con PBKDF2-SHA256 (100.000 iteraciones, sal aleatoria), nunca en claro.
  */
@@ -63,6 +66,13 @@ export default {
 async function route(request, env, url, csrf) {
   const path = url.pathname.replace(/\/+$/, '') || '/acceso';
   const method = request.method;
+
+  /* API JSON privada (fetch, no formularios): su propia validación, no el flujo de formularios de abajo. */
+  if (path.startsWith('/acceso/datos/')) {
+    const user = await currentUser(request, env);
+    if (!user) return json({ error: 'No has iniciado sesión.' }, 401);
+    return datos(request, env, user, url);
+  }
 
   if (method === 'POST') {
     const check = await csrfCheck(request, url, csrf);
@@ -225,6 +235,33 @@ async function admin(request, env, user, method, url) {
     </form>
     <h2>Usuarios (${users.length})</h2>
     <div class="table"><table><thead><tr><th>Usuario</th><th>Rol</th><th>Alta</th><th>Contraseña</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`, 200, { wide: true });
+}
+
+const DATA_NS = /^\/acceso\/datos\/([a-z0-9_-]{1,40})$/;
+const MAX_DATA_BYTES = 200000; // 200 KB por usuario y espacio de nombres: de sobra para unas plantillas
+
+async function datos(request, env, user, url) {
+  const m = url.pathname.replace(/\/+$/, '').match(DATA_NS);
+  if (!m) return json({ error: 'Ruta no válida.' }, 404);
+  const key = 'data:' + user.name + ':' + m[1];
+
+  if (request.method === 'GET') {
+    const raw = await env.AUTH.get(key);
+    return json({ data: raw ? JSON.parse(raw) : null });
+  }
+  if (request.method === 'PUT' || request.method === 'POST') {
+    const o = request.headers.get('Origin');
+    if (o && o !== 'null' && o !== url.origin) return json({ error: 'Origen no permitido.' }, 403);
+    const body = await request.text();
+    if (body.length > MAX_DATA_BYTES) return json({ error: 'Los datos superan el límite (200 KB).' }, 413);
+    try { JSON.parse(body); } catch (e) { return json({ error: 'JSON no válido.' }, 400); }
+    await env.AUTH.put(key, body);
+    return json({ ok: true });
+  }
+  return json({ error: 'Método no permitido.' }, 405);
+}
+function json(obj, status) {
+  return new Response(JSON.stringify(obj), { status: status || 200, headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', 'X-Robots-Tag': 'noindex' } });
 }
 
 /* ---------------- usuarios y sesiones ---------------- */

@@ -417,7 +417,21 @@ document.addEventListener('DOMContentLoaded', function () {
     ctx.fillText('1', area.l, H - 6); ctx.textAlign = 'right'; ctx.fillText('periodo ' + n, area.r, H - 6); ctx.textAlign = 'left';
   });
 
-  /* plantillas */
+  /* plantillas: se guardan en este navegador (localStorage) y, si hay sesión en el sitio
+     (Worker de acceso), también en la nube por usuario, para que sobrevivan a un borrado
+     de caché o a entrar desde otro equipo. La nube es la fuente de verdad al abrir la página. */
+  var API_TPL = '/acceso/datos/ic';
+  function syncPull() {
+    var ctrl = ('AbortController' in window) ? new AbortController() : null;
+    var opts = { credentials: 'same-origin' };
+    if (ctrl) { opts.signal = ctrl.signal; setTimeout(function () { ctrl.abort(); }, 2500); }
+    return fetch(API_TPL, opts).then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (j) { return j && j.data ? j.data : null; })
+      .catch(function () { return null; });
+  }
+  function syncPush() {
+    fetch(API_TPL, { method: 'PUT', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(tpls()) }).catch(function () {});
+  }
   function tpls() { return get(KEY_TPL) || {}; }
   function fillTpl(sel) {
     var t = tpls(), o = '<option value="">Seleccionar</option>';
@@ -437,19 +451,19 @@ document.addEventListener('DOMContentLoaded', function () {
   $('ic-update').addEventListener('click', function () {
     var k = $('ic-tpl').value, s = state(); if (!k) return;
     if (validate(s)) { $('ic-msg').textContent = 'Corrige los valores antes de guardar.'; return; }
-    var t = tpls(); t[k] = s; put(KEY_TPL, t);
+    var t = tpls(); t[k] = s; put(KEY_TPL, t); syncPush();
     $('ic-msg').textContent = 'Plantilla "' + k + '" actualizada con los valores y la columna Real actuales.';
   });
   $('ic-save').addEventListener('click', function () {
     var name = $('ic-name').value.trim(), s = state();
     if (!name) { $('ic-msg').textContent = 'Escribe un nombre para la plantilla.'; return; }
     if (validate(s)) { $('ic-msg').textContent = 'Corrige los valores antes de guardar.'; return; }
-    var t = tpls(); t[name] = s; put(KEY_TPL, t); fillTpl(name);
+    var t = tpls(); t[name] = s; put(KEY_TPL, t); fillTpl(name); syncPush();
     $('ic-name').value = ''; $('ic-msg').textContent = 'Plantilla "' + name + '" guardada en este navegador.';
   });
   $('ic-tpl-del').addEventListener('click', function () {
     var k = $('ic-tpl').value; if (!k) return;
-    var t = tpls(); delete t[k]; put(KEY_TPL, t); fillTpl('');
+    var t = tpls(); delete t[k]; put(KEY_TPL, t); fillTpl(''); syncPush();
     $('ic-msg').textContent = 'Plantilla "' + k + '" borrada.';
   });
 
@@ -483,8 +497,12 @@ document.addEventListener('DOMContentLoaded', function () {
   ['ic-bal', 'ic-risk', 'ic-base', 'ic-wr', 'ic-rb', 'ic-ops', 'ic-cur', 'ic-when'].forEach(function (id) { $(id).addEventListener('input', recalc); });
   $('ic-n').addEventListener('input', function () { buildRows(); recalc(); });
 
-  fillTpl('');
-  apply(get(KEY_LAST) || DEFAULT);
+  syncPull().then(function (cloud) {
+    if (cloud) put(KEY_TPL, cloud);
+    else if (Object.keys(tpls()).length) syncPush(); /* primera vez con sesión: sube lo que ya había en este navegador */
+    fillTpl('');
+    apply(get(KEY_LAST) || DEFAULT);
+  });
 });
 </script>
 </body>
