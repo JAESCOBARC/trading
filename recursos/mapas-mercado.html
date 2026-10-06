@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Mapas de Mercado · Mesa de Estudio</title>
+<meta name="description" content="Mapas de calor de Finviz del día: sectores del S&amp;P 500, sectores del Russell 2000 y futuros, uno bajo otro.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Mapas de mercado · Mesa de Estudio">
+<meta property="og:description" content="Mapas de calor de Finviz del día: sectores del S&amp;P 500, sectores del Russell 2000 y futuros, uno bajo otro.">
+<meta property="og:url" content="https://trading.jhonyescobar.com/recursos/mapas-mercado.html">
+<meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/mapas-mercado.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Mapas de mercado · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mapas de mercado · Mesa de Estudio">
+<meta name="twitter:description" content="Mapas de calor de Finviz del día: sectores del S&amp;P 500, sectores del Russell 2000 y futuros, uno bajo otro.">
+<meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/mapas-mercado.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  .fv-win{margin-bottom:18px}
+  .fv-win:last-child{margin-bottom:0}
+  .fv-frame{width:100%;height:600px;border:0;display:block;background:#0A0B0C}
+  @media (max-width:640px){.fv-frame{height:420px}}
+</style>
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[El mapa de calor como primer vistazo a la sesión: qué sectores mandan, dónde está el dinero y qué hacen los futuros antes de abrir]</p>
+    <p class="eyebrow">Recursos</p>
+    <h1>Mapas de <span class="lime">mercado</span></h1>
+    <p class="lede">Tres mapas de calor de Finviz, con el rendimiento del día, uno bajo otro: sectores del S&amp;P 500, del Russell 2000 y futuros.</p>
+  </section>
+
+  <section class="section" id="sp500">
+    <div class="sec-head">
+      <h2>Sectores · S&amp;P 500</h2>
+      <p>Rendimiento del día por sector y por acción dentro de cada sector, en las grandes compañías del S&amp;P 500.</p>
+    </div>
+    <div class="win fv-win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">finviz.com/widgets/map?t=sec&amp;st=d1</div><span class="live">Finviz</span></div>
+      <iframe class="fv-frame" src="https://finviz.com/widgets/map?t=sec&amp;st=d1&amp;colorscale=colorblind" loading="lazy" title="Mapa de calor Finviz: sectores S&amp;P 500, rendimiento del día"></iframe>
+    </div>
+  </section>
+
+  <section class="section" id="russell2000">
+    <div class="sec-head">
+      <h2>Sectores · Russell 2000</h2>
+      <p>La misma lectura, pero en el universo de pequeña capitalización del Russell 2000.</p>
+    </div>
+    <div class="win fv-win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">finviz.com/widgets/map?t=sec_rut&amp;st=d1</div><span class="live">Finviz</span></div>
+      <iframe class="fv-frame" src="https://finviz.com/widgets/map?t=sec_rut&amp;st=d1" loading="lazy" title="Mapa de calor Finviz: sectores Russell 2000, rendimiento del día"></iframe>
+    </div>
+  </section>
+
+  <section class="section" id="futuros">
+    <div class="sec-head">
+      <h2>Futuros</h2>
+      <p>Índices, materias primas, bonos y divisas en futuros: contexto rápido antes de la sesión.</p>
+    </div>
+    <div class="win fv-win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">finviz.com/widgets/map?t=futures&amp;st=d1</div><span class="live">Finviz</span></div>
+      <iframe class="fv-frame" src="https://finviz.com/widgets/map?t=futures&amp;st=d1" loading="lazy" title="Mapa de calor Finviz: futuros, rendimiento del día"></iframe>
+    </div>
+    <h3>Si un mapa no carga</h3>
+    <p class="note">Son widgets públicos de Finviz: si alguno no se muestra, recarga la página o prueba sin bloqueador de anuncios activo para este sitio.</p>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+</body>
+</html>

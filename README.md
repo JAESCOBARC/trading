@@ -7,7 +7,7 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 
 - **Fundamentos**: simuladores para aprender a leer el gráfico (sin checklist).
 - **Estrategias**: cada una con **1. Simulador gráfico** y **2. Checklist de ejecución**.
-- **Recursos**: herramientas de cálculo.
+- **Recursos**: herramientas de cálculo y datos de mercado.
 
 > **Sitio NO indexable.** No quitar las etiquetas `<meta name="robots" content="noindex, ...">`
 > de ninguna página, ni el archivo `_headers`. Ver `robots.txt` para el porqué de no usar `Disallow: /`.
@@ -27,6 +27,7 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 | `fundamentos/wyckoff.html` | Simulador de acumulación/distribución con eventos + laboratorio de las 3 leyes, Operador Compuesto, rupturas, Spring/Upthrust y errores |
 | `recursos/interes-compuesto.html` | Interés compuesto por operativa: % riesgo, winrate, R:B y operaciones por periodo; retiros parciales por periodo, simulación de rachas (Montecarlo), plantillas y CSV |
 | `recursos/registro-trading.html` | Registro de trading: botón que abre la app de AppSheet en una ventana emergente (no embebida) |
+| `recursos/mapas-mercado.html` | Tres mapas de calor de Finviz uno bajo otro: sectores S&P 500, sectores Russell 2000 y futuros |
 
 ## Estructura
 
