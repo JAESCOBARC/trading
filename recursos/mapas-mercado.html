@@ -36,10 +36,15 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="../assets/site.css">
 <style>
-  .fv-win{margin-bottom:18px}
+  /* Evita el scroll horizontal fantasma que deja el truco de ancho completo (100vw) de abajo. */
+  body{overflow-x:hidden}
+  /* Rompe el ancho máximo de .wrap (1180px) para que los mapas ocupen todo el ancho de la ventana,
+     con un pequeño margen lateral; el resto de la página (títulos, texto) sigue en la columna normal. */
+  .fv-win{width:100vw;max-width:100vw;margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);padding-inline:16px;box-sizing:border-box;margin-bottom:18px}
   .fv-win:last-child{margin-bottom:0}
+  .fv-win .win{border-radius:14px}
   .fv-frame{width:100%;height:600px;border:0;display:block;background:#0A0B0C}
-  @media (max-width:640px){.fv-frame{height:420px}}
+  @media (max-width:640px){.fv-win{padding-inline:8px}.fv-frame{height:420px}}
 </style>
 </head>
 <body data-root="../">
@@ -58,10 +63,10 @@
       <h2>Sectores · S&amp;P 500</h2>
       <p>Rendimiento del día por sector y por acción dentro de cada sector, en las grandes compañías del S&amp;P 500.</p>
     </div>
-    <div class="win fv-win">
+    <div class="fv-win"><div class="win">
       <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">finviz.com/widgets/map?t=sec&amp;st=d1</div><span class="live">Finviz</span></div>
       <iframe class="fv-frame" src="https://finviz.com/widgets/map?t=sec&amp;st=d1&amp;colorscale=colorblind" loading="lazy" title="Mapa de calor Finviz: sectores S&amp;P 500, rendimiento del día"></iframe>
-    </div>
+    </div></div>
   </section>
 
   <section class="section" id="russell2000">
@@ -69,10 +74,10 @@
       <h2>Sectores · Russell 2000</h2>
       <p>La misma lectura, pero en el universo de pequeña capitalización del Russell 2000.</p>
     </div>
-    <div class="win fv-win">
+    <div class="fv-win"><div class="win">
       <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">finviz.com/widgets/map?t=sec_rut&amp;st=d1</div><span class="live">Finviz</span></div>
       <iframe class="fv-frame" src="https://finviz.com/widgets/map?t=sec_rut&amp;st=d1" loading="lazy" title="Mapa de calor Finviz: sectores Russell 2000, rendimiento del día"></iframe>
-    </div>
+    </div></div>
   </section>
 
   <section class="section" id="futuros">
@@ -80,10 +85,10 @@
       <h2>Futuros</h2>
       <p>Índices, materias primas, bonos y divisas en futuros: contexto rápido antes de la sesión.</p>
     </div>
-    <div class="win fv-win">
+    <div class="fv-win"><div class="win">
       <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">finviz.com/widgets/map?t=futures&amp;st=d1</div><span class="live">Finviz</span></div>
       <iframe class="fv-frame" src="https://finviz.com/widgets/map?t=futures&amp;st=d1" loading="lazy" title="Mapa de calor Finviz: futuros, rendimiento del día"></iframe>
-    </div>
+    </div></div>
     <h3>Si un mapa no carga</h3>
     <p class="note">Son widgets públicos de Finviz: si alguno no se muestra, recarga la página o prueba sin bloqueador de anuncios activo para este sitio.</p>
   </section>
