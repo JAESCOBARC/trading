@@ -9,7 +9,7 @@
 <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="referrer" content="no-referrer">
 <title>Registro de Trading · Mesa de Estudio</title>
-<meta name="description" content="Registro de operaciones de trading: la app de AppSheet para anotar cada operación, integrada en la Mesa de Estudio.">
+<meta name="description" content="Registro de operaciones de trading: abre la app de AppSheet en una ventana emergente para anotar cada operación.">
 <meta name="theme-color" content="#0A0B0C">
 <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="Mesa de Estudio">
 <meta property="og:locale" content="es_ES">
 <meta property="og:title" content="Registro de trading · Mesa de Estudio">
-<meta property="og:description" content="Registro de operaciones de trading: la app de AppSheet para anotar cada operación, integrada en la Mesa de Estudio.">
+<meta property="og:description" content="Registro de operaciones de trading: abre la app de AppSheet en una ventana emergente para anotar cada operación.">
 <meta property="og:url" content="https://trading.jhonyescobar.com/recursos/registro-trading.html">
 <meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/registro-trading.png">
 <meta property="og:image:width" content="1200">
@@ -29,16 +29,20 @@
 <meta property="og:image:alt" content="Registro de trading · Mesa de Estudio">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Registro de trading · Mesa de Estudio">
-<meta name="twitter:description" content="Registro de operaciones de trading: la app de AppSheet para anotar cada operación, integrada en la Mesa de Estudio.">
+<meta name="twitter:description" content="Registro de operaciones de trading: abre la app de AppSheet en una ventana emergente para anotar cada operación.">
 <meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/registro-trading.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <link rel="stylesheet" href="../assets/site.css">
 <style>
-  .app-frame{position:relative;width:100%;height:max(640px,calc(100vh - 220px));background:#fff}
-  .app-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
-  @media (max-width:760px){.app-frame{height:calc(100vh - 160px);min-height:560px}}
+  .launch{display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center;padding:64px 24px}
+  .launch .ic{width:56px;height:56px;border-radius:14px;background:var(--lime-soft);color:var(--lime);display:grid;place-items:center}
+  .launch .ic svg{width:28px;height:28px}
+  .launch h3{font-size:22px;margin:0}
+  .launch p{color:var(--ink-2);font-size:14.5px;max-width:420px;margin:0}
+  #rt-fallback{font-size:12.5px;color:var(--ink-3)}
+  #rt-fallback a{color:var(--lime)}
 </style>
 </head>
 <body data-root="../">
@@ -49,8 +53,8 @@
     <p class="audience">[Cada operación registrada el mismo día: sin registro no hay estadística, y sin estadística no hay mejora]</p>
     <p class="eyebrow">Recursos</p>
     <h1>Registro de <span class="lime">trading</span></h1>
-    <p class="lede">Tu app de AppSheet para anotar las operaciones, dentro de la mesa.</p>
-    <div class="row"><a class="btn ghost" id="rt-open" href="https://www.appsheet.com/start/77042c93-d074-4166-91e3-3c5932c6b300" target="_blank" rel="noopener noreferrer">Abrir en una pestaña nueva ↗</a></div>
+    <p class="lede">Tu app de AppSheet para anotar las operaciones: se abre en una ventana emergente aparte, no dentro de esta página.</p>
+    <div class="row"><button class="btn" type="button" id="rt-launch">Abrir registro ↗</button></div>
   </section>
 
   <section class="section" id="app">
@@ -60,16 +64,34 @@
     </div>
     <div class="win">
       <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">appsheet.com/start/77042c93-d074-4166-91e3-3c5932c6b300</div><span class="live">AppSheet</span></div>
-      <div class="app-frame">
-        <iframe src="https://www.appsheet.com/start/77042c93-d074-4166-91e3-3c5932c6b300" title="Registro de trading (AppSheet)" allow="clipboard-read; clipboard-write; camera; geolocation" referrerpolicy="strict-origin-when-cross-origin" loading="lazy"></iframe>
+      <div class="launch">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></div>
+        <h3>Abrir el registro en una ventana aparte</h3>
+        <p>El botón lanza la app de AppSheet en una ventana emergente propia, no embebida en esta página: el inicio de sesión de Google funciona mejor así.</p>
+        <button class="btn" type="button" id="rt-launch2">Abrir registro ↗</button>
+        <p id="rt-fallback">¿No se abrió nada? El navegador puede haber bloqueado la ventana emergente: permite las ventanas emergentes para este sitio, o <a href="https://www.appsheet.com/start/77042c93-d074-4166-91e3-3c5932c6b300" target="_blank" rel="noopener noreferrer">ábrelo en una pestaña nueva</a>.</p>
       </div>
     </div>
-    <h3>Si la app no carga</h3>
-    <p class="note">Si la app no se muestra o pide iniciar sesión dentro del marco, ábrela con el botón «Abrir en una pestaña nueva»: el inicio de sesión de Google a veces no funciona dentro de una página embebida.</p>
   </section>
 </main>
 
 <footer id="foot"></footer>
 <script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var APP_URL = 'https://www.appsheet.com/start/77042c93-d074-4166-91e3-3c5932c6b300';
+  function openPopup() {
+    var w = 480, h = 820;
+    var y = (window.top.outerHeight / 2) + window.top.screenY - (h / 2);
+    var x = (window.top.outerWidth / 2) + window.top.screenX - (w / 2);
+    var win = window.open(APP_URL, 'mesaRegistroTrading', 'width=' + w + ',height=' + h + ',top=' + Math.max(0, y) + ',left=' + Math.max(0, x) + ',noopener,noreferrer,resizable=yes,scrollbars=yes');
+    if (win) win.focus();
+  }
+  ['rt-launch', 'rt-launch2'].forEach(function (id) {
+    var btn = document.getElementById(id);
+    if (btn) btn.addEventListener('click', openPopup);
+  });
+});
+</script>
 </body>
 </html>
