@@ -1,0 +1,342 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Atlas · Mesa de Estudio</title>
+<meta name="description" content="Estrategia Atlas: vela contraria e imbalance (FVG) marcan la mitigación, barrido de liquidez, vela de fuerza y R:B fijo 1:2. Simulador y checklist.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Atlas · Mesa de Estudio">
+<meta property="og:description" content="Estrategia Atlas: vela contraria e imbalance (FVG) marcan la mitigación, barrido de liquidez, vela de fuerza y R:B fijo 1:2. Simulador y checklist.">
+<meta property="og:url" content="https://trading.jhonyescobar.com/estrategias/atlas.html">
+<meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/atlas.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Atlas · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Atlas · Mesa de Estudio">
+<meta name="twitter:description" content="Estrategia Atlas: vela contraria e imbalance (FVG) marcan la mitigación, barrido de liquidez, vela de fuerza y R:B fijo 1:2. Simulador y checklist.">
+<meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/atlas.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[La zona que deja una vela contraria antes del impulso: el precio suele volver, limpiar liquidez cerca y reaccionar desde ahí]</p>
+    <p class="eyebrow">Estrategia</p>
+    <h1><span class="lime">Atlas</span></h1>
+    <p class="lede">Vela contraria + imbalance marcan la mitigación. Barrido de liquidez, vela de fuerza y R:B fijo 1:2.</p>
+    <div class="chips"><span class="chip">Cualquier mercado</span><span class="chip info">Largo y corto</span><span class="chip">R:B fijo 1:2</span></div>
+    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Simulador gráfico</h2>
+      <p>Recorre vela a vela cómo se forma la zona (vela contraria + imbalance), cómo se limpia la liquidez antes de entrar en ella y qué vela confirma la entrada. Compara un setup válido con dos formas típicas de invalidarlo.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url" id="atl-url">mesa-de-estudio/estrategias/atlas</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="atl-side">
+          <span class="side-label">Escenarios</span>
+          <button class="scn" data-scn="largo" aria-pressed="true">Largo · mitigación válida</button>
+          <button class="scn" data-scn="corto" aria-pressed="false">Corto · mitigación válida</button>
+          <button class="scn" data-scn="sinbarrido" aria-pressed="false">Sin barrido · inválido</button>
+          <button class="scn" data-scn="rota" aria-pressed="false">Zona rota · inválido</button>
+          <span class="side-label">Capas</span>
+          <label class="toggle"><input type="checkbox" id="atl-fvg" checked>Imbalance (FVG)</label>
+          <label class="toggle"><input type="checkbox" id="atl-zone" checked>Zona de mitigación</label>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="atl-title"></span>
+            <div class="legend">
+              <span><i style="background:#eab308"></i>Imbalance</span>
+              <span><i style="background:var(--amber)"></i>Mitigación</span>
+              <span><i style="background:var(--blue)"></i>Liquidez</span>
+              <span><i style="background:var(--lime)"></i>Objetivo</span>
+            </div>
+          </div>
+          <div class="chart tall"><canvas id="atl-chart" role="img" aria-label="Gráfico de velas con la vela contraria, el imbalance, la zona de mitigación, el barrido y la vela de fuerza"></canvas></div>
+          <div class="replay" id="atl-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Vela actual">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="caption" id="atl-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <h3 class="card-label">Evento actual</h3>
+            <div id="atl-event"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Plan de la operación</h3>
+            <div id="atl-plan"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Eventos del escenario</h3>
+            <div class="checks" id="atl-list"></div>
+          </div>
+          <div class="verdict" id="atl-verdict" hidden></div>
+          <button class="btn sm" id="atl-send" type="button" hidden>Enviar a la calculadora</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Checklist de ejecución</h2>
+      <p>Las cuatro piezas de la estructura son obligatorias. Sin barrido, o con la zona rota, no se opera aunque la vela parezca de fuerza.</p>
+    </div>
+    <div class="cl" data-checklist="atlas">
+      <div class="cl-groups">
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Estructura (SMC)</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Vela contraria identificada</b><span>Última vela en contra del impulso, justo antes del movimiento fuerte.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Imbalance (FVG) marcado</b><span>Hueco entre la vela contraria y la tercera vela del impulso.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Barrido de liquidez antes de la zona</b><span>El precio perfora un mínimo o máximo previo (donde descansan stops) antes de entrar en la mitigación.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Vela de fuerza o intención en la zona</b><span>Cuerpo grande que cierra con convicción al salir de la zona: confirma la entrada.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Invalidación y contexto</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Sin ruptura de la zona de mitigación</b><span>Si el precio la atraviesa sin reaccionar ("zona rota"), no se opera.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Primer retest de la zona</b><span>Una zona ya mitigada antes pierde fuerza: prioriza el primer toque.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Tendencia superior a favor</b><span>El marco temporal mayor apoya la dirección de la entrada.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Sesión y noticias revisadas</b><span>Evita entrar justo antes de datos macro de alto impacto.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Riesgo</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Objetivo fijado en 2R (R:B 1:2)</b><span>Entrada, stop en el extremo del barrido y objetivo exactamente al doble del riesgo.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Pérdida máxima definida y tamaño calculado</b><span>Con la calculadora, antes de entrar.</span></div></label>
+        </div>
+      </div>
+      <div class="cl-side">
+        <div class="card">
+          <h3 class="card-label">Progreso</h3>
+          <div class="meter"><i data-meter></i></div>
+          <span class="mono muted" data-count></span>
+          <div class="verdict" data-verdict></div>
+          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
+        </div>
+        <div data-risk="atl" data-instruments="MNQ,NQ,MES,ES,FDXS,STK" data-defaults='{"capital":10000,"pct":1,"entry":110,"stop":89.75,"tp1":150.5}'></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  function k(o, h, l, c) { return { o: o, h: h, l: l, c: c }; }
+  function mirror(cs, m) { return cs.map(function (c) { return { o: m - c.o, h: m - c.l, l: m - c.h, c: m - c.c }; }); }
+
+  /* Escenario base "largo" (30 velas); el resto se deriva de este. */
+  var LARGO = [
+    k(118, 120, 113, 114), k(114, 115, 108, 109), k(109, 111, 104, 105), k(105, 107, 101, 102),
+    k(102, 104, 99, 100.5), k(100.5, 102, 97, 98), k(98, 99.5, 95, 96),
+    k(96, 97, 93, 95),                 /* 7  · mínimo previo (liquidez) */
+    k(95, 99, 94, 98.5), k(98.5, 100, 97.5, 99),
+    k(99, 100, 97, 97.5),              /* 10 · V1 vela contraria */
+    k(97.5, 116, 97, 114),             /* 11 · V2 impulso */
+    k(114, 122, 108, 120),             /* 12 · V3 confirma el imbalance */
+    k(120, 124, 117, 122), k(122, 127, 120, 126), k(126, 129, 123, 125),
+    k(125, 126, 119, 120), k(120, 121, 114, 115), k(115, 116, 108.5, 109.5), k(109.5, 110, 103, 104),
+    k(104, 105, 90, 99),               /* 20 · barrido */
+    k(99, 101, 96.5, 97.5),            /* 21 · retest dentro de la zona */
+    k(97.5, 112, 97, 110),             /* 22 · vela de fuerza */
+    k(110, 118, 108, 116), k(116, 124, 114, 122), k(122, 130, 120, 128),
+    k(128, 138, 126, 136), k(136, 145, 134, 142), k(142, 152, 140, 150), k(150, 156, 148, 154)
+  ];
+  var SINBARRIDO = LARGO.slice(0, 20).concat([
+    k(104, 105, 98, 100),              /* 20 · entra en la zona sin barrido previo */
+    k(100, 110, 99.5, 108),            /* 21 · parece vela de fuerza... */
+    k(108, 112, 104, 105), k(105, 106, 96, 98), k(98, 100, 90, 92), k(92, 95, 85, 88)
+  ]);
+  var ROTA = LARGO.slice(0, 20).concat([
+    k(104, 105, 90, 92),               /* 20 · atraviesa la zona sin reaccionar */
+    k(92, 94, 82, 84), k(84, 86, 75, 78), k(78, 80, 70, 72), k(72, 74, 65, 68)
+  ]);
+
+  var SC = {
+    largo: { title: 'Largo · mitigación válida', dir: 'L', data: LARGO, start: 22, v1: 10, v3: 12, oldLow: 7, sweep: 20, retest: 21, force: 22, breakIdx: null, hasSweep: true },
+    corto: { title: 'Corto · mitigación válida', dir: 'S', data: mirror(LARGO, 200), start: 22, v1: 10, v3: 12, oldLow: 7, sweep: 20, retest: 21, force: 22, breakIdx: null, hasSweep: true },
+    sinbarrido: { title: 'Sin barrido · no se opera', dir: 'L', data: SINBARRIDO, start: 21, v1: 10, v3: 12, oldLow: 7, sweep: null, retest: 20, force: 21, breakIdx: null, hasSweep: false },
+    rota: { title: 'Zona rota · estructura invalidada', dir: 'L', data: ROTA, start: 20, v1: 10, v3: 12, oldLow: 7, sweep: null, retest: null, force: null, breakIdx: 20, hasSweep: false }
+  };
+
+  var TXT = {
+    V1: ['Vela contraria', 'Última vela en contra del impulso, justo antes del movimiento fuerte: marca el origen de la zona.', 'Vela contraria'],
+    FVG: ['Imbalance (FVG)', 'Hueco entre la vela contraria y la tercera vela del impulso: una ineficiencia que el precio tiende a rellenar.', 'Imbalance'],
+    BARRIDO: ['Barrido de liquidez', 'El precio perfora un mínimo o máximo previo, donde descansan stops, antes de entrar en la zona: limpia liquidez.', 'Barrido'],
+    FUERZA: ['Vela de fuerza', 'Vela de cuerpo grande que cierra con convicción al salir de la zona: confirma la entrada.', 'Confirmación'],
+    ROTA: ['Zona rota', 'El precio atraviesa la zona de mitigación sin reaccionar: la estructura queda invalidada.', 'Invalidación']
+  };
+
+  function zoneOf(s) {
+    var d = s.data, bull = s.dir === 'L';
+    var v1Near = bull ? d[s.v1].h : d[s.v1].l, v1Full = bull ? d[s.v1].l : d[s.v1].h, v3Edge = bull ? d[s.v3].l : d[s.v3].h;
+    return {
+      fvg: { lo: Math.min(v1Near, v3Edge), hi: Math.max(v1Near, v3Edge) },
+      zone: { lo: Math.min(v1Full, v3Edge), hi: Math.max(v1Full, v3Edge) }
+    };
+  }
+  function plan(s) {
+    if (s.force == null) return null;
+    var d = s.data, bull = s.dir === 'L', entry = d[s.force].c;
+    var extIdx = s.sweep != null ? s.sweep : s.oldLow;
+    var stop = bull ? d[extIdx].l - 0.25 : d[extIdx].h + 0.25;
+    var R = Math.abs(entry - stop), target = entry + (bull ? 2 : -2) * R;
+    return { entry: entry, stop: stop, R: R, target: target, bull: bull };
+  }
+  function eventsOf(s) {
+    var out = [{ code: 'V1', idx: s.v1 }, { code: 'FVG', idx: s.v3 }];
+    if (s.breakIdx != null) out.push({ code: 'ROTA', idx: s.breakIdx });
+    else { out.push({ code: 'BARRIDO', idx: s.sweep }); out.push({ code: 'FUERZA', idx: s.force }); }
+    return out;
+  }
+  function rowState(ev, curIdx, s) {
+    if (ev.idx != null) return curIdx >= ev.idx ? 'ok' : 'wait';
+    var crit = s.retest != null ? s.retest : s.v3 + 1;
+    return curIdx >= crit ? 'no' : 'wait';
+  }
+  function lastEvent(s, curIdx) {
+    var ev = eventsOf(s), found = null;
+    ev.forEach(function (e) { if (e.idx != null && e.idx <= curIdx) found = e; });
+    return found;
+  }
+
+  var key = 'largo', idx = 22;
+  var stage = M.canvasStage($('atl-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h, s = SC[key], d = s.data, n = d.length;
+    var area = { l: 12, r: w - 64, t: 32, b: h - 24 };
+    var vals = []; d.forEach(function (c) { vals.push(c.h, c.l); });
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), pad = (hi - lo) * 0.06;
+    lo -= pad; hi += pad;
+    var y = M.scale(lo, hi, area.b, area.t), cw = (area.r - area.l) / n, x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 7));
+    var Z = zoneOf(s), frozen = s.retest != null ? s.retest : (s.breakIdx != null ? s.breakIdx : n - 1);
+    function topLabel(txt, px, rowY, color) {
+      ctx.save(); ctx.beginPath(); ctx.rect(0, 0, w, area.t); ctx.clip();
+      ctx.fillStyle = color; ctx.font = '600 10px "JetBrains Mono", monospace'; ctx.fillText(txt, px, rowY);
+      ctx.restore();
+    }
+    if ($('atl-zone').checked && idx >= s.v1) {
+      var zx0 = x(s.v1) - cw / 2, zx1 = x(Math.min(idx, frozen)) + cw / 2;
+      ctx.fillStyle = 'rgba(180,83,9,.32)'; ctx.fillRect(zx0, y(Z.zone.hi), zx1 - zx0, y(Z.zone.lo) - y(Z.zone.hi));
+      ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 1.5; ctx.strokeRect(zx0, y(Z.zone.hi), zx1 - zx0, y(Z.zone.lo) - y(Z.zone.hi)); ctx.lineWidth = 1;
+      topLabel('MITIGACIÓN', zx0 + 2, area.t - 19, '#fbbf24');
+    }
+    if ($('atl-fvg').checked && idx >= s.v3) {
+      var fx0 = x(s.v1 + 1) - cw / 2, fx1 = x(Math.min(idx, frozen)) + cw / 2;
+      ctx.fillStyle = 'rgba(234,179,8,.18)'; ctx.fillRect(fx0, y(Z.fvg.hi), fx1 - fx0, y(Z.fvg.lo) - y(Z.fvg.hi));
+      ctx.strokeStyle = 'rgba(234,179,8,.6)'; ctx.setLineDash([4, 4]); ctx.strokeRect(fx0, y(Z.fvg.hi), fx1 - fx0, y(Z.fvg.lo) - y(Z.fvg.hi)); ctx.setLineDash([]);
+      topLabel('IMBALANCE', fx0 + 2, area.t - 6, '#fde047');
+    }
+    if (idx >= s.oldLow) {
+      var lvl = s.dir === 'L' ? d[s.oldLow].l : d[s.oldLow].h;
+      M.hline(ctx, area, y(lvl), C.blue, 'Liquidez ' + M.fmt(lvl, 2), { dash: [3, 3], left: true });
+    }
+    M.drawCandles(ctx, d.slice(0, idx + 1), x, y, cw, { mark: function (i) { return i === s.v1; } });
+    if (idx >= s.v1) M.marker(ctx, x(s.v1), s.dir === 'L' ? y(d[s.v1].l) + 12 : y(d[s.v1].h) - 12, C.amber, 'V1', s.dir === 'L');
+    if (s.sweep != null && idx >= s.sweep) M.marker(ctx, x(s.sweep), s.dir === 'L' ? y(d[s.sweep].l) + 12 : y(d[s.sweep].h) - 12, C.blue, 'Barrido', s.dir === 'L');
+    if (s.force != null && idx >= s.force) M.marker(ctx, x(s.force), s.dir === 'L' ? y(d[s.force].h) - 12 : y(d[s.force].l) + 12, s.hasSweep ? C.lime : C.amber, 'Fuerza', s.dir !== 'L');
+    if (s.breakIdx != null && idx >= s.breakIdx) M.marker(ctx, x(s.breakIdx), s.dir === 'L' ? y(d[s.breakIdx].l) + 12 : y(d[s.breakIdx].h) - 12, C.red, 'ROTA', s.dir === 'L');
+    var p = plan(s);
+    if (p && s.hasSweep && idx >= s.force) {
+      var fx = x(s.force) - cw / 2;
+      [[p.target, C.lime, 'Objetivo 2R'], [p.entry, C.ink, 'Entrada'], [p.stop, C.red, 'Stop']].forEach(function (l) {
+        ctx.strokeStyle = l[1]; ctx.setLineDash(l[2] === 'Entrada' ? [] : [6, 3]); ctx.beginPath(); ctx.moveTo(fx, y(l[0])); ctx.lineTo(area.r, y(l[0])); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = l[1]; ctx.font = '600 10.5px "JetBrains Mono", monospace'; ctx.fillText(l[2], area.r - 2, y(l[0]) + (l[2] === 'Stop' ? 13 : -4));
+      });
+    }
+  });
+
+  function row(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', wait: '·', no: '✕' })[st] + '</i><span>' + t + '</span></div>'; }
+  function panel() {
+    var s = SC[key], d = s.data, e = lastEvent(s, idx), p = plan(s);
+    if (s.breakIdx != null && idx >= s.breakIdx) {
+      var t = TXT.ROTA;
+      $('atl-event').innerHTML = '<div class="kv"><span>ROTA</span><span class="down">' + t[0] + '</span></div><p class="note" style="margin-top:6px;color:var(--ink-2)">' + t[1] + '</p>';
+    } else if (e) {
+      var t2 = TXT[e.code];
+      $('atl-event').innerHTML = '<div class="kv"><span>' + e.code + '</span><span class="' + (e.code === 'BARRIDO' ? 'info-t' : 'up') + '">' + t2[0] + '</span></div><p class="note" style="margin-top:6px;color:var(--ink-2)">' + t2[1] + '</p><div class="kv"><span>Pieza</span><span>' + t2[2] + '</span></div>';
+    } else {
+      $('atl-event').innerHTML = '<p class="note">Aún no hay eventos: el precio está en tendencia, antes de la vela contraria.</p>';
+    }
+    if (p) {
+      $('atl-plan').innerHTML =
+        '<div class="kv"><span>Entrada</span><span>' + M.fmt(p.entry, 2) + '</span></div>' +
+        '<div class="kv"><span>Stop (' + (s.hasSweep ? 'barrido' : 'liquidez') + ')</span><span class="down">' + M.fmt(p.stop, 2) + '</span></div>' +
+        '<div class="kv"><span>Riesgo (1R)</span><span>' + M.fmt(p.R, 2) + '</span></div>' +
+        '<div class="kv"><span>Objetivo (2R, fijo)</span><span class="up">' + M.fmt(p.target, 2) + '</span></div>';
+    } else {
+      $('atl-plan').innerHTML = '<p class="note">Se completa al llegar a la vela de fuerza.</p>';
+    }
+    var list = eventsOf(s).map(function (ev) { return row(rowState(ev, idx, s), '<b>' + ev.code + '</b> · ' + TXT[ev.code][0]); }).join('');
+    $('atl-list').innerHTML = list;
+    var v = $('atl-verdict'), sendBtn = $('atl-send');
+    if (s.breakIdx != null && idx >= s.breakIdx) {
+      v.hidden = false; v.className = 'verdict no'; v.innerHTML = '<strong>Zona rota</strong>' + TXT.ROTA[1] + ' No se opera.';
+      sendBtn.hidden = true;
+    } else if (s.force != null && idx >= s.force) {
+      if (!s.hasSweep) {
+        v.hidden = false; v.className = 'verdict no'; v.innerHTML = '<strong>No operar: falta el barrido</strong>El precio entra en la zona sin limpiar antes la liquidez de un mínimo o máximo previo. Aunque la vela que sigue parezca de fuerza, la regla exige el barrido primero.';
+        sendBtn.hidden = true;
+      } else {
+        v.hidden = false; v.className = 'verdict ok';
+        v.innerHTML = '<strong>' + (s.dir === 'L' ? 'Largo' : 'Corto') + ' confirmado</strong>Entrada ' + M.fmt(p.entry, 2) + ' (cierre de la vela de fuerza) · stop ' + M.fmt(p.stop, 2) + ' (extremo del barrido) · objetivo 2R ' + M.fmt(p.target, 2) + '.';
+        sendBtn.hidden = false;
+      }
+    } else { v.hidden = true; sendBtn.hidden = true; }
+    var cap;
+    if (s.breakIdx != null && idx >= s.breakIdx) cap = TXT.ROTA[1];
+    else if (!s.hasSweep && s.retest != null && idx >= s.retest && (s.force == null || idx < s.force)) cap = 'El precio toca la zona, pero no se limpió ningún mínimo o máximo previo: falta el barrido.';
+    else if (e) cap = TXT[e.code][1];
+    else cap = 'El precio está en tendencia: se espera la vela contraria que abra la zona.';
+    $('atl-caption').innerHTML = '<b>Vela ' + (idx + 1) + '</b>' + cap;
+    $('atl-title').textContent = s.title;
+    $('atl-url').textContent = 'mesa-de-estudio/estrategias/atlas · ' + (s.dir === 'L' ? 'largo' : 'corto');
+  }
+
+  var rp = M.replay($('atl-replay'), SC[key].data.length, SC[key].start, function (v) {
+    idx = v;
+    document.querySelector('#atl-replay [data-label]').textContent = 'Vela ' + (v + 1) + ' / ' + SC[key].data.length;
+    stage.redraw(); panel();
+  });
+  M.scenarios($('atl-side'), function (k2) { key = k2; rp.reset(SC[k2].data.length, SC[k2].start); });
+  ['atl-fvg', 'atl-zone'].forEach(function (id) { $(id).addEventListener('change', function () { stage.redraw(); }); });
+  $('atl-send').addEventListener('click', function () {
+    var s = SC[key], p = plan(s); if (!p) return;
+    M.risk('atl').set({ instrument: 'MNQ', dir: s.dir, entry: p.entry, stop: p.stop, tp1: p.target, decimals: 2 });
+    $('checklist').scrollIntoView();
+  });
+});
+</script>
+</body>
+</html>

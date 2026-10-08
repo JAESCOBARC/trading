@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Imbalances y Mitigación · Mesa de Estudio</title>
+<meta name="description" content="Simulador de imbalances (FVG): la vela contraria, el hueco de precio y cómo el mercado vuelve a mitigarlo, total o parcialmente.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Imbalances y Mitigación · Mesa de Estudio">
+<meta property="og:description" content="Simulador de imbalances (FVG): la vela contraria, el hueco de precio y cómo el mercado vuelve a mitigarlo, total o parcialmente.">
+<meta property="og:url" content="https://trading.jhonyescobar.com/fundamentos/imbalances.html">
+<meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/imbalances.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Imbalances y Mitigación · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Imbalances y Mitigación · Mesa de Estudio">
+<meta name="twitter:description" content="Simulador de imbalances (FVG): la vela contraria, el hueco de precio y cómo el mercado vuelve a mitigarlo, total o parcialmente.">
+<meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/imbalances.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Cuando una vela se mueve demasiado rápido, deja un hueco sin negociar: el mercado tiende a volver a rellenarlo antes de seguir]</p>
+    <p class="eyebrow">Fundamentos</p>
+    <h1>Imbalances y <span class="lime">mitigación</span></h1>
+    <p class="lede">La vela contraria, el hueco de precio (FVG) y cómo vuelve el mercado a mitigarlo: del todo o solo en parte.</p>
+    <div class="chips"><span class="chip">FVG · 3 velas</span><span class="chip">Mitigación total vs parcial</span></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <h2>Simulador gráfico</h2>
+      <p>Recorre vela a vela cómo se forma el imbalance y qué pasa cuando el precio vuelve a esa zona. Compara una mitigación total (rellena toda la zona) con una parcial (solo toca un extremo y reacciona).</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/fundamentos/imbalances</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="im-side">
+          <span class="side-label">Escenarios</span>
+          <button class="scn" data-scn="alcista" aria-pressed="true">Alcista · mitigación total</button>
+          <button class="scn" data-scn="bajista" aria-pressed="false">Bajista · mitigación total</button>
+          <button class="scn" data-scn="parcial" aria-pressed="false">Mitigación parcial</button>
+          <span class="side-label">Capas</span>
+          <label class="toggle"><input type="checkbox" id="im-fvg" checked>Imbalance (FVG)</label>
+          <label class="toggle"><input type="checkbox" id="im-zone" checked>Zona completa</label>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="im-title"></span>
+            <div class="legend">
+              <span><i style="background:#eab308"></i>Imbalance</span>
+              <span><i style="background:var(--amber)"></i>Zona completa</span>
+            </div>
+          </div>
+          <div class="chart tall"><canvas id="im-chart" role="img" aria-label="Gráfico de velas con la vela contraria, el imbalance y la zona de mitigación"></canvas></div>
+          <div class="replay" id="im-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Vela actual">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="caption" id="im-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <h3 class="card-label">¿Qué es un imbalance?</h3>
+            <p class="note" style="color:var(--ink-2)">Una vela se mueve tan rápido que la anterior y la siguiente no llegan a solaparse: queda un hueco de precio sin negociar (Fair Value Gap). El mercado tiende a volver a rellenarlo, del todo o en parte, antes de seguir.</p>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Evento actual</h3>
+            <div id="im-event"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Eventos del escenario</h3>
+            <div class="checks" id="im-list"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  function k(o, h, l, c) { return { o: o, h: h, l: l, c: c }; }
+  function mirror(cs, m) { return cs.map(function (c) { return { o: m - c.o, h: m - c.l, l: m - c.h, c: m - c.c }; }); }
+
+  var BASE = [
+    k(118, 120, 113, 114), k(114, 115, 108, 109), k(109, 111, 104, 105), k(105, 107, 101, 102),
+    k(102, 104, 99, 100.5), k(100.5, 102, 97, 98), k(98, 99.5, 95, 96),
+    k(96, 97, 93, 95),
+    k(95, 99, 94, 98.5), k(98.5, 100, 97.5, 99),
+    k(99, 100, 97, 97.5),              /* 10 · V1 vela contraria */
+    k(97.5, 116, 97, 114),             /* 11 · impulso */
+    k(114, 122, 108, 120),             /* 12 · confirma el imbalance */
+    k(120, 124, 117, 122), k(122, 127, 120, 126), k(126, 129, 123, 125),
+    k(125, 126, 119, 120), k(120, 121, 114, 115), k(115, 116, 108.5, 109.5), k(109.5, 110, 103, 104),
+    k(104, 105, 90, 99),               /* 20 · mitigación total: rellena toda la zona */
+    k(99, 101, 96.5, 97.5), k(97.5, 112, 97, 110),
+    k(110, 118, 108, 116), k(116, 124, 114, 122), k(122, 130, 120, 128),
+    k(128, 138, 126, 136), k(136, 145, 134, 142), k(142, 152, 140, 150), k(150, 156, 148, 154)
+  ];
+  var PARCIAL = BASE.slice(0, 20).concat([
+    k(104, 105, 101, 103),             /* 20 · solo toca el imbalance, no baja a la zona completa */
+    k(103, 114, 102, 112), k(112, 120, 110, 118),
+    k(118, 126, 116, 124), k(124, 132, 122, 130), k(130, 138, 128, 136)
+  ]);
+
+  var SC = {
+    alcista: { title: 'Alcista · mitigación total', dir: 'L', data: BASE, start: 22, v1: 10, v3: 12, retest: 21, total: true },
+    bajista: { title: 'Bajista · mitigación total', dir: 'S', data: mirror(BASE, 200), start: 22, v1: 10, v3: 12, retest: 21, total: true },
+    parcial: { title: 'Mitigación parcial', dir: 'L', data: PARCIAL, start: 21, v1: 10, v3: 12, retest: 20, total: false }
+  };
+
+  var TXT = {
+    V1: ['Vela contraria', 'Última vela en contra del impulso, justo antes del movimiento fuerte: marca el origen del imbalance.'],
+    FVG: ['Imbalance (FVG)', 'Hueco entre la vela contraria y la tercera vela del impulso: un tramo de precio que no llegó a negociarse.'],
+    TOTAL: ['Mitigación total', 'El precio vuelve y rellena toda la zona, hasta el extremo de la vela contraria, antes de reaccionar.'],
+    PARCIAL: ['Mitigación parcial', 'El precio solo toca una parte del imbalance y reacciona ahí: no hace falta rellenarlo entero.']
+  };
+
+  function zoneOf(s) {
+    var d = s.data, bull = s.dir === 'L';
+    var v1Near = bull ? d[s.v1].h : d[s.v1].l, v1Full = bull ? d[s.v1].l : d[s.v1].h, v3Edge = bull ? d[s.v3].l : d[s.v3].h;
+    return {
+      fvg: { lo: Math.min(v1Near, v3Edge), hi: Math.max(v1Near, v3Edge) },
+      zone: { lo: Math.min(v1Full, v3Edge), hi: Math.max(v1Full, v3Edge) }
+    };
+  }
+
+  var key = 'alcista', idx = 22;
+  var stage = M.canvasStage($('im-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h, s = SC[key], d = s.data, n = d.length;
+    var area = { l: 12, r: w - 64, t: 32, b: h - 24 };
+    var vals = []; d.forEach(function (c) { vals.push(c.h, c.l); });
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), pad = (hi - lo) * 0.06;
+    lo -= pad; hi += pad;
+    var y = M.scale(lo, hi, area.b, area.t), cw = (area.r - area.l) / n, x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 7));
+    var Z = zoneOf(s), frozen = s.retest;
+    function topLabel(txt, px, rowY, color) {
+      ctx.save(); ctx.beginPath(); ctx.rect(0, 0, w, area.t); ctx.clip();
+      ctx.fillStyle = color; ctx.font = '600 10px "JetBrains Mono", monospace'; ctx.fillText(txt, px, rowY);
+      ctx.restore();
+    }
+    if ($('im-zone').checked && idx >= s.v1) {
+      var zx0 = x(s.v1) - cw / 2, zx1 = x(Math.min(idx, frozen)) + cw / 2;
+      ctx.fillStyle = 'rgba(180,83,9,.32)'; ctx.fillRect(zx0, y(Z.zone.hi), zx1 - zx0, y(Z.zone.lo) - y(Z.zone.hi));
+      ctx.strokeStyle = '#f59e0b'; ctx.lineWidth = 1.5; ctx.strokeRect(zx0, y(Z.zone.hi), zx1 - zx0, y(Z.zone.lo) - y(Z.zone.hi)); ctx.lineWidth = 1;
+      topLabel('ZONA COMPLETA', zx0 + 2, area.t - 19, '#fbbf24');
+    }
+    if ($('im-fvg').checked && idx >= s.v3) {
+      var fx0 = x(s.v1 + 1) - cw / 2, fx1 = x(Math.min(idx, frozen)) + cw / 2;
+      ctx.fillStyle = 'rgba(234,179,8,.18)'; ctx.fillRect(fx0, y(Z.fvg.hi), fx1 - fx0, y(Z.fvg.lo) - y(Z.fvg.hi));
+      ctx.strokeStyle = 'rgba(234,179,8,.6)'; ctx.setLineDash([4, 4]); ctx.strokeRect(fx0, y(Z.fvg.hi), fx1 - fx0, y(Z.fvg.lo) - y(Z.fvg.hi)); ctx.setLineDash([]);
+      topLabel('IMBALANCE', fx0 + 2, area.t - 6, '#fde047');
+    }
+    M.drawCandles(ctx, d.slice(0, idx + 1), x, y, cw, { mark: function (i) { return i === s.v1; } });
+    if (idx >= s.v1) M.marker(ctx, x(s.v1), s.dir === 'L' ? y(d[s.v1].l) + 12 : y(d[s.v1].h) - 12, C.amber, 'V1', s.dir === 'L');
+    if (idx >= s.retest) M.marker(ctx, x(s.retest), s.dir === 'L' ? y(d[s.retest].l) + 12 : y(d[s.retest].h) - 12, C.lime, s.total ? 'Total' : 'Parcial', s.dir === 'L');
+  });
+
+  function row(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', wait: '·' })[st] + '</i><span>' + t + '</span></div>'; }
+  function panel() {
+    var s = SC[key];
+    var ev = idx >= s.retest ? (s.total ? 'TOTAL' : 'PARCIAL') : idx >= s.v3 ? 'FVG' : idx >= s.v1 ? 'V1' : null;
+    if (ev) {
+      var t = TXT[ev];
+      $('im-event').innerHTML = '<div class="kv"><span>' + ev + '</span><span class="up">' + t[0] + '</span></div><p class="note" style="margin-top:6px;color:var(--ink-2)">' + t[1] + '</p>';
+    } else {
+      $('im-event').innerHTML = '<p class="note">Aún no hay eventos: el precio está en tendencia, antes de la vela contraria.</p>';
+    }
+    $('im-list').innerHTML =
+      row(idx >= s.v1 ? 'ok' : 'wait', '<b>V1</b> · ' + TXT.V1[0]) +
+      row(idx >= s.v3 ? 'ok' : 'wait', '<b>FVG</b> · ' + TXT.FVG[0]) +
+      row(idx >= s.retest ? 'ok' : 'wait', '<b>' + (s.total ? 'TOTAL' : 'PARCIAL') + '</b> · ' + (s.total ? TXT.TOTAL[0] : TXT.PARCIAL[0]));
+    var cap = ev ? TXT[ev][1] : 'El precio está en tendencia: se espera la vela contraria que abra el imbalance.';
+    $('im-caption').innerHTML = '<b>Vela ' + (idx + 1) + '</b>' + cap;
+    $('im-title').textContent = s.title;
+  }
+
+  var rp = M.replay($('im-replay'), SC[key].data.length, SC[key].start, function (v) {
+    idx = v;
+    document.querySelector('#im-replay [data-label]').textContent = 'Vela ' + (v + 1) + ' / ' + SC[key].data.length;
+    stage.redraw(); panel();
+  });
+  M.scenarios($('im-side'), function (k2) { key = k2; rp.reset(SC[k2].data.length, SC[k2].start); });
+  ['im-fvg', 'im-zone'].forEach(function (id) { $(id).addEventListener('change', function () { stage.redraw(); }); });
+});
+</script>
+</body>
+</html>

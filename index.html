@@ -59,6 +59,7 @@
             <a href="fundamentos/velas-japonesas.html">Velas japonesas</a>
             <a href="fundamentos/macd.html">MACD</a>
             <a href="fundamentos/wyckoff.html">Método Wyckoff</a>
+            <a href="fundamentos/imbalances.html">Imbalances y Mitigación</a>
           </div>
           <span class="side-label">Estrategias</span>
           <div class="mini-list">
@@ -66,6 +67,7 @@
             <a href="estrategias/tendencial.html">Tendencial</a>
             <a href="estrategias/volumen-overnight.html">Volumen overnight</a>
             <a href="estrategias/little-rizzy.html">Little Rizzy</a>
+            <a href="estrategias/atlas.html">Atlas</a>
           </div>
           <span class="side-label">Recursos</span>
           <div class="mini-list">
@@ -116,13 +118,19 @@
         <p>Acumulación, distribución y sus eventos vela a vela, más un laboratorio para experimentar con las leyes, el volumen y el Spring.</p>
         <span class="go">Abrir simulador →</span>
       </a>
+      <a class="tile" href="fundamentos/imbalances.html">
+        <div class="chips"><span class="chip">FVG · 3 velas</span></div>
+        <h3>Imbalances y Mitigación</h3>
+        <p>La vela contraria, el hueco de precio (FVG) y cómo vuelve el mercado a mitigarlo: del todo o solo en parte.</p>
+        <span class="go">Abrir simulador →</span>
+      </a>
     </div>
   </section>
 
   <section class="section" id="estrategias">
     <div class="sec-head">
       <span class="sec-num">02 · Estrategias</span>
-      <h2>Cuatro métodos, el mismo orden</h2>
+      <h2>Cinco métodos, el mismo orden</h2>
       <p>Cada estrategia tiene un simulador gráfico y una checklist de ejecución. Todas siguen esta secuencia: si un paso falla, no se pasa al siguiente.</p>
     </div>
     <div class="route">
@@ -154,6 +162,12 @@
         <div class="chips"><span class="chip">S&amp;P 500 · acciones</span><span class="chip info">Largo y corto</span></div>
         <h3>Little Rizzy</h3>
         <p>Directriz dibujable, distancia D en la vela pivote y proyección del objetivo.</p>
+        <span class="go">Abrir estrategia →</span>
+      </a>
+      <a class="tile" href="estrategias/atlas.html">
+        <div class="chips"><span class="chip">Cualquier mercado</span><span class="chip info">Largo y corto</span></div>
+        <h3>Atlas</h3>
+        <p>Vela contraria + imbalance marcan la mitigación. Barrido de liquidez, vela de fuerza y R:B fijo 1:2.</p>
         <span class="go">Abrir estrategia →</span>
       </a>
     </div>
@@ -191,7 +205,7 @@
 <script src="assets/site.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-  var ids = [['orderflow-world-cup', 'Orderflow World Cup'], ['tendencial', 'Tendencial'], ['volumen-overnight', 'Volumen overnight'], ['little-rizzy', 'Little Rizzy']];
+  var ids = [['orderflow-world-cup', 'Orderflow World Cup'], ['tendencial', 'Tendencial'], ['volumen-overnight', 'Volumen overnight'], ['little-rizzy', 'Little Rizzy'], ['atlas', 'Atlas']];
   var html = '';
   ids.forEach(function (p) {
     var v = null;

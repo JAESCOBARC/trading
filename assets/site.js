@@ -9,13 +9,15 @@
     { group: 'Fundamentos', dir: 'fundamentos', items: [
       { href: 'fundamentos/velas-japonesas.html', label: 'Velas japonesas', desc: 'Anatomía y 10 patrones en contexto' },
       { href: 'fundamentos/macd.html', label: 'MACD', desc: 'Cruces, histograma, divergencias' },
-      { href: 'fundamentos/wyckoff.html', label: 'Método Wyckoff', desc: 'Leyes, ciclo, Spring y Upthrust' }
+      { href: 'fundamentos/wyckoff.html', label: 'Método Wyckoff', desc: 'Leyes, ciclo, Spring y Upthrust' },
+      { href: 'fundamentos/imbalances.html', label: 'Imbalances y Mitigación', desc: 'Vela contraria, FVG y mitigación total o parcial' }
     ] },
     { group: 'Estrategias', dir: 'estrategias', items: [
       { href: 'estrategias/orderflow-world-cup.html', label: 'Orderflow World Cup', desc: 'VAL + Golden Pocket + footprint' },
       { href: 'estrategias/tendencial.html', label: 'Tendencial', desc: 'EMA 21 + Fibonacci + vela gatillo' },
       { href: 'estrategias/volumen-overnight.html', label: 'Volumen overnight', desc: 'Saque del área de valor' },
-      { href: 'estrategias/little-rizzy.html', label: 'Little Rizzy', desc: 'Distancia D sobre la directriz' }
+      { href: 'estrategias/little-rizzy.html', label: 'Little Rizzy', desc: 'Distancia D sobre la directriz' },
+      { href: 'estrategias/atlas.html', label: 'Atlas', desc: 'Imbalance + vela contraria + barrido' }
     ] },
     { group: 'Recursos', dir: 'recursos', items: [
       { href: 'recursos/interes-compuesto.html', label: 'Interés compuesto', desc: 'Riesgo, winrate, R:B y retiros parciales' },

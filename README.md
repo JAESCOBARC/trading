@@ -22,9 +22,11 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 | `estrategias/tendencial.html` | EMA 21 + retroceso 38,2–61,8% + vela de intención |
 | `estrategias/volumen-overnight.html` | Perfil overnight (POC y área de valor calculados) + saque y vuelta al POC |
 | `estrategias/little-rizzy.html` | Directriz dibujable + distancia D + proyección |
+| `estrategias/atlas.html` | Vela contraria + imbalance (FVG) marcan la mitigación; barrido de liquidez, vela de fuerza y R:B fijo 1:2 |
 | `fundamentos/velas-japonesas.html` | Constructor de velas + 10 patrones en contexto |
 | `fundamentos/macd.html` | MACD, señal e histograma calculados + cruces y divergencias |
 | `fundamentos/wyckoff.html` | Simulador de acumulación/distribución con eventos + laboratorio de las 3 leyes, Operador Compuesto, rupturas, Spring/Upthrust y errores |
+| `fundamentos/imbalances.html` | Vela contraria + imbalance (FVG) y cómo el mercado lo mitiga, total o parcialmente |
 | `recursos/interes-compuesto.html` | Interés compuesto por operativa: % riesgo, winrate, R:B y operaciones por periodo; retiros parciales por periodo, simulación de rachas (Montecarlo), plantillas y CSV |
 | `recursos/registro-trading.html` | Registro de trading: botón que abre la app de AppSheet en una ventana emergente (no embebida) |
 | `recursos/mapas-mercado.html` | Tres mapas de calor de Finviz uno bajo otro: sectores S&P 500, sectores Russell 2000 y futuros |
