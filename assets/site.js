@@ -17,7 +17,8 @@
       { href: 'estrategias/tendencial.html', label: 'Tendencial', desc: 'EMA 21 + Fibonacci + vela gatillo' },
       { href: 'estrategias/volumen-overnight.html', label: 'Volumen overnight', desc: 'Saque del área de valor' },
       { href: 'estrategias/little-rizzy.html', label: 'Little Rizzy', desc: 'Distancia D sobre la directriz' },
-      { href: 'estrategias/atlas.html', label: 'Atlas', desc: 'Imbalance + vela contraria + barrido' }
+      { href: 'estrategias/atlas.html', label: 'Atlas', desc: 'Imbalance + vela contraria + barrido' },
+      { href: 'estrategias/poc.html', label: 'POC', desc: 'Perfil de volumen: POC, VAH y VAL de ayer' }
     ] },
     { group: 'Recursos', dir: 'recursos', items: [
       { href: 'recursos/interes-compuesto.html', label: 'Interés compuesto', desc: 'Riesgo, winrate, R:B y retiros parciales' },

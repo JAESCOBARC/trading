@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>POC · Mesa de Estudio</title>
+<meta name="description" content="Estrategia POC: perfil de volumen de la sesión anterior. Rebote en el POC, reversión del área de valor o ruptura con estructura. Objetivo fijo 2R.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="POC · Mesa de Estudio">
+<meta property="og:description" content="Estrategia POC: perfil de volumen de la sesión anterior. Rebote en el POC, reversión del área de valor o ruptura con estructura. Objetivo fijo 2R.">
+<meta property="og:url" content="https://trading.jhonyescobar.com/estrategias/poc.html">
+<meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/poc.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="POC · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="POC · Mesa de Estudio">
+<meta name="twitter:description" content="Estrategia POC: perfil de volumen de la sesión anterior. Rebote en el POC, reversión del área de valor o ruptura con estructura. Objetivo fijo 2R.">
+<meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/poc.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Un sistema, tres entradas: el contexto de la sesión anterior decide si tocaba rebote en el POC, reversión del área de valor o ruptura]</p>
+    <p class="eyebrow">Estrategia · Volume Profile</p>
+    <h1><span class="lime">POC</span></h1>
+    <p class="lede">Perfil de volumen de la sesión anterior, extendido a hoy. Rebote en el POC, reversión del área de valor o ruptura con estructura. Objetivo fijo 2R.</p>
+    <div class="chips"><span class="chip">Cualquier mercado</span><span class="chip info">Largo y corto</span><span class="chip">Objetivo 2R</span></div>
+    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Simulador gráfico</h2>
+      <p>El perfil de volumen, el POC y el área de valor (70%) se calculan con la sesión anterior completa. Elige el setup según cómo cerró esa sesión y qué hace el precio hoy: no son tres estrategias sueltas, es un solo sistema con tres entradas.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url" id="poc-url">mesa-de-estudio/estrategias/poc</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="poc-side">
+          <span class="side-label">Setups</span>
+          <button class="scn" data-scn="bounce" aria-pressed="true">Rebote en el POC</button>
+          <button class="scn" data-scn="reversal" aria-pressed="false">Reversión del área</button>
+          <button class="scn" data-scn="breakout" aria-pressed="false">Ruptura + BOS</button>
+          <button class="scn" data-scn="mecha" aria-pressed="false">Mecha sin cierre · inválido</button>
+          <span class="side-label">Perfil</span>
+          <div class="field"><label for="poc-va">Área de valor (%)</label><input type="number" id="poc-va" value="70" min="50" max="90" step="1"></div>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="poc-title"></span>
+            <div class="legend">
+              <span><i style="background:var(--blue)"></i>POC</span>
+              <span><i style="background:rgba(127,176,255,.35)"></i>Área de valor</span>
+              <span><i style="background:var(--amber)"></i>Sesión anterior</span>
+            </div>
+          </div>
+          <div class="chart tall"><canvas id="poc-chart" role="img" aria-label="Perfil de volumen de la sesión anterior y velas de la sesión actual"></canvas></div>
+          <div class="replay" id="poc-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Vela actual">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="caption" id="poc-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <h3 class="card-label">Perfil (sesión anterior)</h3>
+            <div id="poc-levels"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Evento actual</h3>
+            <div id="poc-event"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Eventos del escenario</h3>
+            <div class="checks" id="poc-list"></div>
+          </div>
+          <div class="verdict" id="poc-verdict" hidden></div>
+          <button class="btn sm" id="poc-send" type="button" hidden>Enviar a la calculadora</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Checklist de ejecución</h2>
+      <p>El contexto de la sesión anterior elige el setup; dentro de cada uno, la confirmación es obligatoria.</p>
+    </div>
+    <div class="cl" data-checklist="poc">
+      <div class="cl-groups">
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Preparación</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Perfil de la sesión anterior calculado</b><span>De la primera a la última vela, en una temporalidad intradía (por debajo de 1D).</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Área de valor al 70% del volumen</b><span>VAH y VAL marcan esa zona; el POC es el precio con más volumen negociado.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Niveles extendidos a la sesión actual</b><span>POC, VAH y VAL de ayer, proyectados como referencia de hoy.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Setup (uno de los tres)</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Rebote: cierre previo fuera del área + rechazo en el POC</b><span>El precio vuelve al POC y una vela de cuerpo claro cierra alejándose de él.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Reversión: cierre previo dentro + cierre de vuelta, no mecha</b><span>Una mecha que cruza de vuelta no cuenta: hace falta el cierre de la vela dentro del área.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Ruptura: retroceso que aguanta + ruptura de estructura</b><span>Tras salir del área, el precio no vuelve a meterse profundo y rompe un máximo o mínimo previo a favor.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Riesgo</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Objetivo fijado en 2R</b><span>Los tres setups apuntan al mismo múltiplo: el doble del riesgo.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Pérdida máxima definida y tamaño calculado</b><span>Con la calculadora, antes de entrar.</span></div></label>
+        </div>
+      </div>
+      <div class="cl-side">
+        <div class="card">
+          <h3 class="card-label">Progreso</h3>
+          <div class="meter"><i data-meter></i></div>
+          <span class="mono muted" data-count></span>
+          <div class="verdict" data-verdict></div>
+          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
+        </div>
+        <div data-risk="poc" data-instruments="MNQ,NQ,MES,ES,FDXS,STK" data-defaults='{"capital":10000,"pct":1,"entry":103,"stop":99.25,"tp1":110.5}'></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  function k(o, h, l, c) { return { o: o, h: h, l: l, c: c }; }
+
+  /* sesión anterior sintética: reversión a la media hacia 100, con o sin tramo de tendencia al final */
+  function prevSession(seed, trendAtEnd) {
+    var r = M.rng(seed), p = 100, out = [], n = 40;
+    for (var i = 0; i < n; i++) {
+      var o = p, pull = 0.08 * (100 - p), drift = trendAtEnd && i > 30 ? 0.9 : 0;
+      p += pull + drift + (r() - 0.5) * 1.6;
+      var hi = Math.max(o, p) + r() * 0.9, lo = Math.min(o, p) - r() * 0.9;
+      var v = Math.round((i > 8 && i < 32 ? 900 : 400) + r() * 500);
+      out.push({ o: o, h: hi, l: lo, c: p, v: v });
+    }
+    return out;
+  }
+  function profile(bin, vaPct, data) {
+    var bins = {}, total = 0;
+    data.forEach(function (c) {
+      var a = Math.floor(c.l / bin), b = Math.floor(c.h / bin), n = b - a + 1;
+      for (var kk = a; kk <= b; kk++) bins[kk] = (bins[kk] || 0) + c.v / n;
+      total += c.v;
+    });
+    var keys = Object.keys(bins).map(Number).sort(function (x, y) { return x - y; });
+    var poc = keys.reduce(function (m, kk) { return bins[kk] > bins[m] ? kk : m; }, keys[0]);
+    var lo = poc, hi = poc, acc = bins[poc], lim = total * vaPct / 100;
+    while (acc < lim) {
+      var up = bins[hi + 1] || 0, dn = bins[lo - 1] || 0;
+      if (!up && !dn) break;
+      if (up >= dn) { hi++; acc += up; } else { lo--; acc += dn; }
+    }
+    return { bins: bins, keys: keys, bin: bin, total: total, pocKey: poc, poc: poc * bin + bin / 2, vah: (hi + 1) * bin, val: lo * bin, max: bins[poc] };
+  }
+
+  var PREV_A = prevSession(300, true);   // cierra fuera del área (ruptura alcista al final)
+  var PREV_B = prevSession(300, false);  // cierra dentro del área
+
+  var BOUNCE = [
+    k(105, 106, 103.5, 104), k(104, 104.5, 101.5, 102), k(102, 102.5, 100, 100.5), k(100.5, 101, 99.7, 100),
+    k(100, 100.3, 99.2, 99.4),         /* 4 · toca el POC */
+    k(99.4, 103.5, 99.2, 103),         /* 5 · rechazo: vela de cuerpo claro */
+    k(103, 106, 102.5, 105.5), k(105.5, 109, 105, 108.5), k(108.5, 111, 108, 110.5), k(110.5, 113, 110, 112.5),
+    k(112.5, 114, 111.5, 113.5), k(113.5, 115, 112.5, 114.5)
+  ];
+  var REVERSAL = [
+    k(99.2, 99.6, 98.8, 99.4), k(99.4, 100, 99, 99.8), k(99.8, 100.8, 99.6, 100.5),
+    k(100.5, 101.8, 100.3, 101.5),     /* 3 · sale por encima del VAH */
+    k(101.5, 102.3, 101.2, 102),       /* 4 · máximo del movimiento */
+    k(102, 102.2, 100.3, 100.6),       /* 5 · cierra dentro del área: reversión confirmada */
+    k(100.6, 100.8, 98.5, 98.8), k(98.8, 99, 96.8, 97), k(97, 97.3, 95.2, 95.5), k(95.5, 96, 94, 94.3)
+  ];
+  var MECHA = [
+    k(99.2, 99.6, 98.8, 99.4), k(99.4, 100, 99, 99.8), k(99.8, 100.8, 99.6, 100.5),
+    k(100.5, 101.8, 100.3, 101.5),     /* 3 · sale por encima del VAH */
+    k(101.5, 102.3, 101.2, 102),       /* 4 · máximo del movimiento */
+    k(102, 102.1, 100.2, 101.3),       /* 5 · la mecha toca dentro, pero cierra fuera: no cuenta */
+    k(101.3, 101.6, 100.9, 101.4), k(101.4, 103, 101.2, 102.8), k(102.8, 104, 102.5, 103.8), k(103.8, 105, 103.5, 104.7)
+  ];
+  var BREAKOUT = [
+    k(99.2, 99.6, 98.8, 99.4), k(99.4, 100, 99.1, 99.8),
+    k(99.8, 101.5, 99.6, 101.2),       /* 2 · ruptura del VAH */
+    k(101.2, 103, 101, 102.8),         /* 3 · fija el máximo a batir (BOS) */
+    k(102.8, 103.2, 101.3, 101.6),
+    k(101.6, 101.8, 100.8, 101.1),     /* 5 · retroceso: aguanta cerca del VAH */
+    k(101.1, 101.5, 100.9, 101.3),
+    k(101.3, 103.3, 101.2, 103.1),     /* 7 · BOS: rompe el máximo de la vela 3 */
+    k(103.1, 105, 102.9, 104.8), k(104.8, 107, 104.5, 106.8), k(106.8, 109, 106.5, 108.8)
+  ];
+
+  var SC = {
+    bounce: { title: 'Rebote en el POC', mode: 'bounce', dir: 'L', data: BOUNCE, prev: PREV_A, start: 5, touch: 4, entry: 5, valid: true },
+    reversal: { title: 'Reversión del área de valor', mode: 'reversal', dir: 'S', data: REVERSAL, prev: PREV_B, start: 5, outIdx: 3, swingIdx: 4, backIdx: 5, valid: true },
+    breakout: { title: 'Ruptura + BOS', mode: 'breakout', dir: 'L', data: BREAKOUT, prev: PREV_B, start: 7, brkIdx: 2, pullIdx: 5, bosIdx: 7, valid: true },
+    mecha: { title: 'Mecha sin cierre · inválido', mode: 'reversal', dir: 'S', data: MECHA, prev: PREV_B, start: 5, outIdx: 3, swingIdx: 4, wickIdx: 5, valid: false }
+  };
+
+  var TXT = {
+    TOUCH: ['Toque del POC', 'El precio vuelve al nivel de mayor volumen de la sesión anterior.'],
+    RECHAZO: ['Rechazo confirmado', 'Vela de cuerpo claro que cierra alejándose del POC: señal de entrada.'],
+    FUERA: ['Sale del área de valor', 'El precio cierra por encima del VAH o por debajo del VAL.'],
+    DENTRO: ['Cierra dentro del área', 'La vela completa, no la mecha, vuelve a cerrar dentro de VAH–VAL: reversión confirmada.'],
+    MECHA: ['Mecha sin cierre', 'El precio toca dentro del área con la mecha, pero la vela cierra fuera: no cuenta como reversión.'],
+    RUPTURA: ['Ruptura del área', 'Salida con fuerza por encima del VAH o por debajo del VAL.'],
+    PULLBACK: ['Retroceso que aguanta', 'El precio vuelve cerca del borde del área sin meterse demasiado adentro.'],
+    BOS: ['Ruptura de estructura (BOS)', 'Nuevo máximo (o mínimo) que confirma la continuidad en la dirección de la ruptura.']
+  };
+
+  function getP(s) { return profile(1, M.clamp(+$('poc-va').value || 70, 50, 90), s.prev); }
+
+  function analyse(s, idx) {
+    var d = s.data, P = s.P, bull = s.dir === 'L', o = {};
+    if (s.mode === 'bounce') {
+      o.touch = idx >= s.touch ? s.touch : -1;
+      o.entry = idx >= s.entry ? s.entry : -1;
+      if (o.entry >= 0) { o.e = d[s.entry].c; o.stop = bull ? P.poc - 0.25 : P.poc + 0.25; }
+    } else if (s.mode === 'reversal') {
+      o.out = idx >= s.outIdx ? s.outIdx : -1;
+      o.back = (s.backIdx != null && idx >= s.backIdx) ? s.backIdx : -1;
+      o.wick = (s.wickIdx != null && idx >= s.wickIdx) ? s.wickIdx : -1;
+      if (o.back >= 0) { o.e = d[s.backIdx].c; o.stop = bull ? d[s.swingIdx].l - 0.25 : d[s.swingIdx].h + 0.25; }
+    } else if (s.mode === 'breakout') {
+      o.brk = idx >= s.brkIdx ? s.brkIdx : -1;
+      o.pull = idx >= s.pullIdx ? s.pullIdx : -1;
+      o.bos = idx >= s.bosIdx ? s.bosIdx : -1;
+      if (o.bos >= 0) { o.e = d[s.bosIdx].c; o.stop = bull ? d[s.pullIdx].l - 0.25 : d[s.pullIdx].h + 0.25; }
+    }
+    if (o.e !== undefined) { o.R = Math.abs(o.e - o.stop); o.target = o.e + (bull ? 2 : -2) * o.R; }
+    return o;
+  }
+  function eventsOf(s) {
+    if (s.mode === 'bounce') return [{ c: 'TOUCH', i: s.touch }, { c: 'RECHAZO', i: s.entry }];
+    if (s.mode === 'breakout') return [{ c: 'RUPTURA', i: s.brkIdx }, { c: 'PULLBACK', i: s.pullIdx }, { c: 'BOS', i: s.bosIdx }];
+    return [{ c: 'FUERA', i: s.outIdx }, s.backIdx != null ? { c: 'DENTRO', i: s.backIdx } : { c: 'MECHA', i: s.wickIdx }];
+  }
+  function row(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', wait: '·', no: '✕' })[st] + '</i><span>' + t + '</span></div>'; }
+
+  var key = 'bounce', idx = 5;
+  function rebuild() { var s = SC[key]; s.P = getP(s); }
+  rebuild();
+  var stage = M.canvasStage($('poc-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h, s = SC[key], d = s.data, n = d.length, P = s.P, a = analyse(s, idx);
+    var area = { l: 10, r: w - 62, t: 16, b: h - 24 };
+    var all = s.prev.concat(d);
+    var lo = Math.min.apply(null, all.map(function (c) { return c.l; })) - 1.5, hi = Math.max.apply(null, all.map(function (c) { return c.h; })) + 1.5;
+    var y = M.scale(lo, hi, area.b, area.t);
+    var pw = Math.min(130, (area.r - area.l) * 0.2), ow = (area.r - area.l) * 0.26;
+    var x0 = area.l + pw, x1 = x0 + ow, sw = (area.r - x1) / n, sx = function (i) { return x1 + (i + .5) * sw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 7));
+    M.band(ctx, area, y(P.vah), y(P.val), C.blueSoft);
+    P.keys.forEach(function (kk) {
+      var v = P.bins[kk], bw = (pw - 8) * v / P.max, inVA = kk * P.bin >= P.val && (kk + 1) * P.bin <= P.vah;
+      ctx.fillStyle = kk === P.pocKey ? C.blue : inVA ? 'rgba(127,176,255,.45)' : 'rgba(166,172,179,.25)';
+      ctx.fillRect(area.l, y((kk + 1) * P.bin) + 0.5, bw, Math.max(1, y(kk * P.bin) - y((kk + 1) * P.bin) - 1));
+    });
+    ctx.strokeStyle = C.amber; ctx.lineWidth = 1.2; ctx.beginPath();
+    s.prev.forEach(function (c, i) { var px = x0 + 6 + (ow - 12) * i / (s.prev.length - 1); if (i === 0) ctx.moveTo(px, y(c.c)); else ctx.lineTo(px, y(c.c)); });
+    ctx.stroke();
+    ctx.strokeStyle = 'rgba(238,240,242,.2)'; ctx.setLineDash([2, 4]);
+    [x0, x1].forEach(function (px) { ctx.beginPath(); ctx.moveTo(px, area.t); ctx.lineTo(px, area.b); ctx.stroke(); });
+    ctx.setLineDash([]);
+    ctx.fillStyle = C.axis; ctx.font = '10.5px "JetBrains Mono", monospace';
+    ctx.fillText('perfil', area.l, area.b + 16); ctx.fillText('sesión anterior', x0 + 4, area.b + 16); ctx.fillText('sesión actual', x1 + 4, area.b + 16);
+    M.hline(ctx, area, y(P.vah), C.ink2, 'VAH ' + M.fmt(P.vah, 2), { dash: [4, 4] });
+    M.hline(ctx, area, y(P.poc), C.blue, 'POC ' + M.fmt(P.poc, 2), { width: 1.5 });
+    M.hline(ctx, area, y(P.val), C.ink2, 'VAL ' + M.fmt(P.val, 2), { dash: [4, 4] });
+    M.drawCandles(ctx, d.slice(0, idx + 1), sx, y, sw);
+    var bull = s.dir === 'L';
+    if (s.mode === 'bounce') {
+      if (a.touch >= 0) M.marker(ctx, sx(s.touch), y(d[s.touch].l) + 12, C.amber, 'Toque', true);
+      if (a.entry >= 0) M.marker(ctx, sx(s.entry), y(d[s.entry].c), C.lime, 'Rechazo', false);
+    } else if (s.mode === 'breakout') {
+      if (a.brk >= 0) M.marker(ctx, sx(s.brkIdx), y(d[s.brkIdx].h) - 12, C.blue, 'Ruptura', false);
+      if (a.pull >= 0) M.marker(ctx, sx(s.pullIdx), y(d[s.pullIdx].l) + 12, C.amber, 'Pullback', true);
+      if (a.bos >= 0) M.marker(ctx, sx(s.bosIdx), y(d[s.bosIdx].h) - 12, C.lime, 'BOS', false);
+    } else {
+      if (a.out >= 0) M.marker(ctx, sx(s.outIdx), y(bull ? d[s.outIdx].l : d[s.outIdx].h) + (bull ? 12 : -12), C.blue, 'Sale', bull);
+      if (a.back >= 0) M.marker(ctx, sx(s.backIdx), y(d[s.backIdx].c), C.lime, 'Dentro', !bull);
+      if (a.wick >= 0) M.marker(ctx, sx(s.wickIdx), y(d[s.wickIdx].l) + 12, C.red, 'Mecha', true);
+    }
+    if (a.e !== undefined) {
+      var fromIdx = s.mode === 'bounce' ? s.entry : s.mode === 'breakout' ? s.bosIdx : s.backIdx;
+      var from = sx(fromIdx) - sw / 2;
+      [[a.target, C.lime, 'Objetivo 2R'], [a.e, C.ink, 'Entrada'], [a.stop, C.red, 'Stop']].forEach(function (l) {
+        ctx.strokeStyle = l[1]; ctx.setLineDash(l[2] === 'Entrada' ? [] : [6, 3]); ctx.beginPath(); ctx.moveTo(from, y(l[0])); ctx.lineTo(area.r, y(l[0])); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = l[1]; ctx.font = '600 10.5px "JetBrains Mono", monospace'; ctx.fillText(l[2], area.r - 2, y(l[0]) + (l[2] === 'Stop' ? 13 : -4));
+      });
+    }
+  });
+
+  function panel() {
+    var s = SC[key], P = s.P, a = analyse(s, idx);
+    $('poc-levels').innerHTML =
+      '<div class="kv"><span>VAH</span><span>' + M.fmt(P.vah, 2) + '</span></div>' +
+      '<div class="kv"><span>POC</span><span class="info-t">' + M.fmt(P.poc, 2) + '</span></div>' +
+      '<div class="kv"><span>VAL</span><span>' + M.fmt(P.val, 2) + '</span></div>' +
+      '<div class="kv"><span>Cierre sesión anterior</span><span>' + M.fmt(s.prev[s.prev.length - 1].c, 2) + '</span></div>';
+    var ev = eventsOf(s), cur = null;
+    ev.forEach(function (e) { if (e.i != null && idx >= e.i) cur = e; });
+    if (cur) {
+      var t = TXT[cur.c];
+      $('poc-event').innerHTML = '<div class="kv"><span>' + cur.c + '</span><span class="' + (cur.c === 'MECHA' ? 'down' : 'up') + '">' + t[0] + '</span></div><p class="note" style="margin-top:6px;color:var(--ink-2)">' + t[1] + '</p>';
+    } else {
+      $('poc-event').innerHTML = '<p class="note">Aún no hay eventos en la sesión actual.</p>';
+    }
+    $('poc-list').innerHTML = ev.map(function (e) { return row(e.i != null && idx >= e.i ? (e.c === 'MECHA' ? 'no' : 'ok') : 'wait', '<b>' + e.c + '</b> · ' + TXT[e.c][0]); }).join('');
+    var v = $('poc-verdict'), sendBtn = $('poc-send');
+    if (a.e !== undefined) {
+      v.hidden = false; sendBtn.hidden = !s.valid;
+      if (s.valid) { v.className = 'verdict ok'; v.innerHTML = '<strong>' + (s.dir === 'L' ? 'Largo' : 'Corto') + ' confirmado</strong>Entrada ' + M.fmt(a.e, 2) + ' · stop ' + M.fmt(a.stop, 2) + ' · objetivo 2R ' + M.fmt(a.target, 2) + '.'; }
+      else { v.className = 'verdict no'; v.innerHTML = '<strong>No operar: la mecha no cuenta</strong>El precio solo tocó dentro del área con la mecha; la vela cerró fuera. Hace falta un cierre completo dentro de VAH–VAL.'; }
+    } else { v.hidden = true; sendBtn.hidden = true; }
+    var cap = cur ? TXT[cur.c][1] : s.mode === 'bounce' ? 'La sesión anterior cerró fuera del área: se espera la vuelta al POC.' : s.mode === 'breakout' ? 'Se espera una salida con fuerza del área de valor.' : 'La sesión anterior cerró dentro del área: se espera una salida y la vuelta.';
+    $('poc-caption').innerHTML = '<b>Vela ' + (idx + 1) + '</b>' + cap;
+    $('poc-title').textContent = s.title;
+    $('poc-url').textContent = 'mesa-de-estudio/estrategias/poc · ' + key;
+  }
+
+  var rp = M.replay($('poc-replay'), SC[key].data.length, SC[key].start, function (v) {
+    idx = v;
+    document.querySelector('#poc-replay [data-label]').textContent = 'Vela ' + (v + 1) + ' / ' + SC[key].data.length;
+    stage.redraw(); panel();
+  });
+  M.scenarios($('poc-side'), function (k2) { key = k2; rebuild(); rp.reset(SC[k2].data.length, SC[k2].start); });
+  $('poc-va').addEventListener('input', function () { rebuild(); stage.redraw(); panel(); });
+  $('poc-send').addEventListener('click', function () {
+    var s = SC[key], a = analyse(s, idx); if (a.e === undefined) return;
+    M.risk('poc').set({ dir: s.dir, entry: a.e, stop: a.stop, tp1: a.target, decimals: 2 });
+    $('checklist').scrollIntoView();
+  });
+});
+</script>
+</body>
+</html>
