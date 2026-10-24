@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Ley Estelar · Mesa de Estudio</title>
+<meta name="description" content="Ley Estelar: piso de capitulación (máximo − 2× rango matutino), reversión al abrir por %B extremo y confluencia de tres niveles (Trinchera Estelar). Simulador y checklist.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Ley Estelar · Mesa de Estudio">
+<meta property="og:description" content="Ley Estelar: piso de capitulación (máximo − 2× rango matutino), reversión al abrir por %B extremo y confluencia de tres niveles (Trinchera Estelar). Simulador y checklist.">
+<meta property="og:url" content="https://trading.jhonyescobar.com/estrategias/ley-estelar.html">
+<meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/ley-estelar.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Ley Estelar · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Ley Estelar · Mesa de Estudio">
+<meta name="twitter:description" content="Ley Estelar: piso de capitulación (máximo − 2× rango matutino), reversión al abrir por %B extremo y confluencia de tres niveles (Trinchera Estelar). Simulador y checklist.">
+<meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/ley-estelar.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Tres reglas de autocalibración intradía: el piso de un desplome, el latigazo al abrir y la confluencia de niveles que dispara el rebote]</p>
+    <p class="eyebrow">Estrategia</p>
+    <h1>Ley <span class="lime">Estelar</span></h1>
+    <p class="lede">Piso de capitulación (máximo − 2× rango matutino), reversión al abrir por %B extremo, y confluencia de tres niveles (Trinchera Estelar).</p>
+    <div class="chips"><span class="chip">Intradía</span><span class="chip">Confirmación con SOXX</span><span class="chip info">Largo y corto</span></div>
+    <div class="row"><a class="btn" href="#simulador">1 · Simulador</a><a class="btn ghost" href="#checklist">2 · Checklist</a></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>Simulador gráfico</h2>
+      <p>Tres mecánicas, un selector. El piso de capitulación necesita las dos condiciones a la vez (trampa en el máximo + SOXX); sin la confirmación sectorial, la zona no aguanta.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url" id="le-url">mesa-de-estudio/estrategias/ley-estelar</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="le-side">
+          <span class="side-label">Escenarios</span>
+          <button class="scn" data-scn="piso" aria-pressed="true">Ley 1 · Piso de capitulación</button>
+          <button class="scn" data-scn="sinsoxx" aria-pressed="false">Ley 1 · Sin SOXX · inválido</button>
+          <button class="scn" data-scn="apertura" aria-pressed="false">Ley 2 · Reversión al abrir</button>
+          <button class="scn" data-scn="trinchera" aria-pressed="false">Triple ecuación · Trinchera</button>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="le-title"></span>
+            <div class="legend" id="le-legend"></div>
+          </div>
+          <div class="chart tall"><canvas id="le-chart" role="img" aria-label="Gráfico de velas con el máximo estructural, el rango matutino, el piso de capitulación o la confluencia de niveles"></canvas></div>
+          <div class="replay" id="le-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Vela actual">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="caption" id="le-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <h3 class="card-label">Datos del escenario</h3>
+            <div id="le-data"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Evento actual</h3>
+            <div id="le-event"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Eventos del escenario</h3>
+            <div class="checks" id="le-list"></div>
+          </div>
+          <div class="verdict" id="le-verdict" hidden></div>
+          <button class="btn sm" id="le-send" type="button" hidden>Enviar a la calculadora</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="checklist">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>Checklist de ejecución</h2>
+      <p>Cada ley tiene su propia confirmación obligatoria; sin ella, la fórmula es solo una cifra sobre el gráfico.</p>
+    </div>
+    <div class="cl" data-checklist="ley-estelar">
+      <div class="cl-groups">
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Ley 1 · Piso de capitulación</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Trampa alcista en el máximo estructural</b><span>El precio toca un nuevo máximo oficial antes de desplomarse: la euforia previa a la capitulación.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>SOXX cae más de 3,5%</b><span>Confirma capitulación sectorial, no solo del activo individual. Sin esto, no se activa la ley.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Rango matutino medido desde el máximo</b><span>Distancia entre el máximo estructural y el primer mínimo relevante de la mañana.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Piso = Máximo − 2 × Rango matutino</b><span>Trátalo como zona, no como precio exacto al céntimo.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Ley 2 · Reversión al abrir</h3><span class="cl-count"></span></div>
+          <label class="cl-item killer"><input type="checkbox"><div><b>%B fuera de 0–100% al abrir</b><span>Por debajo de 0% (sobreventa extrema) o por encima de 100% (sobrecompra extrema) sobre las bandas de Bollinger.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Sin vender en pánico en el mínimo</b><span>El rebote respiratorio de un tercio suele llegar casi de inmediato tras el extremo.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Esperar la zona de emboscada, no el extremo</b><span>Recargar en la confluencia Target MOO → mínimo previo → Breakpoint, no en el primer rebote.</span></div></label>
+        </div>
+        <div class="cl-group">
+          <div class="cl-group-head"><h3>Confluencia y riesgo</h3><span class="cl-count"></span></div>
+          <label class="cl-item"><input type="checkbox"><div><b>Tres niveles independientes alineados</b><span>Rango propio del día, nivel algorítmico de temporalidad mayor y nivel fractal, coincidiendo en la misma cifra (Trinchera Estelar).</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Confirmación con el rebote, no con la llegada</b><span>La trinchera se confirma cuando el precio rebota con fuerza, no solo al tocarla.</span></div></label>
+          <label class="cl-item killer"><input type="checkbox"><div><b>Pérdida máxima definida y tamaño calculado</b><span>Con la calculadora, antes de entrar.</span></div></label>
+          <label class="cl-item"><input type="checkbox"><div><b>Zona de probabilidad, no ley física</b><span>Una fórmula ajustada a pocos casos históricos no garantiza que se repita; opera con el mismo riesgo que cualquier otro setup.</span></div></label>
+        </div>
+      </div>
+      <div class="cl-side">
+        <div class="card">
+          <h3 class="card-label">Progreso</h3>
+          <div class="meter"><i data-meter></i></div>
+          <span class="mono muted" data-count></span>
+          <div class="verdict" data-verdict></div>
+          <button class="btn ghost sm" type="button" data-reset>Vaciar checklist</button>
+        </div>
+        <div data-risk="le" data-instruments="MNQ,NQ,MES,ES,STK" data-defaults='{"capital":10000,"pct":1,"entry":212.30,"stop":211.01,"tp1":214.88,"decimals":2}'></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  function k(o, h, l, c) { return { o: o, h: h, l: l, c: c }; }
+
+  /* Ley 1: 218.88 (máximo, trampa) · rango matutino 3.76 (máximo - mínimo temprano 215.12) ·
+     piso teórico 211.36 · piso real 211.26 (datos del caso citado por la fuente). */
+  var PISO = [
+    k(214.00, 215.20, 213.80, 215.00), k(215.00, 218.88, 214.80, 218.50),
+    k(218.50, 218.70, 216.00, 216.40), k(216.40, 216.60, 215.12, 215.30),
+    k(215.30, 215.80, 214.00, 214.20), k(214.20, 214.50, 213.00, 213.20),
+    k(213.20, 213.40, 212.00, 212.20), k(212.20, 212.50, 211.80, 212.00),
+    k(212.00, 212.30, 211.50, 211.70), k(211.70, 211.90, 211.30, 211.40),
+    k(211.40, 211.55, 211.26, 211.35), k(211.35, 212.60, 211.20, 212.30),
+    k(212.30, 213.80, 212.10, 213.60), k(213.60, 215.20, 213.40, 215.00),
+    k(215.00, 216.00, 214.80, 215.80)
+  ];
+  /* Mismo arranque (trampa + rango), pero sin confirmación sectorial: el precio atraviesa el piso teórico. */
+  var SINSOXX = PISO.slice(0, 10).concat([
+    k(211.40, 211.60, 210.50, 210.70), k(210.70, 210.90, 209.00, 209.20),
+    k(209.20, 209.50, 207.50, 207.80), k(207.80, 208.00, 206.00, 206.30)
+  ]);
+  /* Ley 2: premarket 210.25 · apertura 9:31 en 210.92 (%B extremo) · Target MOO 211.07 ·
+     zona de emboscada 211.07 → 211.26 → 211.74. */
+  var APERTURA = [
+    k(211.00, 211.10, 210.25, 210.40), k(210.40, 211.00, 210.30, 210.92),
+    k(210.92, 211.15, 210.85, 211.07), k(211.07, 211.35, 211.00, 211.26),
+    k(211.26, 211.60, 211.15, 211.50), k(211.50, 211.80, 211.40, 211.74),
+    k(211.74, 211.85, 211.00, 211.10), k(211.10, 211.20, 210.40, 210.55),
+    k(210.55, 210.70, 209.80, 210.00), k(210.00, 210.20, 209.30, 209.50)
+  ];
+  /* Trinchera Estelar: escenario ilustrativo (la fuente describe el mecanismo, no cita un caso con cifras). */
+  var TRINCHERA = [
+    k(216.00, 217.00, 215.50, 216.50), k(216.50, 216.80, 214.50, 214.80),
+    k(214.80, 215.00, 213.00, 213.30), k(213.30, 213.50, 212.00, 212.30),
+    k(212.30, 212.50, 211.60, 211.80), k(211.80, 211.90, 211.25, 211.40),
+    k(211.40, 214.00, 211.30, 213.80), k(213.80, 216.00, 213.50, 215.80),
+    k(215.80, 217.50, 215.50, 217.20), k(217.20, 218.50, 217.00, 218.20),
+    k(218.20, 219.80, 218.00, 219.50)
+  ];
+
+  var SC = {
+    piso: { title: 'Ley 1 · Piso de capitulación', mode: 'piso', dir: 'L', data: PISO, start: 11, trampa: 1, rango: 3, soxxAt: 5, piso: 10, force: 11, soxx: -3.8, soxxOk: true, high: 218.88, early: 215.12 },
+    sinsoxx: { title: 'Ley 1 · Sin SOXX · inválido', mode: 'piso', dir: 'L', data: SINSOXX, start: 10, trampa: 1, rango: 3, soxxAt: null, piso: null, rota: 10, force: null, soxx: -1.2, soxxOk: false, high: 218.88, early: 215.12 },
+    apertura: { title: 'Ley 2 · Reversión al abrir', mode: 'apertura', dir: 'S', data: APERTURA, start: 5, aperturaIdx: 1, mooIdx: 2, emboscadaIdx: 5, moo: 211.07, prevLow: 211.26, breakpoint: 211.74 },
+    trinchera: { title: 'Triple ecuación · Trinchera Estelar', mode: 'trinchera', dir: 'L', data: TRINCHERA, start: 6, trincheraIdx: 5, reboteIdx: 6, ownLvl: 211.55, htfLvl: 211.40, fractalLvl: 211.30 }
+  };
+
+  var TXT = {
+    TRAMPA: ['Trampa en el máximo', 'El precio toca un nuevo máximo estructural oficial justo antes de desplomarse: euforia falsa previa a la capitulación.'],
+    RANGO: ['Rango matutino fijado', 'Distancia entre el máximo estructural y el primer mínimo relevante de la mañana: la base de la fórmula del piso.'],
+    SOXX: ['SOXX confirma', 'El índice de semiconductores cae más del 3,5%: capitulación sectorial, no solo del activo.'],
+    PISO: ['Piso de capitulación', 'El precio toca la zona calculada (máximo − 2× rango matutino) y el vendedor se agota.'],
+    ROTA: ['Piso roto: sin confirmación', 'Sin la caída sectorial de SOXX, la zona no contiene la caída: el precio la atraviesa.'],
+    APERTURA: ['Apertura en extremo', '%B fuera de 0–100% sobre las bandas de Bollinger: tensión extrema nada más abrir.'],
+    MOO: ['Target MOO alcanzado', 'Primer imán de la reversión: aproximadamente un tercio de la compresión acumulada.'],
+    EMBOSCADA: ['Zona de emboscada', 'Confluencia de niveles donde el rebote pierde fuerza: zona para recargar en la dirección original.'],
+    TRINCHERA: ['Trinchera Estelar', 'Tres niveles independientes (rango propio, algorítmico mayor y fractal) coinciden en la misma cifra.'],
+    REBOTE: ['Stellar Abyss Rebound', 'El precio rebota con fuerza al tocar la confluencia: cierre masivo de cortos institucionales.']
+  };
+
+  function eventsOf(s) {
+    if (s.mode === 'piso') {
+      var ev = [{ c: 'TRAMPA', i: s.trampa }, { c: 'RANGO', i: s.rango }];
+      if (s.soxxAt != null) ev.push({ c: 'SOXX', i: s.soxxAt });
+      if (s.piso != null) ev.push({ c: 'PISO', i: s.piso }); else ev.push({ c: 'ROTA', i: s.rota });
+      return ev;
+    }
+    if (s.mode === 'apertura') return [{ c: 'APERTURA', i: s.aperturaIdx }, { c: 'MOO', i: s.mooIdx }, { c: 'EMBOSCADA', i: s.emboscadaIdx }];
+    return [{ c: 'TRINCHERA', i: s.trincheraIdx }, { c: 'REBOTE', i: s.reboteIdx }];
+  }
+  function analyse(s, idx) {
+    var d = s.data, bull = s.dir === 'L', o = {};
+    if (s.mode === 'piso') {
+      if (s.force != null && idx >= s.force) { o.e = d[s.force].c; o.stop = d[s.piso].l - 0.25; }
+    } else if (s.mode === 'apertura') {
+      if (idx >= s.emboscadaIdx) { o.e = d[s.emboscadaIdx].c; o.stop = bull ? d[s.emboscadaIdx].l - 0.25 : d[s.emboscadaIdx].h + 0.25; }
+    } else if (s.mode === 'trinchera') {
+      if (idx >= s.reboteIdx) { o.e = d[s.reboteIdx].c; o.stop = d[s.trincheraIdx].l - 0.25; }
+    }
+    if (o.e !== undefined) { o.R = Math.abs(o.e - o.stop); o.target = o.e + (bull ? 2 : -2) * o.R; }
+    return o;
+  }
+  function row(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', wait: '·', no: '✕' })[st] + '</i><span>' + t + '</span></div>'; }
+
+  var key = 'piso', idx = 11;
+  var stage = M.canvasStage($('le-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h, s = SC[key], d = s.data, n = d.length, a = analyse(s, idx);
+    var area = { l: 12, r: w - 64, t: 16, b: h - 24 };
+    var vals = []; d.forEach(function (c) { vals.push(c.h, c.l); });
+    if (s.mode === 'piso') vals.push(s.high);
+    var lo = Math.min.apply(null, vals) - 1, hi = Math.max.apply(null, vals) + 1;
+    var y = M.scale(lo, hi, area.b, area.t), cw = (area.r - area.l) / n, x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 7));
+    var bull = s.dir === 'L';
+    if (s.mode === 'trinchera') {
+      var zlo = Math.min(s.ownLvl, s.htfLvl, s.fractalLvl), zhi = Math.max(s.ownLvl, s.htfLvl, s.fractalLvl);
+      if (idx >= s.trincheraIdx - 1) M.band(ctx, area, y(zhi) - 2, y(zlo) + 2, 'rgba(155,226,45,.10)');
+    } else if (s.mode === 'apertura' && idx >= s.mooIdx) {
+      var azlo = Math.min(s.moo, s.prevLow, s.breakpoint), azhi = Math.max(s.moo, s.prevLow, s.breakpoint);
+      M.band(ctx, area, y(azhi) - 2, y(azlo) + 2, 'rgba(37,99,235,.10)');
+    }
+    M.drawCandles(ctx, d.slice(0, idx + 1), x, y, cw, { mark: function (i) { return s.mode === 'piso' && i === s.trampa; } });
+    /* las referencias de nivel se dibujan después de las velas para que su etiqueta (con fondo propio) no quede tapada por una vela final alta */
+    if (s.mode === 'piso') {
+      if (idx >= s.trampa) M.hline(ctx, area, y(s.high), C.ink2, 'Máximo estructural ' + M.fmt(s.high, 2), { dash: [3, 3] });
+      var floor = s.high - 2 * (s.high - s.early);
+      if (idx >= s.rango) M.hline(ctx, area, y(floor), s.soxxOk ? C.lime : C.red, 'Piso teórico ' + M.fmt(floor, 2), { dash: [5, 3] });
+    } else if (s.mode === 'apertura') {
+      M.hline(ctx, area, y(s.moo), C.blue, null, { dash: [3, 3] });
+      M.hline(ctx, area, y(s.prevLow), C.blue, null, { dash: [3, 3] });
+      M.hline(ctx, area, y(s.breakpoint), C.blue, 'Zona de emboscada', { dash: [3, 3], left: true });
+    } else if (s.mode === 'trinchera') {
+      [[s.ownLvl, 'Rango propio'], [s.htfLvl, 'Nivel 1H'], [s.fractalLvl, 'Nivel fractal']].forEach(function (l) { M.hline(ctx, area, y(l[0]), C.amber, l[1] + ' ' + M.fmt(l[0], 2), { dash: [2, 3] }); });
+    }
+    eventsOf(s).forEach(function (ev) {
+      if (idx < ev.i) return;
+      var c = d[ev.i], below = ev.c === 'RANGO' || ev.c === 'PISO' || ev.c === 'ROTA' || ev.c === 'MOO' || ev.c === 'REBOTE';
+      var color = ev.c === 'ROTA' ? C.red : (ev.c === 'REBOTE' || ev.c === 'PISO') ? C.lime : C.blue;
+      M.marker(ctx, x(ev.i), below ? y(c.l) + 12 : y(c.h) - 12, color, ev.c === 'TRAMPA' ? 'Trampa' : ev.c === 'RANGO' ? 'Rango' : ev.c === 'SOXX' ? 'SOXX' : ev.c === 'PISO' ? 'Piso' : ev.c === 'ROTA' ? 'Rota' : ev.c === 'APERTURA' ? 'Apertura' : ev.c === 'MOO' ? 'MOO' : ev.c === 'EMBOSCADA' ? 'Emboscada' : ev.c === 'TRINCHERA' ? 'Trinchera' : 'Rebote', below);
+    });
+    if (a.e !== undefined) {
+      var anchorIdx = s.mode === 'piso' ? s.force : s.mode === 'apertura' ? s.emboscadaIdx : s.reboteIdx;
+      var from = x(anchorIdx) - cw / 2;
+      [[a.target, C.lime, 'Objetivo 2R'], [a.e, C.ink, 'Entrada'], [a.stop, C.red, 'Stop']].forEach(function (l) {
+        ctx.strokeStyle = l[1]; ctx.setLineDash(l[2] === 'Entrada' ? [] : [6, 3]); ctx.beginPath(); ctx.moveTo(from, y(l[0])); ctx.lineTo(area.r, y(l[0])); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = l[1]; ctx.font = '600 10.5px "JetBrains Mono", monospace'; ctx.textAlign = 'right'; ctx.fillText(l[2], area.r - 2, y(l[0]) + (l[2] === 'Stop' ? 13 : -4)); ctx.textAlign = 'left';
+      });
+    }
+  });
+
+  function panel() {
+    var s = SC[key], a = analyse(s, idx), ev = eventsOf(s), cur = null;
+    ev.forEach(function (e) { if (idx >= e.i) cur = e; });
+    var dataHtml = '';
+    if (s.mode === 'piso') {
+      var floor = s.high - 2 * (s.high - s.early), range = s.high - s.early;
+      dataHtml = '<div class="kv"><span>Máximo estructural</span><span>' + M.fmt(s.high, 2) + '</span></div>' +
+        '<div class="kv"><span>Rango matutino</span><span class="info-t">' + M.fmt(range, 2) + '</span></div>' +
+        '<div class="kv"><span>Piso = Máx − 2×Rango</span><span class="' + (s.soxxOk ? 'up' : 'down') + '">' + M.fmt(floor, 2) + '</span></div>' +
+        '<div class="kv"><span>SOXX intradía</span><span class="' + (s.soxxOk ? 'up' : 'down') + '">' + M.fmtSigned(s.soxx, 1) + '% ' + (s.soxxOk ? '(confirma)' : '(no confirma, hace falta ≤ −3,5%)') + '</span></div>';
+    } else if (s.mode === 'apertura') {
+      var bb = M.bollinger(s.data.slice(0, idx + 1).map(function (c) { return c.c; }), 5, 2), last = bb[bb.length - 1], c0 = s.data[idx].c;
+      var pb = last.up > last.lo ? (c0 - last.lo) / (last.up - last.lo) * 100 : 50;
+      dataHtml = '<div class="kv"><span>%B actual</span><span class="' + (pb < 0 || pb > 100 ? 'down' : '') + '">' + M.fmt(pb, 1) + '%</span></div>' +
+        '<div class="kv"><span>Target MOO</span><span>' + M.fmt(s.moo, 2) + '</span></div>' +
+        '<div class="kv"><span>Mínimo previo</span><span>' + M.fmt(s.prevLow, 2) + '</span></div>' +
+        '<div class="kv"><span>Breakpoint</span><span>' + M.fmt(s.breakpoint, 2) + '</span></div>';
+    } else {
+      dataHtml = '<div class="kv"><span>Rango propio</span><span>' + M.fmt(s.ownLvl, 2) + '</span></div>' +
+        '<div class="kv"><span>Nivel 1H</span><span>' + M.fmt(s.htfLvl, 2) + '</span></div>' +
+        '<div class="kv"><span>Nivel fractal</span><span>' + M.fmt(s.fractalLvl, 2) + '</span></div>';
+    }
+    $('le-data').innerHTML = dataHtml;
+    if (cur) { var t = TXT[cur.c]; $('le-event').innerHTML = '<div class="kv"><span>' + cur.c + '</span><span class="' + (cur.c === 'ROTA' ? 'down' : 'up') + '">' + t[0] + '</span></div><p class="note" style="margin-top:6px;color:var(--ink-2)">' + t[1] + '</p>'; }
+    else $('le-event').innerHTML = '<p class="note">Aún no hay eventos en este escenario.</p>';
+    $('le-list').innerHTML = ev.map(function (e) { return row(idx >= e.i ? (e.c === 'ROTA' ? 'no' : 'ok') : 'wait', '<b>' + e.c + '</b> · ' + TXT[e.c][0]); }).join('');
+    var v = $('le-verdict'), sendBtn = $('le-send');
+    if (s.mode === 'piso' && s.rota != null && idx >= s.rota) {
+      v.hidden = false; v.className = 'verdict no'; v.innerHTML = '<strong>No operar: sin confirmación de SOXX</strong>' + TXT.ROTA[1]; sendBtn.hidden = true;
+    } else if (a.e !== undefined) {
+      v.hidden = false; v.className = 'verdict ok';
+      v.innerHTML = '<strong>' + (s.dir === 'L' ? 'Largo' : 'Corto') + ' confirmado</strong>Entrada ' + M.fmt(a.e, 2) + ' · stop ' + M.fmt(a.stop, 2) + ' · objetivo 2R ' + M.fmt(a.target, 2) + '.';
+      sendBtn.hidden = false;
+    } else { v.hidden = true; sendBtn.hidden = true; }
+    $('le-caption').innerHTML = '<b>Vela ' + (idx + 1) + '</b>' + (cur ? TXT[cur.c][1] : 'Antes del primer evento del escenario.');
+    $('le-title').textContent = s.title;
+    $('le-url').textContent = 'mesa-de-estudio/estrategias/ley-estelar · ' + key;
+    var legendMap = { piso: [[C.ink2, 'Máximo'], [C.lime, 'Piso'], [C.red, 'SOXX no confirma']], sinsoxx: [[C.ink2, 'Máximo'], [C.lime, 'Piso teórico'], [C.red, 'Rota']], apertura: [[C.blue, 'MOO / mínimo / Breakpoint'], [C.red, 'Stop'], [C.lime, 'Objetivo']], trinchera: [[C.amber, 'Niveles'], [C.lime, 'Rebote']] };
+    $('le-legend').innerHTML = legendMap[key].map(function (it) { return '<span><i style="background:' + it[0] + '"></i>' + it[1] + '</span>'; }).join('');
+  }
+
+  var rp = M.replay($('le-replay'), SC[key].data.length, SC[key].start, function (v) {
+    idx = v;
+    document.querySelector('#le-replay [data-label]').textContent = 'Vela ' + (v + 1) + ' / ' + SC[key].data.length;
+    stage.redraw(); panel();
+  });
+  M.scenarios($('le-side'), function (k2) { key = k2; rp.reset(SC[k2].data.length, SC[k2].start); });
+  $('le-send').addEventListener('click', function () {
+    var s = SC[key], a = analyse(s, idx); if (a.e === undefined) return;
+    M.risk('le').set({ dir: s.dir, entry: a.e, stop: a.stop, tp1: a.target, decimals: 2 });
+    $('checklist').scrollIntoView();
+  });
+});
+</script>
+</body>
+</html>

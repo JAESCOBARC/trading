@@ -311,7 +311,7 @@ document.addEventListener('DOMContentLoaded', function () {
       var from = sx(fromIdx) - sw / 2;
       [[a.target, C.lime, 'Objetivo 2R'], [a.e, C.ink, 'Entrada'], [a.stop, C.red, 'Stop']].forEach(function (l) {
         ctx.strokeStyle = l[1]; ctx.setLineDash(l[2] === 'Entrada' ? [] : [6, 3]); ctx.beginPath(); ctx.moveTo(from, y(l[0])); ctx.lineTo(area.r, y(l[0])); ctx.stroke(); ctx.setLineDash([]);
-        ctx.fillStyle = l[1]; ctx.font = '600 10.5px "JetBrains Mono", monospace'; ctx.fillText(l[2], area.r - 2, y(l[0]) + (l[2] === 'Stop' ? 13 : -4));
+        ctx.fillStyle = l[1]; ctx.font = '600 10.5px "JetBrains Mono", monospace'; ctx.textAlign = 'right'; ctx.fillText(l[2], area.r - 2, y(l[0]) + (l[2] === 'Stop' ? 13 : -4)); ctx.textAlign = 'left';
       });
     }
   });

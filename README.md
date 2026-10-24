@@ -24,6 +24,7 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 | `estrategias/little-rizzy.html` | Directriz dibujable + distancia D + proyección |
 | `estrategias/atlas.html` | Vela contraria + imbalance (FVG) marcan la mitigación; barrido de liquidez, vela de fuerza y R:B fijo 1:2 |
 | `estrategias/poc.html` | Perfil de volumen de la sesión anterior: rebote en el POC, reversión del área de valor o ruptura con estructura; objetivo fijo 2R |
+| `estrategias/ley-estelar.html` | Piso de capitulación (máximo − 2× rango matutino, confirmado con SOXX), reversión al abrir por %B extremo y confluencia de tres niveles (Trinchera Estelar) |
 | `fundamentos/velas-japonesas.html` | Constructor de velas + 10 patrones en contexto |
 | `fundamentos/macd.html` | MACD, señal e histograma calculados + cruces y divergencias |
 | `fundamentos/wyckoff.html` | Simulador de acumulación/distribución con eventos + laboratorio de las 3 leyes, Operador Compuesto, rupturas, Spring/Upthrust y errores |
