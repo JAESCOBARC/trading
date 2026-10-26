@@ -40,6 +40,13 @@
   .sliders .field{padding:0}
   .sliders output{font-family:var(--mono);font-size:12px;color:var(--ink)}
   @media (max-width:640px){.sliders{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  .qa{border-top:1px solid var(--line);padding-block:8px}
+  .qa:first-child{border-top:none;padding-top:0}
+  .qa summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--ink);list-style:none}
+  .qa summary::-webkit-details-marker{display:none}
+  .qa summary::before{content:"+ ";color:var(--lime);font-family:var(--mono)}
+  .qa[open] summary::before{content:"– "}
+  .qa p{font-size:13px;color:var(--ink-2);margin-top:6px}
 </style>
 </head>
 <body data-root="../">
@@ -110,11 +117,23 @@
             <h3 class="card-label" id="vj-card-label">Lectura</h3>
             <div id="vj-info"></div>
           </div>
+          <div class="card" id="vj-olhc-card" hidden>
+            <h3 class="card-label">La secuencia operativa (OLHC)</h3>
+            <div id="vj-olhc"></div>
+          </div>
           <div class="card">
             <h3 class="card-label">Geometría de la vela clave</h3>
             <div id="vj-geo"></div>
           </div>
+          <div class="card" id="vj-context-card" hidden>
+            <h3 class="card-label">Para que esto tenga sentido</h3>
+            <div id="vj-context"></div>
+          </div>
           <div class="verdict" id="vj-verdict"></div>
+          <div class="card" id="vj-quiz-card" hidden>
+            <h3 class="card-label">Repaso rápido</h3>
+            <div id="vj-quiz"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -254,11 +273,12 @@ document.addEventListener('DOMContentLoaded', function () {
       ctx.fillStyle = col; ctx.fillRect(cx - bw / 2, top, bw, Math.max(2, bot - top));
       ctx.font = '600 11.5px "JetBrains Mono", monospace'; ctx.textBaseline = 'middle';
       var gap = y(c.o) - y(c.c), nud = Math.abs(gap) < 16 ? (16 - Math.abs(gap)) / 2 * (gap >= 0 ? 1 : -1) : 0;
+      var bull = c.c >= c.o, ord = bull ? { Apertura: 1, Mínimo: 2, Máximo: 3, Cierre: 4 } : { Apertura: 1, Máximo: 2, Mínimo: 3, Cierre: 4 };
       function lab(v, t, side) {
         var py = y(v) + (t === 'Apertura' ? nud : t === 'Cierre' ? -nud : 0), x2 = side > 0 ? cx + bw / 2 + 50 : cx - bw / 2 - 50;
         ctx.strokeStyle = 'rgba(166,172,179,.5)'; ctx.setLineDash([2, 3]);
         ctx.beginPath(); ctx.moveTo(side > 0 ? cx + (t === 'Máximo' || t === 'Mínimo' ? 4 : bw / 2) : cx - (t === 'Máximo' || t === 'Mínimo' ? 4 : bw / 2), py); ctx.lineTo(x2, py); ctx.stroke(); ctx.setLineDash([]);
-        ctx.fillStyle = C.ink; ctx.textAlign = side > 0 ? 'left' : 'right'; ctx.fillText(t + ' ' + v, x2 + (side > 0 ? 6 : -6), py);
+        ctx.fillStyle = C.ink; ctx.textAlign = side > 0 ? 'left' : 'right'; ctx.fillText(ord[t] + ' · ' + t + ' ' + v, x2 + (side > 0 ? 6 : -6), py);
       }
       lab(c.h, 'Máximo', 1); lab(c.l, 'Mínimo', 1); lab(c.o, 'Apertura', -1); lab(c.c, 'Cierre', -1);
       ctx.textAlign = 'left'; ctx.fillStyle = C.ink2;
@@ -296,10 +316,20 @@ document.addEventListener('DOMContentLoaded', function () {
   function def(a, b) { return '<div style="display:flex;flex-direction:column;gap:2px;padding-block:6px;border-top:1px solid var(--line)"><h3 class="card-label" style="letter-spacing:.06em">' + a + '</h3><span style="font-size:13px">' + b + '</span></div>'; }
   function pct(v) { return M.fmt(v * 100, 0) + '%'; }
 
+  var QUIZ = [
+    ['¿Por qué se usa aquí OLHC en vez del OHLC habitual?', 'OHLC es solo el formato estándar de los cuatro datos de una vela. OLHC describe el orden en el que suelen ocurrir en una vela típica: Abre, va al mínimo (manipulación), va al máximo (distribución) y Cierra.'],
+    ['¿Qué es, visto en 5 minutos, la mecha de manipulación de una vela de 4 horas?', 'Un movimiento mucho más profundo de lo que parece en el marco mayor: en 5 minutos esa mecha es un movimiento completo, con sus propios impulsos y retrocesos.'],
+    ['¿Qué pasa cuando el precio distribuye hasta el objetivo y, ya al final, barre el extremo contrario?', 'La vela cierra fuera de rango sin llegar a dar la distribución esperada en sentido contrario: eso es lo que invalida el trade y saca al operador en stop.'],
+    ['¿Qué hace falta, además de la forma de la vela, para operar esta lectura?', 'Que reaccione sobre un nivel clave, que ocurra en una ventana horaria de volumen alto, y que encaje con el tramo de la vela de marco mayor en la que aparece.']
+  ];
+
   function panel() {
     var anatomy = key === 'anatomia';
     $('vj-sliders').hidden = !anatomy;
     $('vj-toggles').hidden = anatomy;
+    $('vj-olhc-card').hidden = !anatomy;
+    $('vj-context-card').hidden = !anatomy;
+    $('vj-quiz-card').hidden = !anatomy;
     var v = $('vj-verdict');
     if (anatomy) {
       var c = anat(), g = geom(c), cl = classify(c);
@@ -307,10 +337,23 @@ document.addEventListener('DOMContentLoaded', function () {
       $('vj-title').textContent = 'Anatomía de una vela';
       $('vj-card-label').textContent = 'Lectura';
       $('vj-info').innerHTML = kv('Tipo', cl.n, g.bull ? 'up' : 'down') + '<p class="note" style="margin-top:6px">' + cl.d + '</p>';
+      var seq = g.bull
+        ? [['1 · Abre', c.o], ['2 · Manipula (al mínimo)', c.l], ['3 · Distribuye (al máximo)', c.h], ['4 · Retrocede y cierra', c.c]]
+        : [['1 · Abre', c.o], ['2 · Manipula (al máximo)', c.h], ['3 · Distribuye (al mínimo)', c.l], ['4 · Retrocede y cierra', c.c]];
+      $('vj-olhc').innerHTML = '<p class="note">Los mismos cuatro valores, pero en el orden en que ocurrieron: primero el precio se mueve hacia el lado contrario de donde va a ir de verdad (la manipulación), después hace el recorrido principal (la distribución) y por último retrocede un poco antes de cerrar. Por eso esta lectura se llama OLHC y no OHLC.</p>' +
+        seq.map(function (s) { return kv(s[0], s[1]); }).join('') +
+        '<p class="note" style="margin-top:6px">Es una lectura habitual en el price action institucional, no una ley mecánica: no todas las velas manipulan antes de distribuir. Por eso una vela nunca se opera sola.</p>';
       $('vj-geo').innerHTML = kv('Rango (máx − mín)', M.fmt(g.range, 0)) + kv('Cuerpo', pct(g.body)) + kv('Mecha superior', pct(g.up)) + kv('Mecha inferior', pct(g.lo));
+      $('vj-context').innerHTML =
+        def('Niveles clave', 'La vela debe reaccionar sobre una zona que ya importaba antes de que empezara: un soporte, una resistencia o un nivel que el precio ya había respetado.') +
+        def('Horario', 'La manipulación y la distribución pesan más durante las ventanas de mayor volumen de la sesión; la misma forma a otra hora dice mucho menos.') +
+        def('En qué tramo de la vela mayor ocurre', 'Si pasa en el primer tramo de una vela de marco mayor (por ejemplo, el inicio de una vela de 4H), suele ser la manipulación que precede a la distribución real. Más adelante en esa misma vela, la lectura pesa menos.') +
+        def('Cuándo falla esta lectura', 'Si el precio llega a la zona de interés, hace el recorrido completo a favor y solo al final del periodo barre el extremo contrario, la vela cierra fuera de rango sin dar la distribución esperada: eso es lo que invalida el trade.') +
+        def('Una vela no es solo una vela', 'Lo que en una vela de 4 horas se ve como una simple mecha de manipulación, en 5 minutos es un movimiento completo con sus propios impulsos y retrocesos. La lectura de marco mayor y menor tiene que encajar entre sí.');
+      $('vj-quiz').innerHTML = QUIZ.map(function (q) { return '<details class="qa"><summary>' + q[0] + '</summary><p>' + q[1] + '</p></details>'; }).join('');
       v.className = 'verdict warn';
       v.innerHTML = '<strong>Solo es una vela</strong>Nunca se analiza aislada: mira tendencia, volumen, niveles y las velas anteriores.';
-      $('vj-caption').innerHTML = '<b>Lección 1–3</b>Primero identifica apertura, máximo, mínimo y cierre. Después pregúntate quién tuvo más fuerza en el periodo y qué dicen las mechas.';
+      $('vj-caption').innerHTML = '<b>Lección 1–4</b>Primero identifica apertura, máximo, mínimo y cierre. Después, el orden en que ocurrieron: qué fue la manipulación y qué fue la distribución.';
       return;
     }
     var p = P[key], s = series(p), kc = p.candles[p.key], g2 = geom(kc), conf = $('vj-conf').checked, fail = $('vj-fail').checked;
