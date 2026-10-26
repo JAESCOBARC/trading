@@ -45,13 +45,13 @@
     <p class="eyebrow">Fundamentos</p>
     <h1><span class="lime">OLHC</span></h1>
     <p class="lede">No son solo cuatro precios: es el orden en que ocurren. Abre, finge, va de verdad, cierra.</p>
-    <div class="chips"><span class="chip">Abre · Manipula · Distribuye · Cierra</span><span class="chip">5 escenarios</span><span class="chip">Multi-temporalidad</span></div>
+    <div class="chips"><span class="chip">O · L · H · C</span><span class="chip">Por dentro de una vela de 1H</span><span class="chip">4 escenarios</span></div>
   </section>
 
   <section class="section" id="simulador">
     <div class="sec-head">
       <h2>Simulador gráfico</h2>
-      <p>Cinco formas de ver lo mismo: cómo nace una vela, cómo la siguiente repite el patrón, cuándo esa lectura se confirma, cuándo te engaña, y por qué una misma mecha se ve distinta según el marco temporal.</p>
+      <p>Cómo nace una vela de 1H vista por dentro, minuto a minuto, con la O, la L, la H y la C marcadas donde ocurren. Cómo repite la siguiente vela el mismo patrón, cuándo esa lectura se confirma y cuándo te engaña.</p>
     </div>
     <div class="win">
       <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/fundamentos/olhc</div><span class="live">datos de ejemplo</span></div>
@@ -62,7 +62,8 @@
           <button class="scn" data-scn="continuidad" aria-pressed="false">La siguiente vela repite</button>
           <button class="scn" data-scn="valida" aria-pressed="false">Distribución válida</button>
           <button class="scn" data-scn="trampa" aria-pressed="false">Barrido al final · trampa</button>
-          <button class="scn" data-scn="temporal" aria-pressed="false">Dos marcos temporales</button>
+          <span class="side-label" id="oh-dir-label" hidden>Dirección</span>
+          <label class="toggle" id="oh-dir-toggle" hidden><input type="checkbox" id="oh-bear">Vela bajista (abre y finge al alza)</label>
         </div>
         <div class="stage">
           <div class="stage-head">
@@ -108,15 +109,18 @@ document.addEventListener('DOMContentLoaded', function () {
   var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
   function k(o, h, l, c) { return { o: o, h: h, l: l, c: c }; }
 
-  /* ---- escenario 1: formación de una vela (fases dentro de una sola vela) ---- */
-  var FORM = k(100, 112, 94, 108);
-  var FORM_STEP = ['1 · Abre', '2 · Finge', '3 · Va de verdad', '4 · Cierra'];
-  var FORM_TXT = [
-    'Aquí abre la vela.',
-    'Primero finge que va a bajar…',
-    '…pero no: va fuerte hacia arriba, de verdad.',
-    'Al final frena un poco y cierra aquí.'
-  ];
+  /* ---- escenario 1: una vela de 1H, vista por dentro (velas de 5 min) ---- */
+  function buildForm(bear) {
+    var path = bear ? [[0, 100], [3, 106], [9, 88], [13, 92]] : [[0, 100], [3, 94], [9, 112], [13, 108]];
+    var pts = M.candlesFromPath(path, { seed: bear ? 11 : 9, noise: 0.8, wick: 1, tick: 0.25 });
+    var lIdx = 0, hIdx = 0;
+    pts.forEach(function (c, i) { if (c.l < pts[lIdx].l) lIdx = i; if (c.h > pts[hIdx].h) hIdx = i; });
+    var hi = Math.max.apply(null, pts.map(function (c) { return c.h; }));
+    var lo = Math.min.apply(null, pts.map(function (c) { return c.l; }));
+    return { pts: pts, lIdx: lIdx, hIdx: hIdx, bear: bear, o: 100, hi: hi, lo: lo, c: pts[pts.length - 1].c };
+  }
+  var FORM_BULL = buildForm(false), FORM_BEAR = buildForm(true);
+  function FD() { return $('oh-bear').checked ? FORM_BEAR : FORM_BULL; }
 
   /* ---- escenario 2: continuidad entre velas ---- */
   var CONT = [k(100, 108, 94, 106), k(106, 114, 103, 112), k(112, 120, 109, 118)];
@@ -150,12 +154,8 @@ document.addEventListener('DOMContentLoaded', function () {
     BARRE: ['Barre la zona y cierra fuera', 'Justo al final, el precio vuelve y rompe el otro lado de la zona de interés: la vela cierra fuera de rango sin dar la distribución esperada. Eso es lo que saca al operador.']
   };
 
-  /* ---- escenario 5: la misma mecha en dos marcos temporales ---- */
-  var TBIG = k(100, 116, 94, 110);
-  var TPATH = M.candlesFromPath([[0, 100], [3, 94], [9, 116], [13, 110]], { seed: 9, noise: 0.8, wick: 1, tick: 0.25 });
-
-  function totalOf(key) { return key === 'formacion' ? 4 : key === 'temporal' ? TPATH.length : SC[key].data.length; }
-  function startOf(key) { return key === 'formacion' ? 0 : key === 'temporal' ? TPATH.length - 1 : SC[key].start; }
+  function totalOf(key) { return key === 'formacion' ? FD().pts.length : SC[key].data.length; }
+  function startOf(key) { return key === 'formacion' ? 0 : SC[key].start; }
 
   var key = 'formacion', idx = 0;
 
@@ -164,46 +164,47 @@ document.addEventListener('DOMContentLoaded', function () {
     ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
 
     if (key === 'formacion') {
-      var area = { l: 20, r: w - 60, t: 20, b: h - 20 }, y = M.scale(85, 120, area.b, area.t);
-      var cx = w * 0.42, bw = Math.min(90, w * 0.14), narrow = w < 480;
-      if (narrow) cx = w * 0.5;
-      var gapSide = narrow ? 10 : 50;
-      var c = FORM, bull = c.c >= c.o, col = bull ? C.lime : C.red, ph = idx;
-      var manipV = bull ? c.l : c.h, distV = bull ? c.h : c.l;
-      var wickHi = ph === 0 ? c.o : ph === 1 ? (bull ? c.o : manipV) : c.h;
-      var wickLo = ph === 0 ? c.o : ph === 1 ? (bull ? manipV : c.o) : c.l;
-      ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx, y(wickHi)); ctx.lineTo(cx, y(wickLo)); ctx.stroke(); ctx.lineWidth = 1;
-      var bodyHi = ph < 2 ? c.o : ph === 2 ? Math.max(c.o, distV) : Math.max(c.o, c.c);
-      var bodyLo = ph < 2 ? c.o : ph === 2 ? Math.min(c.o, distV) : Math.min(c.o, c.c);
-      var top = y(bodyHi), bot = y(bodyLo);
-      ctx.fillStyle = col; ctx.fillRect(cx - bw / 2, top, bw, Math.max(2, bot - top));
-      ctx.font = '600 11.5px "JetBrains Mono", monospace'; ctx.textBaseline = 'middle';
-      var ord = bull ? { Apertura: 1, Mínimo: 2, Máximo: 3, Cierre: 4 } : { Apertura: 1, Máximo: 2, Mínimo: 3, Cierre: 4 };
-      function lab(v, t, side) {
-        if (ord[t] > ph + 1) return;
-        var x2 = side > 0 ? cx + bw / 2 + gapSide : cx - bw / 2 - gapSide;
-        ctx.strokeStyle = 'rgba(166,172,179,.5)'; ctx.setLineDash([2, 3]);
-        ctx.beginPath(); ctx.moveTo(side > 0 ? cx + (t === 'Máximo' || t === 'Mínimo' ? 4 : bw / 2) : cx - (t === 'Máximo' || t === 'Mínimo' ? 4 : bw / 2), y(v)); ctx.lineTo(x2, y(v)); ctx.stroke(); ctx.setLineDash([]);
-        ctx.fillStyle = C.ink; ctx.textAlign = side > 0 ? 'left' : 'right'; ctx.fillText(ord[t] + ' · ' + t + ' ' + v, x2 + (side > 0 ? 6 : -6), y(v));
-      }
-      lab(c.h, 'Máximo', 1); lab(c.l, 'Mínimo', 1); lab(c.o, 'Apertura', -1); lab(c.c, 'Cierre', -1);
-      ctx.textBaseline = 'alphabetic';
-      return;
-    }
-
-    if (key === 'temporal') {
-      var areaB = { l: 14, r: w * 0.3, t: 36, b: h - 24 }, areaS = { l: w * 0.38, r: w - 20, t: 36, b: h - 24 };
-      var lo = 92, hi = 118, y2 = M.scale(lo, hi, areaB.b, areaB.t);
-      M.gridY(ctx, areaB, y2, M.niceTicks(lo, hi, 5));
+      var fd = FD(), pts = fd.pts, n = pts.length, narrow = w < 560;
+      var areaB = { l: 14, r: narrow ? w * 0.22 : w * 0.26, t: 40, b: h - 26 };
+      var areaS = { l: narrow ? w * 0.3 : w * 0.34, r: w - 16, t: 40, b: h - 26 };
+      var pad = (fd.hi - fd.lo) * 0.18;
+      var lo = fd.lo - pad, hi = fd.hi + pad, y = M.scale(lo, hi, areaB.b, areaB.t);
+      M.gridY(ctx, areaS, y, M.niceTicks(lo, hi, 5));
       ctx.strokeStyle = 'rgba(166,172,179,.25)'; ctx.setLineDash([3, 4]); ctx.beginPath();
       ctx.moveTo((areaB.r + areaS.l) / 2, areaB.t); ctx.lineTo((areaB.r + areaS.l) / 2, areaB.b); ctx.stroke(); ctx.setLineDash([]);
-      function topLabel(txt, px, color) { ctx.save(); ctx.beginPath(); ctx.rect(0, 0, w, areaB.t); ctx.clip(); ctx.fillStyle = color; ctx.font = '700 10.5px "JetBrains Mono", monospace'; ctx.fillText(txt, px, 18); ctx.restore(); }
-      topLabel('4 HORAS', areaB.l, C.ink2);
-      topLabel('5 MINUTOS', areaS.l, C.lime);
-      var bx = areaB.l + (areaB.r - areaB.l) / 2;
-      M.drawCandles(ctx, [TBIG], function () { return bx; }, y2, Math.min(70, (areaB.r - areaB.l) * 0.5), {});
-      var n = TPATH.length, cw = (areaS.r - areaS.l) / n, x2 = function (i) { return areaS.l + (i + .5) * cw; };
-      M.drawCandles(ctx, TPATH.slice(0, idx + 1), x2, y2, cw, {});
+      function topLabel(txt, px, color) { ctx.save(); ctx.beginPath(); ctx.rect(0, 0, w, areaB.t); ctx.clip(); ctx.fillStyle = color; ctx.font = '700 10px "JetBrains Mono", monospace'; ctx.textAlign = 'left'; ctx.fillText(txt, px, 18); ctx.restore(); }
+      topLabel(narrow ? '1H' : 'VELA DE 1H', areaB.l, C.ink2);
+      topLabel(narrow ? '5 MIN' : 'POR DENTRO · 5 MIN', areaS.l, C.lime);
+
+      var shown = pts.slice(0, idx + 1);
+      var curHi = Math.max.apply(null, shown.map(function (c) { return c.h; }));
+      var curLo = Math.min.apply(null, shown.map(function (c) { return c.l; }));
+      var liveBig = k(fd.o, curHi, curLo, shown[shown.length - 1].c);
+      var bx = areaB.l + (areaB.r - areaB.l) / 2, bbw = Math.min(60, (areaB.r - areaB.l) * 0.5);
+      M.drawCandles(ctx, [liveBig], function () { return bx; }, y, bbw, {});
+
+      var cw = (areaS.r - areaS.l) / n, xs = function (i) { return areaS.l + (i + .5) * cw; };
+      M.drawCandles(ctx, shown, xs, y, cw, {});
+
+      function badge(px, py, letter, color) {
+        ctx.beginPath(); ctx.arc(px, py, 11, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+        ctx.fillStyle = '#0A0B0C'; ctx.font = '800 12px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(letter, px, py + 1); ctx.textBaseline = 'alphabetic';
+      }
+      badge(xs(0), y(fd.o) + (fd.bear ? 22 : -22), 'O', C.ink);
+      if (idx >= fd.lIdx) badge(xs(fd.lIdx), y(pts[fd.lIdx].l) + 22, 'L', C.red);
+      if (idx >= fd.hIdx) badge(xs(fd.hIdx), y(pts[fd.hIdx].h) - 22, 'H', C.lime);
+      if (idx >= n - 1) badge(xs(n - 1), y(pts[n - 1].c) + (fd.bear ? -22 : 22), 'C', C.ink2);
+
+      function bigBadge(v, letter, color) {
+        var px = bx - bbw / 2 - 16, py = y(v);
+        ctx.beginPath(); ctx.arc(px, py, 8, 0, Math.PI * 2); ctx.fillStyle = color; ctx.fill();
+        ctx.fillStyle = '#0A0B0C'; ctx.font = '800 9.5px "JetBrains Mono", monospace'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+        ctx.fillText(letter, px, py + 1); ctx.textBaseline = 'alphabetic';
+      }
+      bigBadge(fd.o, 'O', C.ink);
+      if (idx >= fd.lIdx) bigBadge(fd.lo, 'L', C.red);
+      if (idx >= fd.hIdx) bigBadge(fd.hi, 'H', C.lime);
       return;
     }
 
@@ -234,28 +235,31 @@ document.addEventListener('DOMContentLoaded', function () {
   function panel() {
     $('oh-replay').hidden = false;
     $('oh-steps').hidden = key !== 'formacion';
+    $('oh-dir-label').hidden = key !== 'formacion';
+    $('oh-dir-toggle').hidden = key !== 'formacion';
     if (key === 'formacion') {
-      $('oh-title').textContent = 'Cómo nace una vela';
-      $('oh-legend').innerHTML = '';
+      var fd = FD(), pts = fd.pts, n = pts.length, bear = fd.bear;
+      var up = bear ? 'arriba' : 'abajo', down = bear ? 'abajo' : 'arriba';
+      $('oh-title').textContent = 'Una vela de 1H, por dentro';
+      $('oh-legend').innerHTML = '<span><i style="background:' + C.ink + '"></i>O · abre</span><span><i style="background:' + C.red + '"></i>L · mínimo</span><span><i style="background:' + C.lime + '"></i>H · máximo</span><span><i style="background:' + C.ink2 + '"></i>C · cierra</span>';
       $('oh-card-label').textContent = 'Lectura';
-      $('oh-info').innerHTML = '<p class="note" style="color:var(--ink-2)">Los mismos cuatro valores, pero en el orden en que ocurrieron: primero el precio finge ir al lado contrario, después va de verdad hacia donde iba a ir siempre, y por último retrocede un poco antes de cerrar.</p>';
-      $('oh-event').innerHTML = '<p class="note">Es una lectura habitual, no una ley mecánica: no todas las velas manipulan antes de distribuir.</p>';
-      $('oh-list').innerHTML = FORM_STEP.map(function (t, i) { return row(i <= idx ? 'ok' : 'wait', t); }).join('');
-      $('oh-steps').innerHTML = FORM_STEP.map(function (t, i) { return '<span class="' + (i === idx ? 'on' : '') + '">' + t + '</span>'; }).join('');
-      $('oh-caption').innerHTML = '<b>Paso ' + (idx + 1) + ' de 4</b>' + FORM_TXT[idx];
-      return;
-    }
-
-    if (key === 'temporal') {
-      $('oh-title').textContent = 'Dos marcos temporales';
-      $('oh-legend').innerHTML = '<span><i style="background:' + C.ink2 + '"></i>4 horas</span><span><i style="background:var(--lime)"></i>5 minutos</span>';
-      $('oh-card-label').textContent = 'Lectura';
-      $('oh-info').innerHTML = '<p class="note" style="color:var(--ink-2)">La misma mecha: a la izquierda, como la ves en una vela de 4 horas. A la derecha, la misma zona de precio vista en 5 minutos, vela a vela.</p>';
-      $('oh-event').innerHTML = idx < TPATH.length - 1
-        ? '<p class="note">Reproduce para ver cómo se construye esa mecha minuto a minuto.</p>'
-        : '<p class="note"><b>Lo que en 4H parece una sola mecha de manipulación, en 5 minutos es un movimiento completo</b>, con sus propios impulsos y retrocesos. La lectura de marco mayor y menor tienen que encajar entre sí.</p>';
-      $('oh-list').innerHTML = row(idx >= TPATH.length - 1 ? 'ok' : 'wait', 'Mecha completa reconstruida en 5 minutos');
-      $('oh-caption').innerHTML = '<b>Vela ' + (idx + 1) + ' / ' + TPATH.length + ' (5 min)</b>Misma mecha, vista con más detalle.';
+      $('oh-info').innerHTML = '<p class="note" style="color:var(--ink-2)">La vela grande de la izquierda es la que verías en 1H. A la derecha está reconstruida minuto a minuto: ahí se ve exactamente dónde cae cada letra de O-L-H-C.</p>';
+      var stage3 = idx < Math.min(fd.lIdx, fd.hIdx) ? 0 : idx < Math.max(fd.lIdx, fd.hIdx) ? 1 : idx < n - 1 ? 2 : 3;
+      var EV = [
+        ['Abre (O)', 'La vela abre en ' + fd.o + '. Todavía no sabes qué va a hacer.'],
+        [bear ? 'Finge subir (H primero)' : 'Finge bajar (L primero)', 'Va hacia ' + up + ', buscando liquidez: eso es la manipulación, no el movimiento real.'],
+        [bear ? 'Va de verdad hacia abajo (L)' : 'Va de verdad hacia arriba (H)', 'Ahora sí se mueve con fuerza hacia ' + down + ': esa es la distribución, el movimiento que de verdad importa.'],
+        ['Cierra (C)', 'Retrocede un poco desde el extremo y cierra. Eso es lo único que verías si solo miraras la vela de 1H.']
+      ];
+      $('oh-event').innerHTML = '<div class="kv"><span>' + ['O', 'L/H', 'H/L', 'C'][stage3] + '</span><span class="up">' + EV[stage3][0] + '</span></div><p class="note" style="margin-top:6px;color:var(--ink-2)">' + EV[stage3][1] + '</p>';
+      $('oh-list').innerHTML =
+        row(idx >= 0 ? 'ok' : 'wait', '<b>O</b> · abre en ' + fd.o) +
+        row(idx >= fd.lIdx ? 'ok' : 'wait', '<b>L</b> · mínimo en ' + fd.lo.toFixed(1)) +
+        row(idx >= fd.hIdx ? 'ok' : 'wait', '<b>H</b> · máximo en ' + fd.hi.toFixed(1)) +
+        row(idx >= n - 1 ? 'ok' : 'wait', '<b>C</b> · cierra en ' + pts[n - 1].c.toFixed(1));
+      var STEP_NAMES = ['O · Abre', bear ? 'L/H · Finge arriba' : 'L/H · Finge abajo', bear ? 'H/L · Va de verdad abajo' : 'H/L · Va de verdad arriba', 'C · Cierra'];
+      $('oh-steps').innerHTML = STEP_NAMES.map(function (t, i) { return '<span class="' + (i === stage3 ? 'on' : '') + '">' + t + '</span>'; }).join('');
+      $('oh-caption').innerHTML = '<b>Vela ' + (idx + 1) + ' / ' + n + ' (5 min)</b>' + EV[stage3][1];
       return;
     }
 
@@ -290,11 +294,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   var rp = M.replay($('oh-replay'), totalOf(key), startOf(key), function (v) {
     idx = v;
-    var lbl = key === 'formacion' ? 'Paso ' + (v + 1) + ' / 4' : 'Vela ' + (v + 1) + ' / ' + totalOf(key);
-    document.querySelector('#oh-replay [data-label]').textContent = lbl;
+    document.querySelector('#oh-replay [data-label]').textContent = 'Vela ' + (v + 1) + ' / ' + totalOf(key) + (key === 'formacion' ? ' (5 min)' : '');
     stage.redraw(); panel();
   });
   M.scenarios($('oh-side'), function (k2) { key = k2; rp.reset(totalOf(k2), startOf(k2)); });
+  $('oh-bear').addEventListener('change', function () { rp.reset(totalOf('formacion'), 0); });
 });
 </script>
 </body>
