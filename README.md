@@ -29,6 +29,7 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 | `fundamentos/macd.html` | MACD, señal e histograma calculados + cruces y divergencias |
 | `fundamentos/wyckoff.html` | Simulador de acumulación/distribución con eventos + laboratorio de las 3 leyes, Operador Compuesto, rupturas, Spring/Upthrust y errores |
 | `fundamentos/imbalances.html` | Vela contraria + imbalance (FVG) y cómo el mercado lo mitiga, total o parcialmente |
+| `fundamentos/olhc.html` | El orden real en que nace una vela (abre, manipula, distribuye, cierra), cómo se repite de una vela a la siguiente, cuándo falla y por qué una misma mecha se ve distinta en otro marco temporal |
 | `recursos/interes-compuesto.html` | Interés compuesto por operativa: % riesgo, winrate, R:B y operaciones por periodo; retiros parciales por periodo, simulación de rachas (Montecarlo), plantillas y CSV |
 | `recursos/registro-trading.html` | Registro de trading: botón que abre la app de AppSheet en una ventana emergente (no embebida) |
 | `recursos/mapas-mercado.html` | Tres mapas de calor de Finviz uno bajo otro: sectores S&P 500, sectores Russell 2000 y futuros |

@@ -1,0 +1,301 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>OLHC · Mesa de Estudio</title>
+<meta name="description" content="OLHC: el orden real en que se forma una vela (abre, manipula, distribuye, cierra), cómo se repite de una vela a la siguiente, cuándo falla y por qué una misma mecha se ve distinta en otro marco temporal.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="OLHC · Mesa de Estudio">
+<meta property="og:description" content="OLHC: el orden real en que se forma una vela (abre, manipula, distribuye, cierra), cómo se repite de una vela a la siguiente, cuándo falla y por qué una misma mecha se ve distinta en otro marco temporal.">
+<meta property="og:url" content="https://trading.jhonyescobar.com/fundamentos/olhc.html">
+<meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/olhc.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="OLHC · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="OLHC · Mesa de Estudio">
+<meta name="twitter:description" content="OLHC: el orden real en que se forma una vela (abre, manipula, distribuye, cierra), cómo se repite de una vela a la siguiente, cuándo falla y por qué una misma mecha se ve distinta en otro marco temporal.">
+<meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/olhc.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[El orden real en que nace una vela: qué parte es el amague, qué parte es el movimiento de verdad, y por qué nunca se lee sola]</p>
+    <p class="eyebrow">Fundamentos</p>
+    <h1><span class="lime">OLHC</span></h1>
+    <p class="lede">No son solo cuatro precios: es el orden en que ocurren. Abre, finge, va de verdad, cierra.</p>
+    <div class="chips"><span class="chip">Abre · Manipula · Distribuye · Cierra</span><span class="chip">5 escenarios</span><span class="chip">Multi-temporalidad</span></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <h2>Simulador gráfico</h2>
+      <p>Cinco formas de ver lo mismo: cómo nace una vela, cómo la siguiente repite el patrón, cuándo esa lectura se confirma, cuándo te engaña, y por qué una misma mecha se ve distinta según el marco temporal.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/fundamentos/olhc</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="oh-side">
+          <span class="side-label">Escenarios</span>
+          <button class="scn" data-scn="formacion" aria-pressed="true">Cómo nace una vela</button>
+          <button class="scn" data-scn="continuidad" aria-pressed="false">La siguiente vela repite</button>
+          <button class="scn" data-scn="valida" aria-pressed="false">Distribución válida</button>
+          <button class="scn" data-scn="trampa" aria-pressed="false">Barrido al final · trampa</button>
+          <button class="scn" data-scn="temporal" aria-pressed="false">Dos marcos temporales</button>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="oh-title"></span>
+            <div class="legend" id="oh-legend"></div>
+          </div>
+          <div class="chart tall"><canvas id="oh-chart" role="img" aria-label="Formación de una vela y su lectura OLHC"></canvas></div>
+          <div class="replay" id="oh-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Paso">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="steps" id="oh-steps"></div>
+          <div class="caption" id="oh-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <h3 class="card-label" id="oh-card-label">Lectura</h3>
+            <div id="oh-info"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Evento actual</h3>
+            <div id="oh-event"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Eventos del escenario</h3>
+            <div class="checks" id="oh-list"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Además hace falta</h3>
+            <p class="note" style="color:var(--ink-2)">Un nivel que ya importara antes · una ventana horaria de volumen alto · que ocurra en el primer tramo de la vela de marco mayor. Sin eso, la forma sola no dice nada.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  function k(o, h, l, c) { return { o: o, h: h, l: l, c: c }; }
+
+  /* ---- escenario 1: formación de una vela (fases dentro de una sola vela) ---- */
+  var FORM = k(100, 112, 94, 108);
+  var FORM_STEP = ['1 · Abre', '2 · Finge', '3 · Va de verdad', '4 · Cierra'];
+  var FORM_TXT = [
+    'Aquí abre la vela.',
+    'Primero finge que va a bajar…',
+    '…pero no: va fuerte hacia arriba, de verdad.',
+    'Al final frena un poco y cierra aquí.'
+  ];
+
+  /* ---- escenario 2: continuidad entre velas ---- */
+  var CONT = [k(100, 108, 94, 106), k(106, 114, 103, 112), k(112, 120, 109, 118)];
+  var CONT_TXT = [
+    'Vela 1: abre en 100, finge bajar hasta 94, va de verdad hasta 108 y cierra en 106.',
+    'Vela 2 abre justo donde cerró la 1 (106) y repite la misma lógica: cierra en 112.',
+    'Vela 3 abre en 112 (el cierre de la 2) y vuelve a repetir: cierra en 118.'
+  ];
+
+  /* ---- escenarios 3 y 4: distribución válida vs. barrido al final ---- */
+  var ZBASE = [
+    k(120, 121, 116, 117), k(117, 118, 112, 113),
+    k(113, 114, 109, 110),             /* 2 · toca la zona de interés (109) */
+    k(110, 116, 109.5, 115),           /* 3 · rebota */
+    k(115, 122, 114, 121),             /* 4 · distribuye */
+    k(121, 128, 120, 127)              /* 5 · sigue distribuyendo */
+  ];
+  var VALIDA = ZBASE.concat([k(127, 133, 126, 132)]);   /* 6 · cierra confirmando */
+  var TRAMPA = ZBASE.concat([k(127, 129, 106, 108)]);   /* 6 · barre la zona y cierra fuera */
+
+  var SC = {
+    continuidad: { title: 'La siguiente vela repite', data: CONT, start: 2 },
+    valida: { title: 'Distribución válida', data: VALIDA, start: 6, zona: 2, dist: 4, final: 6, level: 109, ok: true },
+    trampa: { title: 'Barrido al final · trampa', data: TRAMPA, start: 6, zona: 2, dist: 4, final: 6, level: 109, ok: false }
+  };
+
+  var ZTXT = {
+    ZONA: ['Toca la zona de interés', 'El precio llega a un nivel que ya importaba antes de este movimiento: un soporte o una zona que ya se había respetado.'],
+    DIST: ['Distribuye a favor', 'El precio se aleja de la zona con fuerza, en la dirección que parecía confirmar la lectura.'],
+    CONFIRMA: ['Cierra confirmando', 'La última vela cierra dentro de rango, sin volver a tocar el otro lado de la zona: la lectura se sostiene.'],
+    BARRE: ['Barre la zona y cierra fuera', 'Justo al final, el precio vuelve y rompe el otro lado de la zona de interés: la vela cierra fuera de rango sin dar la distribución esperada. Eso es lo que saca al operador.']
+  };
+
+  /* ---- escenario 5: la misma mecha en dos marcos temporales ---- */
+  var TBIG = k(100, 116, 94, 110);
+  var TPATH = M.candlesFromPath([[0, 100], [3, 94], [9, 116], [13, 110]], { seed: 9, noise: 0.8, wick: 1, tick: 0.25 });
+
+  function totalOf(key) { return key === 'formacion' ? 4 : key === 'temporal' ? TPATH.length : SC[key].data.length; }
+  function startOf(key) { return key === 'formacion' ? 0 : key === 'temporal' ? TPATH.length - 1 : SC[key].start; }
+
+  var key = 'formacion', idx = 0;
+
+  var stage = M.canvasStage($('oh-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h;
+    ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+
+    if (key === 'formacion') {
+      var area = { l: 20, r: w - 60, t: 20, b: h - 20 }, y = M.scale(85, 120, area.b, area.t);
+      var cx = w * 0.42, bw = Math.min(90, w * 0.14), narrow = w < 480;
+      if (narrow) cx = w * 0.5;
+      var gapSide = narrow ? 10 : 50;
+      var c = FORM, bull = c.c >= c.o, col = bull ? C.lime : C.red, ph = idx;
+      var manipV = bull ? c.l : c.h, distV = bull ? c.h : c.l;
+      var wickHi = ph === 0 ? c.o : ph === 1 ? (bull ? c.o : manipV) : c.h;
+      var wickLo = ph === 0 ? c.o : ph === 1 ? (bull ? manipV : c.o) : c.l;
+      ctx.strokeStyle = col; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(cx, y(wickHi)); ctx.lineTo(cx, y(wickLo)); ctx.stroke(); ctx.lineWidth = 1;
+      var bodyHi = ph < 2 ? c.o : ph === 2 ? Math.max(c.o, distV) : Math.max(c.o, c.c);
+      var bodyLo = ph < 2 ? c.o : ph === 2 ? Math.min(c.o, distV) : Math.min(c.o, c.c);
+      var top = y(bodyHi), bot = y(bodyLo);
+      ctx.fillStyle = col; ctx.fillRect(cx - bw / 2, top, bw, Math.max(2, bot - top));
+      ctx.font = '600 11.5px "JetBrains Mono", monospace'; ctx.textBaseline = 'middle';
+      var ord = bull ? { Apertura: 1, Mínimo: 2, Máximo: 3, Cierre: 4 } : { Apertura: 1, Máximo: 2, Mínimo: 3, Cierre: 4 };
+      function lab(v, t, side) {
+        if (ord[t] > ph + 1) return;
+        var x2 = side > 0 ? cx + bw / 2 + gapSide : cx - bw / 2 - gapSide;
+        ctx.strokeStyle = 'rgba(166,172,179,.5)'; ctx.setLineDash([2, 3]);
+        ctx.beginPath(); ctx.moveTo(side > 0 ? cx + (t === 'Máximo' || t === 'Mínimo' ? 4 : bw / 2) : cx - (t === 'Máximo' || t === 'Mínimo' ? 4 : bw / 2), y(v)); ctx.lineTo(x2, y(v)); ctx.stroke(); ctx.setLineDash([]);
+        ctx.fillStyle = C.ink; ctx.textAlign = side > 0 ? 'left' : 'right'; ctx.fillText(ord[t] + ' · ' + t + ' ' + v, x2 + (side > 0 ? 6 : -6), y(v));
+      }
+      lab(c.h, 'Máximo', 1); lab(c.l, 'Mínimo', 1); lab(c.o, 'Apertura', -1); lab(c.c, 'Cierre', -1);
+      ctx.textBaseline = 'alphabetic';
+      return;
+    }
+
+    if (key === 'temporal') {
+      var areaB = { l: 14, r: w * 0.3, t: 36, b: h - 24 }, areaS = { l: w * 0.38, r: w - 20, t: 36, b: h - 24 };
+      var lo = 92, hi = 118, y2 = M.scale(lo, hi, areaB.b, areaB.t);
+      M.gridY(ctx, areaB, y2, M.niceTicks(lo, hi, 5));
+      ctx.strokeStyle = 'rgba(166,172,179,.25)'; ctx.setLineDash([3, 4]); ctx.beginPath();
+      ctx.moveTo((areaB.r + areaS.l) / 2, areaB.t); ctx.lineTo((areaB.r + areaS.l) / 2, areaB.b); ctx.stroke(); ctx.setLineDash([]);
+      function topLabel(txt, px, color) { ctx.save(); ctx.beginPath(); ctx.rect(0, 0, w, areaB.t); ctx.clip(); ctx.fillStyle = color; ctx.font = '700 10.5px "JetBrains Mono", monospace'; ctx.fillText(txt, px, 18); ctx.restore(); }
+      topLabel('4 HORAS', areaB.l, C.ink2);
+      topLabel('5 MINUTOS', areaS.l, C.lime);
+      var bx = areaB.l + (areaB.r - areaB.l) / 2;
+      M.drawCandles(ctx, [TBIG], function () { return bx; }, y2, Math.min(70, (areaB.r - areaB.l) * 0.5), {});
+      var n = TPATH.length, cw = (areaS.r - areaS.l) / n, x2 = function (i) { return areaS.l + (i + .5) * cw; };
+      M.drawCandles(ctx, TPATH.slice(0, idx + 1), x2, y2, cw, {});
+      return;
+    }
+
+    var s = SC[key], d = s.data, n = d.length;
+    var area = { l: 14, r: w - 60, t: 20, b: h - 24 };
+    var vals = []; d.forEach(function (c) { vals.push(c.h, c.l); });
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), pad = (hi - lo) * 0.08;
+    lo -= pad; hi += pad;
+    var y = M.scale(lo, hi, area.b, area.t), cw = (area.r - area.l) / n, x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 6));
+    M.drawCandles(ctx, d.slice(0, idx + 1), x, y, cw, { mark: function (i) { return key !== 'continuidad' && i === s.zona; } });
+    if (key === 'continuidad') {
+      d.forEach(function (c, i) {
+        if (i > idx || i === 0) return;
+        ctx.strokeStyle = 'rgba(155,226,45,.45)'; ctx.setLineDash([2, 3]);
+        ctx.beginPath(); ctx.moveTo(x(i - 1), y(c.o)); ctx.lineTo(x(i), y(c.o)); ctx.stroke(); ctx.setLineDash([]);
+      });
+    } else {
+      if (idx >= s.zona) M.hline(ctx, area, y(s.level), C.blue, 'Zona de interés ' + s.level, { dash: [5, 4], left: true });
+      if (idx >= s.zona) M.marker(ctx, x(s.zona), y(d[s.zona].l) + 12, C.blue, 'Zona', true);
+      if (idx >= s.dist) M.marker(ctx, x(s.dist), y(d[s.dist].h) - 12, C.amber, 'Distribuye', false);
+      if (idx >= s.final) M.marker(ctx, x(s.final), s.ok ? y(d[s.final].h) - 12 : y(d[s.final].l) + 12, s.ok ? C.lime : C.red, s.ok ? 'Confirma' : 'Barre', !s.ok);
+    }
+  });
+
+  function row(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', wait: '·', no: '✕' })[st] + '</i><span>' + t + '</span></div>'; }
+
+  function panel() {
+    $('oh-replay').hidden = false;
+    $('oh-steps').hidden = key !== 'formacion';
+    if (key === 'formacion') {
+      $('oh-title').textContent = 'Cómo nace una vela';
+      $('oh-legend').innerHTML = '';
+      $('oh-card-label').textContent = 'Lectura';
+      $('oh-info').innerHTML = '<p class="note" style="color:var(--ink-2)">Los mismos cuatro valores, pero en el orden en que ocurrieron: primero el precio finge ir al lado contrario, después va de verdad hacia donde iba a ir siempre, y por último retrocede un poco antes de cerrar.</p>';
+      $('oh-event').innerHTML = '<p class="note">Es una lectura habitual, no una ley mecánica: no todas las velas manipulan antes de distribuir.</p>';
+      $('oh-list').innerHTML = FORM_STEP.map(function (t, i) { return row(i <= idx ? 'ok' : 'wait', t); }).join('');
+      $('oh-steps').innerHTML = FORM_STEP.map(function (t, i) { return '<span class="' + (i === idx ? 'on' : '') + '">' + t + '</span>'; }).join('');
+      $('oh-caption').innerHTML = '<b>Paso ' + (idx + 1) + ' de 4</b>' + FORM_TXT[idx];
+      return;
+    }
+
+    if (key === 'temporal') {
+      $('oh-title').textContent = 'Dos marcos temporales';
+      $('oh-legend').innerHTML = '<span><i style="background:' + C.ink2 + '"></i>4 horas</span><span><i style="background:var(--lime)"></i>5 minutos</span>';
+      $('oh-card-label').textContent = 'Lectura';
+      $('oh-info').innerHTML = '<p class="note" style="color:var(--ink-2)">La misma mecha: a la izquierda, como la ves en una vela de 4 horas. A la derecha, la misma zona de precio vista en 5 minutos, vela a vela.</p>';
+      $('oh-event').innerHTML = idx < TPATH.length - 1
+        ? '<p class="note">Reproduce para ver cómo se construye esa mecha minuto a minuto.</p>'
+        : '<p class="note"><b>Lo que en 4H parece una sola mecha de manipulación, en 5 minutos es un movimiento completo</b>, con sus propios impulsos y retrocesos. La lectura de marco mayor y menor tienen que encajar entre sí.</p>';
+      $('oh-list').innerHTML = row(idx >= TPATH.length - 1 ? 'ok' : 'wait', 'Mecha completa reconstruida en 5 minutos');
+      $('oh-caption').innerHTML = '<b>Vela ' + (idx + 1) + ' / ' + TPATH.length + ' (5 min)</b>Misma mecha, vista con más detalle.';
+      return;
+    }
+
+    if (key === 'continuidad') {
+      $('oh-title').textContent = SC.continuidad.title;
+      $('oh-legend').innerHTML = '';
+      $('oh-card-label').textContent = 'Lectura';
+      $('oh-info').innerHTML = '<p class="note" style="color:var(--ink-2)">Cuando una vela cierra, la siguiente abre justo ahí y repite la misma lógica: finge, va de verdad, cierra. La línea punteada marca dónde cerró una y abrió la otra.</p>';
+      $('oh-event').innerHTML = '<p class="note">' + CONT_TXT[idx] + '</p>';
+      $('oh-list').innerHTML = CONT_TXT.map(function (t, i) { return row(i <= idx ? 'ok' : 'wait', 'Vela ' + (i + 1)); }).join('');
+      $('oh-caption').innerHTML = '<b>Vela ' + (idx + 1) + ' / 3</b>' + CONT_TXT[idx];
+      return;
+    }
+
+    var s = SC[key], d = s.data;
+    $('oh-title').textContent = s.title;
+    $('oh-legend').innerHTML = '<span><i style="background:' + C.blue + '"></i>Zona de interés</span><span><i style="background:' + (s.ok ? C.lime : C.red) + '"></i>' + (s.ok ? 'Confirma' : 'Barre') + '</span>';
+    $('oh-card-label').textContent = s.title;
+    $('oh-info').innerHTML = '<p class="note" style="color:var(--ink-2)">' + (s.ok
+      ? 'El precio toca una zona que ya importaba, distribuye a favor y cierra confirmando: la lectura se sostiene.'
+      : 'El precio toca la zona, distribuye a favor igual que en el caso válido… pero al final barre el otro lado y cierra fuera: eso invalida el trade.') + '</p>';
+    var ev = idx >= s.final ? (s.ok ? 'CONFIRMA' : 'BARRE') : idx >= s.dist ? 'DIST' : idx >= s.zona ? 'ZONA' : null;
+    $('oh-event').innerHTML = ev
+      ? '<div class="kv"><span>' + ev + '</span><span class="' + (ev === 'BARRE' ? 'down' : 'up') + '">' + ZTXT[ev][0] + '</span></div><p class="note" style="margin-top:6px;color:var(--ink-2)">' + ZTXT[ev][1] + '</p>'
+      : '<p class="note">Aún no hay eventos: el precio se acerca a la zona.</p>';
+    $('oh-list').innerHTML =
+      row(idx >= s.zona ? 'ok' : 'wait', '<b>ZONA</b> · ' + ZTXT.ZONA[0]) +
+      row(idx >= s.dist ? 'ok' : 'wait', '<b>DIST</b> · ' + ZTXT.DIST[0]) +
+      row(idx >= s.final ? (s.ok ? 'ok' : 'no') : 'wait', '<b>' + (s.ok ? 'CONFIRMA' : 'BARRE') + '</b> · ' + (s.ok ? ZTXT.CONFIRMA[0] : ZTXT.BARRE[0]));
+    $('oh-caption').innerHTML = '<b>Vela ' + (idx + 1) + ' / ' + d.length + '</b>' + (ev ? ZTXT[ev][1] : 'El precio se acerca a la zona de interés.');
+  }
+
+  var rp = M.replay($('oh-replay'), totalOf(key), startOf(key), function (v) {
+    idx = v;
+    var lbl = key === 'formacion' ? 'Paso ' + (v + 1) + ' / 4' : 'Vela ' + (v + 1) + ' / ' + totalOf(key);
+    document.querySelector('#oh-replay [data-label]').textContent = lbl;
+    stage.redraw(); panel();
+  });
+  M.scenarios($('oh-side'), function (k2) { key = k2; rp.reset(totalOf(k2), startOf(k2)); });
+});
+</script>
+</body>
+</html>
