@@ -7,7 +7,7 @@
 
   var PAGES = [
     { group: 'Fundamentos', dir: 'fundamentos', items: [
-      { href: 'fundamentos/velas-japonesas.html', label: 'Velas japonesas', desc: 'Anatomía y 10 patrones en contexto' },
+      { href: 'fundamentos/velas-japonesas.html', label: 'Velas japonesas', desc: 'Anatomía y 18 patrones en contexto' },
       { href: 'fundamentos/macd.html', label: 'MACD', desc: 'Cruces, histograma, divergencias' },
       { href: 'fundamentos/wyckoff.html', label: 'Método Wyckoff', desc: 'Leyes, ciclo, Spring y Upthrust' },
       { href: 'fundamentos/imbalances.html', label: 'Imbalances y Mitigación', desc: 'Vela contraria, FVG y mitigación total o parcial' }

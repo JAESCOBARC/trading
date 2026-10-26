@@ -9,7 +9,7 @@
 <meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
 <meta name="referrer" content="no-referrer">
 <title>Velas Japonesas · Mesa de Estudio</title>
-<meta name="description" content="Simulador de velas japonesas: construye una vela y estudia 10 patrones en su contexto, con tendencia, soporte, volumen y confirmación o fallo.">
+<meta name="description" content="Simulador de velas japonesas: construye una vela y estudia 18 patrones en su contexto, con tendencia, soporte, volumen y confirmación o fallo.">
 <meta name="theme-color" content="#0A0B0C">
 <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
@@ -21,7 +21,7 @@
 <meta property="og:site_name" content="Mesa de Estudio">
 <meta property="og:locale" content="es_ES">
 <meta property="og:title" content="Velas japonesas · Mesa de Estudio">
-<meta property="og:description" content="Simulador de velas japonesas: construye una vela y estudia 10 patrones en su contexto, con tendencia, soporte, volumen y confirmación o fallo.">
+<meta property="og:description" content="Simulador de velas japonesas: construye una vela y estudia 18 patrones en su contexto, con tendencia, soporte, volumen y confirmación o fallo.">
 <meta property="og:url" content="https://trading.jhonyescobar.com/fundamentos/velas-japonesas.html">
 <meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/velas-japonesas.png">
 <meta property="og:image:width" content="1200">
@@ -29,7 +29,7 @@
 <meta property="og:image:alt" content="Velas japonesas · Mesa de Estudio">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Velas japonesas · Mesa de Estudio">
-<meta name="twitter:description" content="Simulador de velas japonesas: construye una vela y estudia 10 patrones en su contexto, con tendencia, soporte, volumen y confirmación o fallo.">
+<meta name="twitter:description" content="Simulador de velas japonesas: construye una vela y estudia 18 patrones en su contexto, con tendencia, soporte, volumen y confirmación o fallo.">
 <meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/velas-japonesas.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -51,7 +51,7 @@
     <p class="eyebrow">Fundamentos</p>
     <h1>Velas <span class="lime">japonesas</span></h1>
     <p class="lede">Contexto antes que nombre del patrón. Confirmación antes que entrada.</p>
-    <div class="chips"><span class="chip">Apertura · máximo · mínimo · cierre</span><span class="chip">10 patrones</span><span class="chip">Cualquier marco temporal</span></div>
+    <div class="chips"><span class="chip">Apertura · máximo · mínimo · cierre</span><span class="chip">18 patrones</span><span class="chip">Cualquier marco temporal</span></div>
   </section>
 
   <section class="section" id="simulador">
@@ -67,17 +67,26 @@
           <button class="scn" data-scn="anatomia" aria-pressed="true">Anatomía: construye tu vela</button>
           <span class="side-label">Alcistas</span>
           <button class="scn" data-scn="martillo" aria-pressed="false">Martillo</button>
+          <button class="scn" data-scn="martilloInv" aria-pressed="false">Martillo invertido</button>
           <button class="scn" data-scn="envAlc" aria-pressed="false">Envolvente alcista</button>
+          <button class="scn" data-scn="penetrante" aria-pressed="false">Línea penetrante</button>
           <button class="scn" data-scn="estMan" aria-pressed="false">Estrella de la mañana</button>
           <button class="scn" data-scn="soldados" aria-pressed="false">Tres soldados blancos</button>
           <button class="scn" data-scn="harami" aria-pressed="false">Harami alcista</button>
           <span class="side-label">Bajistas</span>
           <button class="scn" data-scn="fugaz" aria-pressed="false">Estrella fugaz</button>
+          <button class="scn" data-scn="hombreColgado" aria-pressed="false">Hombre colgado</button>
           <button class="scn" data-scn="envBaj" aria-pressed="false">Envolvente bajista</button>
+          <button class="scn" data-scn="nubeOscura" aria-pressed="false">Cubierta de nube oscura</button>
           <button class="scn" data-scn="estTar" aria-pressed="false">Estrella de la tarde</button>
           <button class="scn" data-scn="cuervos" aria-pressed="false">Tres cuervos negros</button>
+          <button class="scn" data-scn="haramiBaj" aria-pressed="false">Harami bajista</button>
           <span class="side-label">Indecisión</span>
           <button class="scn" data-scn="doji" aria-pressed="false">Doji</button>
+          <button class="scn" data-scn="lapida" aria-pressed="false">Doji lápida</button>
+          <button class="scn" data-scn="libelula" aria-pressed="false">Doji libélula</button>
+          <span class="side-label">Continuación</span>
+          <button class="scn" data-scn="marubozu" aria-pressed="false">Marubozu</button>
         </div>
         <div class="stage">
           <div class="stage-head">
@@ -121,46 +130,78 @@ document.addEventListener('DOMContentLoaded', function () {
   function k(o, h, l, c) { return { o: o, h: h, l: l, c: c }; }
 
   var P = {
-    martillo: { name: 'Martillo', type: 'Alcista', trend: 'down', level: 96.5, n: 1, key: 0,
+    martillo: { name: 'Martillo', type: 'Alcista', trend: 'down', level: 96.5, n: 1, key: 0, dir: 'up',
       candles: [k(101.5, 102.2, 96.5, 102)],
       what: 'Mecha inferior larga: el precio cayó y fue rechazado. Los compradores recuperan casi todo el periodo.',
       where: 'Después de una caída y sobre un soporte.', inval: 'Cierre por debajo del mínimo de la mecha.' },
-    envAlc: { name: 'Envolvente alcista', type: 'Alcista', trend: 'down', level: 100.2, n: 2, key: 1,
+    envAlc: { name: 'Envolvente alcista', type: 'Alcista', trend: 'down', level: 100.2, n: 2, key: 1, dir: 'up',
       candles: [k(103, 103.6, 100.8, 101.2), k(100.8, 104.8, 100.2, 104.4)],
       what: 'El cuerpo alcista envuelve por completo el cuerpo bajista anterior: la presión compradora toma el control.',
       where: 'Tras una tendencia bajista, en soporte.', inval: 'Cierre por debajo del mínimo de la envolvente.' },
-    estMan: { name: 'Estrella de la mañana', type: 'Alcista', trend: 'down', level: 99.6, n: 3, key: 1,
+    estMan: { name: 'Estrella de la mañana', type: 'Alcista', trend: 'down', level: 99.6, n: 3, key: 1, dir: 'up',
       candles: [k(105, 105.4, 101, 101.4), k(100.6, 101, 99.6, 100.2), k(100.8, 104.9, 100.5, 104.6)],
       what: 'Vela bajista grande, vela pequeña de duda y vela alcista que recupera buena parte de la primera.',
       where: 'Al final de una fase bajista.', inval: 'Cierre por debajo del mínimo de la vela central.' },
-    soldados: { name: 'Tres soldados blancos', type: 'Alcista', trend: 'down', level: 100.7, n: 3, key: 2,
+    soldados: { name: 'Tres soldados blancos', type: 'Alcista', trend: 'down', level: 100.7, n: 3, key: 2, dir: 'up',
       candles: [k(101, 103.4, 100.7, 103.1), k(102.9, 105.6, 102.6, 105.3), k(105.1, 107.9, 104.8, 107.6)],
       what: 'Tres velas alcistas seguidas, cada una cerrando más arriba y con mechas cortas.',
       where: 'Saliendo de una zona baja o de una base.', inval: 'Cierre por debajo de la apertura del segundo soldado.' },
-    harami: { name: 'Harami alcista', type: 'Giro potencial', trend: 'down', level: 100.5, n: 2, key: 1,
+    harami: { name: 'Harami alcista', type: 'Giro potencial', trend: 'down', level: 100.5, n: 2, key: 1, dir: 'up',
       candles: [k(105, 105.5, 100.5, 101), k(101.8, 103.4, 101.5, 103)],
       what: 'Una vela pequeña queda dentro del cuerpo de la bajista anterior: la caída pierde fuerza.',
       where: 'Tras una caída; necesita confirmación posterior.', inval: 'Cierre por debajo del mínimo de la vela madre.' },
-    fugaz: { name: 'Estrella fugaz', type: 'Bajista', trend: 'up', level: 103.6, n: 1, key: 0,
+    martilloInv: { name: 'Martillo invertido', type: 'Alcista', trend: 'down', level: 96.2, n: 1, key: 0, dir: 'up',
+      candles: [k(96.5, 101.2, 96.2, 96.8)],
+      what: 'Misma forma que la estrella fugaz (mecha superior larga, cuerpo pequeño abajo), pero aparece tras una caída: el intento de subida fue rechazado, aunque el cuerpo ya quedó pegado al mínimo del periodo.',
+      where: 'Después de una caída y sobre un soporte.', inval: 'Cierre por debajo del mínimo de la vela.' },
+    penetrante: { name: 'Línea penetrante', type: 'Alcista', trend: 'down', level: 98.5, n: 2, key: 1, dir: 'up',
+      candles: [k(103, 103.4, 99, 99.3), k(98.8, 101.9, 98.5, 101.6)],
+      what: 'La segunda vela abre con hueco a la baja y cierra por encima de la mitad del cuerpo de la primera: no llega a envolverla, pero recupera más de la mitad de la caída.',
+      where: 'Tras una caída y sobre un soporte.', inval: 'Cierre por debajo del mínimo de la segunda vela.' },
+    fugaz: { name: 'Estrella fugaz', type: 'Bajista', trend: 'up', level: 103.6, n: 1, key: 0, dir: 'down',
       candles: [k(98.9, 103.6, 98.2, 98.4)],
       what: 'Mecha superior larga: el precio subió y fue rechazado en niveles altos.',
       where: 'Después de una subida y bajo una resistencia.', inval: 'Cierre por encima del máximo de la mecha.' },
-    envBaj: { name: 'Envolvente bajista', type: 'Bajista', trend: 'up', level: 99.8, n: 2, key: 1,
+    hombreColgado: { name: 'Hombre colgado', type: 'Bajista', trend: 'up', level: 104.8, n: 1, key: 0, dir: 'down',
+      candles: [k(104, 104.8, 99.2, 104.5)],
+      what: 'Misma forma que el martillo (mecha inferior larga, cuerpo pequeño arriba), pero aparece tras una subida: el mismo rechazo que antes era señal de compra ahora avisa de que empieza a aparecer presión vendedora.',
+      where: 'Después de una subida y bajo una resistencia.', inval: 'Cierre por encima del máximo de la vela.' },
+    envBaj: { name: 'Envolvente bajista', type: 'Bajista', trend: 'up', level: 99.8, n: 2, key: 1, dir: 'down',
       candles: [k(97, 99.2, 96.8, 98.9), k(99.2, 99.8, 95.4, 95.8)],
       what: 'El cuerpo bajista envuelve el cuerpo alcista anterior: los vendedores toman el control.',
       where: 'Tras una subida, en resistencia.', inval: 'Cierre por encima del máximo de la envolvente.' },
-    estTar: { name: 'Estrella de la tarde', type: 'Bajista', trend: 'up', level: 100.4, n: 3, key: 1,
+    nubeOscura: { name: 'Cubierta de nube oscura', type: 'Bajista', trend: 'up', level: 102.9, n: 2, key: 1, dir: 'down',
+      candles: [k(97.5, 102.4, 97.2, 102.1), k(102.6, 102.9, 99, 99.3)],
+      what: 'La segunda vela abre con hueco al alza y cierra por debajo de la mitad del cuerpo de la primera: no llega a envolverla, pero borra más de la mitad del avance.',
+      where: 'Tras una subida y bajo una resistencia.', inval: 'Cierre por encima del máximo de la segunda vela.' },
+    estTar: { name: 'Estrella de la tarde', type: 'Bajista', trend: 'up', level: 100.4, n: 3, key: 1, dir: 'down',
       candles: [k(95, 98.6, 94.6, 98.4), k(99.2, 100.4, 98.8, 99.6), k(99, 99.3, 94.9, 95.3)],
       what: 'Opuesta a la estrella de la mañana: vela alcista grande, duda arriba y vela bajista que devuelve el avance.',
       where: 'Después de una tendencia alcista.', inval: 'Cierre por encima del máximo de la vela central.' },
-    cuervos: { name: 'Tres cuervos negros', type: 'Bajista', trend: 'up', level: 99.3, n: 3, key: 2,
+    cuervos: { name: 'Tres cuervos negros', type: 'Bajista', trend: 'up', level: 99.3, n: 3, key: 2, dir: 'down',
       candles: [k(99, 99.3, 96.6, 96.9), k(97.1, 97.4, 94.4, 94.7), k(94.9, 95.2, 92.2, 92.5)],
       what: 'Tres velas bajistas seguidas con cierres descendentes.',
       where: 'Tras una subida o en un techo.', inval: 'Cierre por encima de la apertura del segundo cuervo.' },
-    doji: { name: 'Doji', type: 'Indecisión', trend: 'up', level: 100.6, n: 1, key: 0,
+    haramiBaj: { name: 'Harami bajista', type: 'Giro potencial', trend: 'up', level: 102.5, n: 2, key: 1, dir: 'down',
+      candles: [k(97, 102.5, 96.8, 102.2), k(101.6, 101.9, 100.8, 101.1)],
+      what: 'Una vela pequeña queda dentro del cuerpo de la alcista anterior: el avance pierde fuerza de golpe.',
+      where: 'Tras una subida; necesita confirmación posterior.', inval: 'Cierre por encima del máximo de la vela madre.' },
+    doji: { name: 'Doji', type: 'Indecisión', trend: 'up', level: 100.6, n: 1, key: 0, dir: 'down',
       candles: [k(98.8, 100.6, 97, 98.85)],
       what: 'Apertura y cierre casi iguales: equilibrio o duda temporal entre compradores y vendedores.',
-      where: 'Pesa más tras una tendencia clara, en un nivel relevante.', inval: 'Un doji no marca dirección por sí solo: la da la vela siguiente.' }
+      where: 'Pesa más tras una tendencia clara, en un nivel relevante.', inval: 'Un doji no marca dirección por sí solo: la da la vela siguiente.' },
+    lapida: { name: 'Doji lápida', type: 'Bajista', trend: 'up', level: 104.3, n: 1, key: 0, dir: 'down',
+      candles: [k(100, 104.3, 99.9, 100.1)],
+      what: 'Apertura, mínimo y cierre casi pegados en la parte baja del rango: el precio subió con fuerza durante el periodo y lo perdió casi todo antes de cerrar.',
+      where: 'Tras una subida y bajo una resistencia; pesa más con una vela bajista de confirmación después.', inval: 'Cierre por encima del máximo de la mecha.' },
+    libelula: { name: 'Doji libélula', type: 'Alcista', trend: 'down', level: 95.7, n: 1, key: 0, dir: 'up',
+      candles: [k(100, 100.1, 95.7, 99.9)],
+      what: 'Apertura, máximo y cierre casi pegados en la parte alta del rango: el precio cayó con fuerza durante el periodo y lo recuperó casi todo antes de cerrar.',
+      where: 'Tras una caída y sobre un soporte; pesa más con una vela alcista de confirmación después.', inval: 'Cierre por debajo del mínimo de la mecha.' },
+    marubozu: { name: 'Marubozu', type: 'Alcista', trend: 'down', level: 99.9, n: 1, key: 0, dir: 'up',
+      candles: [k(100, 105.8, 99.9, 105.7)],
+      what: 'Apertura casi en el mínimo y cierre casi en el máximo, sin apenas mechas: los compradores dominaron el periodo completo sin pausa.',
+      where: 'Rompiendo una base o una zona de consolidación, con volumen alto.', inval: 'Cierre por debajo de la apertura de la vela.' }
   };
 
   var key = 'anatomia';
@@ -171,8 +212,7 @@ document.addEventListener('DOMContentLoaded', function () {
                    : M.candlesFromPath([[0, 72], [6, 84], [11, first.o - 0.6]], { seed: 6, noise: .8, wick: 1, tick: 0.05 });
     var cs = pre.concat(p.candles.map(function (c) { return Object.assign({}, c); }));
     var last = p.candles[p.candles.length - 1], hi = Math.max.apply(null, p.candles.map(function (c) { return c.h; })), lo = Math.min.apply(null, p.candles.map(function (c) { return c.l; }));
-    var up = p.type === 'Bajista' || (p.type === 'Indecisión') ? false : true;
-    if (p.name === 'Doji') up = false;
+    var up = p.dir === 'down' ? false : true;
     var fail = $('vj-fail').checked, go = up !== fail;
     var conf = go ? [k(last.c, last.c + 2.6, last.c - .4, last.c + 2.3), k(last.c + 2.2, last.c + 5, last.c + 1.9, last.c + 4.6)]
                   : [k(last.c, last.c + .4, last.c - 2.6, last.c - 2.3), k(last.c - 2.2, last.c - 1.9, last.c - 5, last.c - 4.6)];
@@ -240,8 +280,10 @@ document.addEventListener('DOMContentLoaded', function () {
     ctx.fillStyle = 'rgba(155,226,45,.06)';
     ctx.fillRect(x(s.ps) - cw / 2, area.t, cw * p.candles.length, area.b - area.t);
     M.drawCandles(ctx, cs, x, y, cw, { mark: function (i) { return i === s.ps + p.key; } });
-    ctx.fillStyle = C.lime; ctx.font = '700 10.5px "JetBrains Mono", monospace'; ctx.textAlign = 'center';
-    ctx.fillText(p.name.toUpperCase(), x(s.ps) + cw * (p.candles.length - 1) / 2, area.t + 12); ctx.textAlign = 'left';
+    ctx.font = '700 10.5px "JetBrains Mono", monospace'; ctx.textAlign = 'center';
+    var ptxt = p.name.toUpperCase(), ptx = x(s.ps) + cw * (p.candles.length - 1) / 2, pty = area.t + 12, ptw = ctx.measureText(ptxt).width;
+    ctx.fillStyle = 'rgba(10,11,12,.82)'; ctx.fillRect(ptx - ptw / 2 - 4, pty - 9, ptw + 8, 13);
+    ctx.fillStyle = C.lime; ctx.fillText(ptxt, ptx, pty); ctx.textAlign = 'left';
     var vt = area.b + 12, vb = h - 6, vmax = 120;
     cs.forEach(function (c, i) {
       var bh = (vb - vt) * c.v / vmax;
