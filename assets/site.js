@@ -11,7 +11,8 @@
       { href: 'fundamentos/macd.html', label: 'MACD', desc: 'Cruces, histograma, divergencias' },
       { href: 'fundamentos/wyckoff.html', label: 'Método Wyckoff', desc: 'Leyes, ciclo, Spring y Upthrust' },
       { href: 'fundamentos/imbalances.html', label: 'Imbalances y Mitigación', desc: 'Vela contraria, FVG y mitigación total o parcial' },
-      { href: 'fundamentos/olhc.html', label: 'OLHC', desc: 'Cómo nace una vela: abre, manipula, distribuye y cierra' }
+      { href: 'fundamentos/olhc.html', label: 'OLHC', desc: 'Cómo nace una vela: abre, manipula, distribuye y cierra' },
+      { href: 'fundamentos/jesus-navarrete.html', label: 'Jesús Navarrete', desc: 'Canvas operativo: ecosistema, pre-market, capital y auditoría' }
     ] },
     { group: 'Estrategias', dir: 'estrategias', items: [
       { href: 'estrategias/orderflow-world-cup.html', label: 'Orderflow World Cup', desc: 'VAL + Golden Pocket + footprint' },

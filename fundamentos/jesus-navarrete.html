@@ -1,0 +1,806 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Jesús Navarrete · Mesa de Estudio</title>
+<meta name="description" content="Canvas operativo de trading: ecosistema SAR/EMA, Doji en T y empalme de 3 velas, Oráculo pre-market, ingeniería de capital con techo $5,000 y auditoría de 900 operaciones.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Jesús Navarrete · Mesa de Estudio">
+<meta property="og:description" content="Canvas operativo de trading: ecosistema SAR/EMA, Doji en T y empalme de 3 velas, Oráculo pre-market, ingeniería de capital con techo $5,000 y auditoría de 900 operaciones.">
+<meta property="og:url" content="https://trading.jhonyescobar.com/fundamentos/jesus-navarrete.html">
+<meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/jesus-navarrete.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Jesús Navarrete · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Jesús Navarrete · Mesa de Estudio">
+<meta name="twitter:description" content="Canvas operativo de trading: ecosistema SAR/EMA, Doji en T y empalme de 3 velas, Oráculo pre-market, ingeniería de capital con techo $5,000 y auditoría de 900 operaciones.">
+<meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/jesus-navarrete.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  /* ---- navegación de unidades ---- */
+  .units{display:flex;flex-wrap:wrap;gap:6px;border-bottom:1px solid var(--line);padding-bottom:14px}
+  .unit-btn{font-family:var(--mono);font-size:12px;padding:9px 13px;border-radius:9px;border:1px solid var(--line-2);background:var(--panel);color:var(--ink-3);cursor:pointer;white-space:nowrap}
+  .unit-btn:hover{color:var(--ink)}
+  .unit-btn[aria-pressed="true"]{color:var(--lime);border-color:var(--lime);background:var(--lime-soft)}
+  .unit-panel{display:none}
+  .unit-panel.on{display:block}
+
+  /* ---- bloques del lienzo maestro ---- */
+  .nine-head{display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .nine-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+  .nine-card{background:var(--bg-2);border:1px solid var(--line);border-top:3px solid var(--line-2);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px}
+  .nine-card .tag{font-family:var(--mono);font-size:10.5px;font-weight:700;letter-spacing:.06em;color:var(--ink-3)}
+  .nine-card h3{font-family:var(--display);font-size:15px;margin:0}
+  .nine-card ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--ink-2);flex:1}
+  .nine-card .norm-btn{align-self:flex-start;font-family:var(--mono);font-size:11px;color:var(--ink-3);background:none;border:none;cursor:pointer;padding:0;text-decoration:underline;text-underline-offset:3px}
+  .nine-card .norm-btn:hover{color:var(--lime)}
+  .nine-check{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--line);padding-top:10px;cursor:pointer;font-size:12px;color:var(--ink-2)}
+  .nine-check input{accent-color:var(--lime);width:16px;height:16px}
+
+  /* ---- controles / paneles de unidad ---- */
+  .u-grid{display:grid;grid-template-columns:1fr;gap:16px}
+  @media(min-width:980px){.u-grid.cols-3{grid-template-columns:340px minmax(0,1fr)}.u-grid.cols-12-5-7{grid-template-columns:5fr 7fr}.u-grid.cols-12-6{grid-template-columns:1fr 1fr}}
+  .box{background:var(--bg-2);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+  .box h2{font-family:var(--display);font-size:17px;margin:4px 0 0}
+  .box .sub{font-size:12px;color:var(--ink-3)}
+  .mini{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
+  .seg2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .seg3{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+  .pill-btn{padding:8px 6px;border-radius:8px;font-size:11.5px;font-weight:600;font-family:var(--body);background:var(--panel-2);color:var(--ink-3);border:1px solid var(--line-2);cursor:pointer;text-align:center}
+  .pill-btn.on{background:var(--lime);color:var(--lime-ink);border-color:var(--lime)}
+  .pill-btn.on.bear{background:var(--red);color:#2a0506;border-color:var(--red)}
+  .pill-btn.on.side{background:var(--amber);color:#2b1a02;border-color:var(--amber)}
+  .badge-mono{font-family:var(--mono);font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:999px}
+  .badge-ok{background:var(--lime-soft);color:var(--lime)}
+  .badge-no{background:var(--red-soft);color:var(--red)}
+  .badge-warn{background:var(--amber-soft);color:var(--amber)}
+  .banner{font-family:var(--mono);font-size:11.5px;font-weight:700;padding:8px 12px;border-radius:9px;border:1px solid var(--line-2)}
+  .layer-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12px}
+  .layer-grid label{display:flex;align-items:center;gap:7px;cursor:pointer;font-family:var(--mono)}
+  .layer-grid input{accent-color:var(--lime)}
+  .trio{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+  .trio .mini p{font-size:12px;color:var(--ink-2);margin:0}
+  .trio .mini .ttl{font-weight:700;font-size:12.5px;display:flex;align-items:center;gap:6px}
+
+  /* ---- tabla ---- */
+  table.led{width:100%;border-collapse:collapse;font-size:12px;font-family:var(--mono)}
+  table.led th{text-align:left;color:var(--ink-3);font-weight:500;padding:8px 6px;border-bottom:1px solid var(--line)}
+  table.led td{padding:8px 6px;border-bottom:1px solid var(--line);color:var(--ink)}
+  table.led td.r{text-align:right}
+  table.led td.c{text-align:center}
+  table.led tbody tr:hover{background:var(--panel)}
+  .x-btn{background:none;border:none;color:var(--ink-3);cursor:pointer;font-family:var(--mono);font-size:13px}
+  .x-btn:hover{color:var(--red)}
+
+  .stat4{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+  .stat-card{background:var(--bg-2);border:1px solid var(--line);border-left:3px solid var(--line-2);border-radius:10px;padding:13px}
+  .stat-card .lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-3);font-family:var(--mono)}
+  .stat-card .val{font-family:var(--mono);font-size:22px;font-weight:800;color:var(--ink);margin-top:3px}
+  .stat-card .sub{font-family:var(--mono);font-size:10.5px;margin-top:3px}
+
+  /* ---- modal ---- */
+  .jn-modal{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.72);backdrop-filter:blur(6px);display:none;align-items:center;justify-content:center;padding:16px}
+  .jn-modal.on{display:flex}
+  .jn-modal-card{background:var(--panel);border:1px solid var(--line-2);border-radius:14px;max-width:640px;width:100%;max-height:82vh;display:flex;flex-direction:column;box-shadow:0 30px 80px rgba(0,0,0,.6)}
+  .jn-modal-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:18px 20px;border-bottom:1px solid var(--line)}
+  .jn-modal-head h3{font-family:var(--display);font-size:17px;margin:4px 0 0}
+  .jn-modal-body{padding:18px 20px;overflow-y:auto;font-size:13px;color:var(--ink-2);line-height:1.55;display:flex;flex-direction:column;gap:10px}
+  .jn-modal-body strong{color:var(--ink)}
+  .jn-modal-body ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+  .jn-modal-close{background:none;border:none;color:var(--ink-3);font-size:18px;cursor:pointer;line-height:1}
+  .jn-modal-close:hover{color:var(--ink)}
+
+  /* ---- toasts ---- */
+  #jn-toasts{position:fixed;right:16px;bottom:16px;z-index:90;display:flex;flex-direction:column;gap:8px;max-width:320px}
+  .jn-toast{animation:jnIn .15s ease}
+  @keyframes jnIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+  @media(max-width:640px){.nine-grid{grid-template-columns:1fr}.stat4{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Manual rector de estudio, ejecución y auditoría: desde la configuración del gráfico hasta la defensa final de la operativa]</p>
+    <p class="eyebrow">Fundamentos</p>
+    <h1>Jesús <span class="lime">Navarrete</span></h1>
+    <p class="lede">Ecosistema técnico, inteligencia pre-market, ejecución, ingeniería de capital y auditoría — en cinco unidades, con checklist de 9 bloques.</p>
+    <div class="chips"><span class="chip">5 unidades</span><span class="chip">Checklist de 9 bloques</span><span class="chip">Techo $5,000</span></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <h2>Canvas operativo</h2>
+      <p>Cinco unidades del manual, cada una con sus propios controles: el lienzo de 9 bloques innegociables, el ecosistema técnico y la ejecución, el Oráculo de pre-market, la ingeniería de capital y la auditoría final.</p>
+    </div>
+
+    <nav class="units" id="jn-units">
+      <button class="unit-btn" data-unit="canvas" aria-pressed="true">1 · Lienzo maestro (9 bloques)</button>
+      <button class="unit-btn" data-unit="ecosistema" aria-pressed="false">2 · Ecosistema y ejecución (U1 y U3)</button>
+      <button class="unit-btn" data-unit="oraculo" aria-pressed="false">3 · Pre-market y Oráculo (U2)</button>
+      <button class="unit-btn" data-unit="capital" aria-pressed="false">4 · Ingeniería de capital $5,000 (U4)</button>
+      <button class="unit-btn" data-unit="auditoria" aria-pressed="false">5 · Auditoría y defensa (U5)</button>
+    </nav>
+
+    <!-- ===================== UNIDAD: LIENZO MAESTRO ===================== -->
+    <div class="unit-panel on" id="panel-canvas">
+      <div class="box">
+        <div class="nine-head">
+          <div>
+            <h2 style="margin-top:0">Estado de preparación operativa</h2>
+            <p class="sub">Marca cada bloque para validar la disciplina antes de operar. Se guarda en este navegador.</p>
+          </div>
+          <div class="row" style="gap:14px">
+            <div class="meter" style="width:180px"><i data-meter></i></div>
+            <span class="mono" id="nine-count" style="font-size:13px;color:var(--lime);font-weight:700">0/9 Bloques</span>
+          </div>
+        </div>
+        <div class="nine-grid" id="nine-grid"></div>
+      </div>
+    </div>
+
+    <!-- ===================== UNIDAD: ECOSISTEMA Y EJECUCIÓN ===================== -->
+    <div class="unit-panel" id="panel-ecosistema">
+      <div class="u-grid cols-3">
+        <div class="box">
+          <span class="chip info" style="align-self:flex-start">Calibración U1 y U3</span>
+          <h2>Auditor visual del gráfico</h2>
+          <p class="sub">Ventana de velas, estado del ecosistema y capas activas.</p>
+
+          <div class="mini">
+            <div class="row" style="justify-content:space-between"><span class="sub">1. Escala del gráfico (U1.1)</span><span class="badge-mono badge-ok" id="eco-scale-badge">LOGARÍTMICA OK</span></div>
+            <div class="seg2">
+              <button class="pill-btn on" id="btn-scale-log" type="button">Logarítmica (%)</button>
+              <button class="pill-btn" id="btn-scale-lin" type="button">Aritmética</button>
+            </div>
+          </div>
+
+          <div class="mini">
+            <div class="row" style="justify-content:space-between"><span class="sub">2. Ventana de observación</span><span class="badge-mono badge-ok" id="eco-candle-badge">18 velas (reglamentario)</span></div>
+            <input type="range" id="eco-candles" min="10" max="28" value="18">
+            <div class="row" style="justify-content:space-between;font-family:var(--mono);font-size:10.5px;color:var(--ink-3)"><span>10 · sin contexto</span><span style="color:var(--lime)">15–22 reglamentario</span><span>28 · comprimido</span></div>
+          </div>
+
+          <div class="mini">
+            <span class="sub">3. Estado del ecosistema (U3.1)</span>
+            <div class="seg3">
+              <button class="pill-btn on" id="eco-bull" type="button">Positivo (Long)</button>
+              <button class="pill-btn" id="eco-bear" type="button">Negativo (Short)</button>
+              <button class="pill-btn" id="eco-side" type="button">Compresión</button>
+            </div>
+          </div>
+
+          <div class="mini">
+            <span class="sub">4. Capas activas</span>
+            <div class="layer-grid">
+              <label><input type="checkbox" id="ly-fast" checked>EMA 3 y 9</label>
+              <label><input type="checkbox" id="ly-20" checked>EMA 20</label>
+              <label><input type="checkbox" id="ly-50" checked>EMA 50</label>
+              <label><input type="checkbox" id="ly-200" checked>EMA 200</label>
+              <label><input type="checkbox" id="ly-sar" checked>SAR</label>
+              <label><input type="checkbox" id="ly-empalme" checked>3 velas + empalme</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="row" style="justify-content:space-between">
+            <span class="stage-title">VISOR DE ESTRUCTURA TÁCTICA · CARPETA MI-CLOSE / DIARIO</span>
+            <span class="banner" id="eco-banner">ECOSISTEMA POSITIVO: SAR BAJO PRECIO + EMA 20 (PRIORIDAD LARGOS)</span>
+          </div>
+          <div class="chart tall"><canvas id="eco-chart" role="img" aria-label="Simulador de ecosistema con EMAs, SAR, Doji en T y empalme de 3 velas"></canvas></div>
+          <div class="trio">
+            <div class="mini"><p class="ttl" style="color:var(--lime)">Doji Libélula ("T" · largo)</p><p>Abre en rojo y cae sobre soporte. La demanda institucional la rechaza al alza y cierra en su apertura: una "T" limpia.</p></div>
+            <div class="mini"><p class="ttl" style="color:var(--red)">Doji Lápida ("T" inv. · corto)</p><p>Abre en verde atacando resistencia. La oferta la rechaza a la baja y vuelve a su apertura: una "T" invertida.</p></div>
+            <div class="mini"><p class="ttl" style="color:var(--blue)">Ley de empalme (3ª vela)</p><p>Al cierre de la 3ª vela se asegura beneficio; en rally, esa misma vela es a la vez la 1ª del siguiente trío.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== UNIDAD: PRE-MARKET Y ORÁCULO ===================== -->
+    <div class="unit-panel" id="panel-oraculo">
+      <div class="u-grid cols-12-5-7">
+        <div class="box">
+          <span class="chip info" style="align-self:flex-start">U2.1 y 2.2 · Filtro horario</span>
+          <h2>Decodificador de los dos mundos</h2>
+          <p class="sub">Clasifica el flujo informativo antes de las 09:31 AM ET.</p>
+          <div class="field"><label>Bloque temporal (hora del Este)</label>
+            <select id="news-world">
+              <option value="Mundo 1 (02:00 PM – 11:59 PM ET)">Mundo 1 · día previo (02:00 PM – 11:59 PM ET)</option>
+              <option value="Mundo 2 (12:01 AM – 09:31 AM ET)">Mundo 2 · pre-market (12:01 AM – 09:31 AM ET)</option>
+            </select>
+          </div>
+          <div class="field"><label>Titular o evento detectado</label>
+            <input type="text" id="news-title" placeholder="Ej. Reporte trimestral supera guía de ingresos…">
+          </div>
+          <div class="field"><label>Clasificación (U2.2)</label>
+            <select id="news-type">
+              <option value="Fundamento Propio">1. Fundamento propio (balance, contratos, ingresos del activo)</option>
+              <option value="Fundamento Común">2. Fundamento común (FED, CPI, empleo, sector)</option>
+              <option value="No Fundamento">3. No fundamento (ruido / trampa de liquidez)</option>
+            </select>
+          </div>
+          <button class="btn sm" id="news-add" type="button" style="align-self:flex-start">+ Registrar en bitácora</button>
+          <div style="border-top:1px solid var(--line);padding-top:10px;margin-top:4px">
+            <span class="card-label">Eventos auditados para la apertura</span>
+            <div id="news-list" style="display:flex;flex-direction:column;gap:8px;margin-top:8px;max-height:230px;overflow-y:auto"></div>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="row" style="justify-content:space-between;align-items:flex-start">
+            <div><span class="chip info">U2.3 · corte 09:31 AM ET</span><h2>Calculadora matemática del Oráculo</h2><p class="sub">Cierre oficial frente al pre-market, con tus propios niveles.</p></div>
+            <button class="btn ghost sm" id="ora-example" type="button">Cargar ejemplo</button>
+          </div>
+          <div class="risk-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px">
+            <div class="field"><label>Cierre oficial ($)</label><input type="number" step="0.01" id="ora-close" value="145.20"></div>
+            <div class="field"><label>Pre-market 09:31 ($)</label><input type="number" step="0.01" id="ora-pre" value="148.85"></div>
+            <div class="field"><label>EMA 20 propia ($)</label><input type="number" step="0.01" id="ora-ema20" value="146.10"></div>
+            <div class="field"><label>EMA 50 propia ($)</label><input type="number" step="0.01" id="ora-ema50" value="143.50"></div>
+            <div class="field"><label>EMA 200 propia ($)</label><input type="number" step="0.01" id="ora-ema200" value="139.00"></div>
+            <div class="field"><label>Parabólica SAR ($)</label><input type="number" step="0.01" id="ora-sar" value="145.60"></div>
+            <div class="field"><label>Bollinger sup. ($)</label><input type="number" step="0.01" id="ora-bbsup" value="151.40"></div>
+            <div class="field"><label>Bollinger inf. ($)</label><input type="number" step="0.01" id="ora-bbinf" value="141.80"></div>
+          </div>
+          <div class="mini">
+            <div class="trio">
+              <div><span class="sub">Diferencial / gap exacto</span><div class="val mono" id="ora-gap" style="font-family:var(--mono);font-weight:800;font-size:17px"></div></div>
+              <div><span class="sub">Posición vs. EMA 20 y SAR</span><div class="mono" id="ora-eco" style="font-family:var(--mono);font-weight:700;font-size:13px"></div></div>
+              <div><span class="sub">Rango Banda Bollinger</span><div class="mono" id="ora-bb" style="font-family:var(--mono);font-weight:700;font-size:13px;color:var(--blue)"></div></div>
+            </div>
+            <p class="note" id="ora-diag" style="margin-top:6px"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== UNIDAD: INGENIERÍA DE CAPITAL ===================== -->
+    <div class="unit-panel" id="panel-capital">
+      <div class="stat4" style="margin-bottom:16px">
+        <div class="stat-card" id="cap-card-cap" style="border-left-color:var(--lime)">
+          <div class="lbl"><span>CAPITAL COMPROMETIDO</span><span>Máx $5,000.00</span></div>
+          <div class="val" id="cap-total"></div>
+          <div class="sub" id="cap-status" style="color:var(--lime)"></div>
+        </div>
+        <div class="stat-card" style="border-left-color:var(--blue)">
+          <div class="lbl"><span>COSTO PROMEDIO (P_prom)</span><span id="cap-shares"></span></div>
+          <div class="val" id="cap-avg" style="color:var(--blue)"></div>
+          <div class="sub" style="color:var(--ink-3)">Exactitud a 2 decimales</div>
+        </div>
+        <div class="stat-card" style="border-left-color:var(--amber)">
+          <div class="lbl"><span>BALANCE / EFICIENCIA</span><span>Meta ≥ +1.00%</span></div>
+          <div class="val" id="cap-pnl"></div>
+          <div class="sub" id="cap-eff" style="color:var(--amber)"></div>
+        </div>
+        <div class="stat-card" id="cap-card-dd" style="border-left-color:var(--red)">
+          <div class="lbl"><span>CORTAFUEGOS DE PÉRDIDA</span><span>Límite -33.00%</span></div>
+          <div class="val" id="cap-dd"></div>
+          <div class="sub" id="cap-dd-status" style="color:var(--lime)"></div>
+        </div>
+      </div>
+
+      <div class="u-grid cols-12-5-7">
+        <div class="box">
+          <span class="chip info" style="align-self:flex-start">U4.1 y 4.2 · Escalamiento</span>
+          <h2>Agregar lote validado</h2>
+          <p class="sub">Prohibido agotar los $5,000.00 en un solo disparo.</p>
+          <div class="mini" style="text-align:center;font-family:var(--mono);font-size:12px">P_prom = Σ(Q_i × P_i) / Σ(Q_i)</div>
+          <div class="seg2">
+            <div class="field"><label>Cantidad de acciones (Q_i)</label><input type="number" step="1" min="1" id="lot-qty" value="10"></div>
+            <div class="field"><label>Precio de ejecución (P_i)</label><input type="number" step="0.01" min="0.01" id="lot-price" value="125.50"></div>
+          </div>
+          <div class="field"><label>Justificación técnica (U3 / U4)</label>
+            <select id="lot-reason">
+              <option value="Lote inicial · Doji en &quot;T&quot;">Lote 1: apertura por Doji en "T" sobre nivel validado</option>
+              <option value="Empalme en la 3ª vela (rally)">Empalme en la misma 3ª vela (continuación de rally)</option>
+              <option value="Escalamiento en soporte EMA 20/50">Escalamiento táctico en soporte confirmado (EMA 20 / 50)</option>
+              <option value="Escalamiento en EMA 200 / viejo patrón">Escalamiento en frontera institucional (EMA 200 / viejo patrón)</option>
+            </select>
+          </div>
+          <div class="row">
+            <button class="btn sm" id="lot-add" type="button">+ Incorporar lote</button>
+            <button class="btn ghost sm" id="lot-reset" type="button">Limpiar</button>
+          </div>
+          <div class="field" style="padding-top:8px;border-top:1px solid var(--line)"><label>Precio actual / de liquidación ($)</label><input type="number" step="0.01" id="mkt-price" value="128.75"></div>
+        </div>
+
+        <div class="box">
+          <h2 style="margin-top:0">Libro contable de posiciones</h2>
+          <p class="sub">Exactitud estricta a USD 0.00.</p>
+          <div style="overflow-x:auto">
+            <table class="led">
+              <thead><tr><th>Lote</th><th>Nivel técnico</th><th class="r">Cant.</th><th class="r">Precio</th><th class="r">Subtotal</th><th class="r">P_prom acum.</th><th class="c">—</th></tr></thead>
+              <tbody id="lots-body"></tbody>
+            </table>
+          </div>
+          <div class="mini">
+            <div class="ttl" style="font-weight:700;font-size:12.5px;display:flex;align-items:center;gap:6px">Protocolo mecánico de trailing stop (U4.4)</div>
+            <div class="trio">
+              <div class="mini"><span class="sub">Fase 1 · apertura</span><strong class="mono" id="ts-1" style="color:var(--red)"></strong></div>
+              <div class="mini"><span class="sub">Fase 2 · 1er trío</span><strong class="mono" id="ts-2" style="color:var(--amber)"></strong></div>
+              <div class="mini"><span class="sub">Fase 3 · rally</span><strong class="mono" style="color:var(--lime)">Tras EMA 9/20 o puntos SAR</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================== UNIDAD: AUDITORÍA Y DEFENSA ===================== -->
+    <div class="unit-panel" id="panel-auditoria">
+      <div class="u-grid cols-12-6">
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div class="box">
+            <div class="row" style="justify-content:space-between">
+              <div><span class="chip info">U5.2 · graduación del simulador</span><h2>Auditor estadístico (900 trades / ≥ 65%)</h2></div>
+              <span class="badge-mono" style="background:var(--panel-2);color:var(--lime)">Carpeta MI-Close (M1)</span>
+            </div>
+            <div class="seg2">
+              <div class="field"><label>Total transacciones ejecutadas</label><input type="number" id="sim-total" value="920" min="1"></div>
+              <div class="field"><label>Transacciones ganadoras</label><input type="number" id="sim-won" value="615" min="0"></div>
+            </div>
+            <div class="verdict ok" id="sim-box">
+              <strong id="sim-title">—</strong>
+              <span id="sim-desc"></span>
+            </div>
+          </div>
+
+          <div class="box">
+            <div class="row" style="justify-content:space-between">
+              <div><span class="chip info">U5.4 · matriz oficial</span><h2>Calificación sobre 10 puntos</h2></div>
+              <div style="text-align:right"><span class="sub">Nota final</span><div class="mono" id="audit-score" style="font-family:var(--mono);font-weight:800;font-size:22px;color:var(--lime)"></div></div>
+            </div>
+            <label class="nine-check"><span><strong>U1 (2.0):</strong> escala log, 15–22 velas e indicadores completos</span><input type="checkbox" class="audit-crit" data-pts="2" checked></label>
+            <label class="nine-check"><span><strong>U2 (2.0):</strong> corte Mundo 1/2 y Oráculo con datos propios</span><input type="checkbox" class="audit-crit" data-pts="2" checked></label>
+            <label class="nine-check"><span><strong>U3 (2.0):</strong> Doji en "T", 3 velas, empalme en la misma vela y sidelines</span><input type="checkbox" class="audit-crit" data-pts="2" checked></label>
+            <label class="nine-check"><span><strong>U4 (2.0, eliminatorio):</strong> techo ≤ $5,000, pérdida ≤ 33% y eficiencia ≥ 1%</span><input type="checkbox" class="audit-crit" id="crit-u4" data-pts="2" checked></label>
+            <label class="nine-check"><span><strong>U5 (2.0):</strong> exactitud al centavo ($0.00) sin redondeos manuales</span><input type="checkbox" class="audit-crit" data-pts="2" checked></label>
+          </div>
+        </div>
+
+        <div class="box">
+          <div class="row" style="justify-content:space-between">
+            <div><span class="chip info">U5.3 · autoexamen y defensa en video</span><h2>Guion reglamentario en video</h2></div>
+            <button class="btn ghost sm" id="def-copy" type="button">Copiar guion</button>
+          </div>
+          <p class="sub">Personaliza tus datos para estructurar la defensa oral.</p>
+          <div class="seg2">
+            <div class="field"><label>Nombre y apellido</label><input type="text" id="def-name" value="Nombre y Apellido"></div>
+            <div class="field"><label>Activo y marco analizado</label><input type="text" id="def-asset" value="NVDA · Day Trade (MI-Close M1 + Diario)"></div>
+          </div>
+          <div class="field"><label>Evaluación psicológica y plan correctivo</label><input type="text" id="def-psych" value="Controlé la ansiedad esperando el cierre exacto de la Doji en T y respeté Sidelines durante la compresión de EMAs."></div>
+          <div class="mini" id="def-script" style="font-size:12.5px;line-height:1.55;max-height:280px;overflow-y:auto"></div>
+        </div>
+      </div>
+
+      <div class="box" style="margin-top:16px">
+        <div class="row" style="justify-content:space-between">
+          <div><h2 style="margin:0">Reporte ejecutivo</h2><p class="sub">Resumen de todas las unidades para copiar y entregar.</p></div>
+          <button class="btn sm" id="copy-summary" type="button">Copiar reporte completo</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+
+<!-- Modal "Ver norma" -->
+<div class="jn-modal" id="jn-modal">
+  <div class="jn-modal-card">
+    <div class="jn-modal-head">
+      <div><span class="chip info" id="jn-modal-badge"></span><h3 id="jn-modal-title"></h3></div>
+      <button class="jn-modal-close" id="jn-modal-close" type="button">✕</button>
+    </div>
+    <div class="jn-modal-body" id="jn-modal-body"></div>
+  </div>
+</div>
+
+<div id="jn-toasts"></div>
+
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+
+  /* ---------------- utilidades ---------------- */
+  function fmt2(v) { return (v < 0 ? '-' : '') + '$' + Math.abs(v).toFixed(2); }
+  function toast(msg, kind) {
+    var el = document.createElement('div');
+    el.className = 'jn-toast verdict ' + (kind === 'error' ? 'no' : kind === 'warn' ? 'warn' : 'ok');
+    el.style.minWidth = '220px';
+    el.innerHTML = '<span style="font-size:12.5px">' + msg + '</span>';
+    $('jn-toasts').appendChild(el);
+    setTimeout(function () { el.style.opacity = '0'; el.style.transition = 'opacity .3s'; setTimeout(function () { el.remove(); }, 300); }, 3200);
+  }
+  function copyText(text, okMsg) {
+    function ok() { toast(okMsg, 'success'); }
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(text).then(ok, function () { toast('No se pudo copiar.', 'error'); }); return; }
+    var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); ok(); } catch (e) { toast('No se pudo copiar.', 'error'); }
+    document.body.removeChild(ta);
+  }
+  function store(key, val) {
+    try { if (val === undefined) return localStorage.getItem(key); localStorage.setItem(key, val); } catch (e) { return null; }
+  }
+
+  /* ---------------- navegación de unidades ---------------- */
+  var units = Array.prototype.slice.call(document.querySelectorAll('.unit-btn'));
+  units.forEach(function (b) {
+    b.addEventListener('click', function () {
+      units.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+      document.querySelectorAll('.unit-panel').forEach(function (p) { p.classList.remove('on'); });
+      $('panel-' + b.dataset.unit).classList.add('on');
+      if (b.dataset.unit === 'ecosistema') ecoStage.redraw();
+    });
+  });
+
+  /* ================= UNIDAD 1: LIENZO MAESTRO (9 BLOQUES) ================= */
+  var BLOQUES = [
+    { tag: 'BLOQUE 1 · UNIDAD 1', title: 'Ecosistema técnico y ventana', norm: 1,
+      items: ['<strong>Escala logarítmica:</strong> obligatoria (porcentual), prohibida la escala aritmética.', '<strong>Ventana quirúrgica:</strong> estrictamente 15 a 20/22 velas visibles.', '<strong>5 EMAs:</strong> 3 y 9 (velocidad), 20 (eje táctico), 50 (autocompletación), 200 (institucional).', '<strong>Flujo y volatilidad:</strong> Bollinger, SAR, MACD y doble volumen (vela + precio).'],
+      q: '¿Gráfico auditado en log y 15–22 velas?' },
+    { tag: 'BLOQUE 2 · UNIDAD 2', title: 'Los dos mundos y filtro de noticias', norm: 2,
+      items: ['<strong>Mundo 1 (día previo):</strong> 02:00 PM – 11:59 PM ET (earnings post-cierre, ajustes).', '<strong>Mundo 2 (pre-market):</strong> 12:01 AM – 09:31 AM ET (catalizadores de madrugada, 08:30 AM macro).', '<strong>Triaje:</strong> 1) fundamento propio · 2) fundamento común · 3) no fundamento (ruido/trampa).'],
+      q: '¿Corte horario y noticias filtradas?' },
+    { tag: 'BLOQUE 3 · UNIDAD 2.3', title: 'Matemática del Oráculo (09:31 AM ET)', unit: 'oraculo',
+      items: ['<strong>Auditoría de diferenciales:</strong> variación exacta cierre oficial vs. pre-market con datos propios.', '<strong>Mapeo de coordenadas:</strong> ubicación frente a EMAs 20/50/200, Bollinger y SAR.', '<strong>Rango 09:31 AM – 04:00 PM:</strong> imanes de liquidez y máximos/mínimos estructurales.'],
+      q: '¿Oráculo calculado con datos propios?', navText: 'Ir al Oráculo' },
+    { tag: 'BLOQUE 4 · UNIDAD 3.1', title: 'Diagnóstico SAR vs. EMA 20', norm: 3,
+      items: ['<strong class="chip ok" style="display:inline">Positivo:</strong> SAR debajo del precio + EMA 20 constructiva → largos.', '<strong class="chip no" style="display:inline">Negativo:</strong> SAR encima del precio bajo EMA 20 → cortos.', '<strong class="chip warn" style="display:inline">Transición:</strong> EMAs 20/50/200 entrelazadas → sidelines obligatorio.'],
+      q: '¿Ecosistema diagnosticado sin entrelazamiento?' },
+    { tag: 'BLOQUE 5 · UNIDAD 3.2', title: 'Gatillos en "T": Libélula y Lápida', unit: 'ecosistema',
+      items: ['<strong style="color:var(--lime)">Doji Libélula (largo):</strong> abre roja en soporte, cae buscando liquidez, la demanda la rechaza y cierra en apertura: una "T" limpia.', '<strong style="color:var(--red)">Doji Lápida (corto):</strong> abre verde atacando resistencia, la oferta la rechaza a la baja y vuelve a apertura: una "T" invertida.', 'Señalización con flechas verdes/rojas o líneas horizontales exactas.'],
+      q: '¿Geometría en "T" y viejos patrones validados?', navText: 'Ver anatomía' },
+    { tag: 'BLOQUE 6 · UNIDAD 3.3/3.4', title: 'Regla de 3 velas y empalme', unit: 'ecosistema',
+      items: ['Asegurar beneficio al cierre de la <strong>3ª vela</strong> consecutiva.', '<strong>Empalme en rally:</strong> la 3ª vela que liquida el primer trío es a la vez la 1ª del nuevo bloque.', 'Validar con regla del tercio y Ley Quero hacia la siguiente EMA.'],
+      q: '¿Empalme y zonas de autocompletación claros?', navText: 'Ver empalme' },
+    { tag: 'BLOQUE 7 · UNIDAD 4.1/4.2', title: 'Techo de $5,000 y escalamiento', unit: 'capital',
+      items: ['<strong>Límite innegociable:</strong> capital máximo comprometido ≤ USD 5,000.00.', '<strong>Fraccionamiento táctico:</strong> prohibido agotar el poder de compra en un solo disparo.', '<strong>Costo promedio ponderado (P_prom):</strong> recálculo exacto a 2 decimales solo en soportes/resistencias validados.'],
+      q: '¿Capital fraccionado bajo USD 5,000?', navText: 'Calcular P_prom' },
+    { tag: 'BLOQUE 8 · UNIDAD 4.3/4.4', title: 'Ley del 1%, cortafuegos 33% y stop', norm: 4,
+      items: ['<strong style="color:var(--lime)">Eficiencia mínima ≥ 1%:</strong> crecimiento compuesto neto mensual obligatorio.', '<strong style="color:var(--red)">Cortafuegos del 33%:</strong> pérdida acumulada &gt; 33% descalifica el portafolio.', '<strong>Trailing stop:</strong> mecha de rechazo inicial → break-even → detrás de EMAs 9/20 o puntos SAR.'],
+      q: '¿Trailing stop activo y pérdida bajo control?' },
+    { tag: 'BLOQUE 9 · UNIDAD 5', title: 'Centavo exacto, 900 trades y video', unit: 'auditoria',
+      items: ['<strong>Exactitud al centavo ($0.00):</strong> prohibido redondear; un descuadre de $0.01 penaliza.', '<strong>Simulador:</strong> mínimo 900 transacciones con ≥ 65% de eficiencia y carpeta MI-Close (M1).', '<strong>Defensa en video:</strong> nombre completo, grupo Jesús Navarrete, 15–20 velas, indicadores y psicología.'],
+      q: '¿Contabilidad cuadrada al centavo ($0.00)?', navText: 'Ir a defensa' }
+  ];
+
+  var UNIT_DETAIL = {
+    1: { badge: 'Unidad 1 · Ecosistema técnico', title: 'Ecosistema técnico y configuración estándar', body:
+      '<p><strong>1.1. Plataforma y escala logarítmica:</strong> configuración obligatoria en TC2000 (v25 Premium) y GoCharting en escala logarítmica (porcentual). Ventana estricta de 15 a 20/22 velas visibles.</p>' +
+      '<p><strong>1.2. Arquitectura de 5 EMAs:</strong></p><ul><li><strong>EMA 3 y EMA 9:</strong> velocidad e impulso inmediato en rally.</li><li><strong>EMA 20:</strong> eje central táctico; junto al SAR define ecosistema positivo o negativo.</li><li><strong>EMA 50:</strong> tendencia intermedia y objetivo natural de autocompletación.</li><li><strong>EMA 200:</strong> frontera institucional mayor (soporte/resistencia macro).</li></ul>' +
+      '<p><strong>1.3. Confirmación y flujo:</strong> Bandas de Bollinger, Parabólicas SAR, MACD y doble lectura de volumen (volumen por vela inferior y Volume Profile horizontal).</p>' +
+      '<p><strong>1.4. Marcos temporales:</strong> Day Trade (apertura 09:31 AM ET, minutos / carpeta MI-Close M1 + Diario) y Swing Trade (Diario, Semanal y Mensual).</p>' },
+    2: { badge: 'Unidad 2 · Inteligencia pre-market', title: 'Inteligencia fundamental y protocolo pre-market', body:
+      '<p><strong>2.1. Los dos mundos informativos (hora ET):</strong></p><ul><li><strong>Mundo 1 (día previo):</strong> 02:00 PM – 11:59 PM ET (reacciones al cierre, earnings vespertinos).</li><li><strong>Mundo 2 (día corriente):</strong> 12:01 AM – 09:31 AM ET (madrugada, Europa/Asia, datos 08:30 AM).</li></ul>' +
+      '<p><strong>2.2. Clasificación de noticias:</strong> 1) fundamento propio (balance, contratos del activo), 2) fundamento común (FED, CPI, sector), 3) no fundamento (ruido mediático para atrapar liquidez).</p>' +
+      '<p><strong>2.3. Análisis matemático del Oráculo (09:31 AM ET):</strong> auditoría de diferenciales entre cierre oficial y pre-market usando estrictamente nuestros propios niveles (EMAs 20/50/200, Bollinger, SAR y máximos/mínimos).</p>' },
+    3: { badge: 'Unidad 3 · Mecánica de ejecución', title: 'Mecánica de ejecución y patrones de entrada/salida', body:
+      '<p><strong>3.1. Diagnóstico del ecosistema:</strong> SAR bajo precio + EMA 20 constructiva = positivo (largos). SAR sobre precio bajo EMA 20 = negativo (cortos). Entrelazamiento de EMAs 20/50/200 = sidelines obligatorio.</p>' +
+      '<p><strong>3.2. Velas de rechazo en "T":</strong> Doji Libélula ("T" en soporte, largos) y Doji Lápida ("T" invertida en resistencia, cortos). Señalización con flechas (verde/roja) o líneas horizontales exactas.</p>' +
+      '<p><strong>3.3. Regla de las 3 velas y empalme:</strong> asegurar ganancia al cierre de la 3ª vela. En rally, la 3ª vela que cierra el primer trío es simultáneamente la 1ª vela de apertura del nuevo bloque.</p>' +
+      '<p><strong>3.4. Validación:</strong> Volume Spread Analysis, regla del tercio, Ley Quero y respeto a viejos patrones a la izquierda (15–22 velas).</p>' },
+    4: { badge: 'Unidad 4 · Ingeniería de portafolio', title: 'Ingeniería de portafolio, escalamiento y gestión de riesgo', body:
+      '<p><strong>4.1. Límite operativo de $5,000 USD:</strong> el capital máximo comprometido jamás puede exceder $5,000.00 USD. Prohibido agotar el capital en un solo disparo.</p>' +
+      '<p><strong>4.2. Costo promedio ponderado (P_prom):</strong> escalamiento solo en niveles técnicos validados, recalculando al centavo exacto.</p>' +
+      '<p><strong>4.3. Ley del 1% y cortafuegos del 33%:</strong> eficiencia neta mensual ≥ 1%. Pérdida acumulada &gt; 33% descalifica automáticamente el portafolio.</p>' +
+      '<p><strong>4.4. Trailing stop:</strong> desde la mecha de rechazo inicial → break-even → detrás de EMAs 9/20 o puntos SAR.</p>' }
+  };
+
+  var nineGrid = $('nine-grid');
+  nineGrid.innerHTML = BLOQUES.map(function (b, i) {
+    var navBtn = b.unit ? '<button class="norm-btn" data-goto="' + b.unit + '">' + (b.navText || 'Ver') + ' →</button>' : '<button class="norm-btn" data-norm="' + b.norm + '">Ver norma →</button>';
+    return '<div class="nine-card"><div class="row" style="justify-content:space-between"><span class="tag">' + b.tag + '</span>' + navBtn + '</div>' +
+      '<h3>' + b.title + '</h3><ul>' + b.items.map(function (it) { return '<li>' + it + '</li>'; }).join('') + '</ul>' +
+      '<label class="nine-check"><span>' + b.q + '</span><input type="checkbox" class="nine-box" data-i="' + i + '"></label></div>';
+  }).join('');
+
+  var nineSaved = {};
+  try { nineSaved = JSON.parse(store('mesa:jn:canvas') || '{}') || {}; } catch (e) { nineSaved = {}; }
+  var nineBoxes = Array.prototype.slice.call(document.querySelectorAll('.nine-box'));
+  nineBoxes.forEach(function (b) { if (nineSaved[b.dataset.i]) b.checked = true; b.addEventListener('change', updateNine); });
+  var meter = document.querySelector('#panel-canvas [data-meter]');
+  function updateNine() {
+    var done = 0, state = {};
+    nineBoxes.forEach(function (b) { if (b.checked) done++; state[b.dataset.i] = b.checked; });
+    store('mesa:jn:canvas', JSON.stringify(state));
+    var pct = Math.round(done / nineBoxes.length * 100);
+    meter.style.width = pct + '%';
+    $('nine-count').textContent = done + '/' + nineBoxes.length + ' Bloques';
+    if (done === nineBoxes.length) toast('¡Protocolo de los 9 bloques verificado al 100%! Listo para ejecutar.', 'success');
+  }
+  updateNine();
+
+  nineGrid.addEventListener('click', function (e) {
+    var g = e.target.closest('[data-goto]'), n = e.target.closest('[data-norm]');
+    if (g) { document.querySelector('.unit-btn[data-unit=' + g.dataset.goto + ']').click(); }
+    if (n) { openModal(n.dataset.norm); }
+  });
+
+  function openModal(n) {
+    var d = UNIT_DETAIL[n]; if (!d) return;
+    $('jn-modal-badge').textContent = d.badge; $('jn-modal-title').textContent = d.title; $('jn-modal-body').innerHTML = d.body;
+    $('jn-modal').classList.add('on');
+  }
+  $('jn-modal-close').addEventListener('click', function () { $('jn-modal').classList.remove('on'); });
+  $('jn-modal').addEventListener('click', function (e) { if (e.target === $('jn-modal')) $('jn-modal').classList.remove('on'); });
+
+  /* ================= UNIDAD 2: ECOSISTEMA Y EJECUCIÓN ================= */
+  var ecoState = 'bull', ecoScaleLog = true;
+  function genEco(state, count) {
+    var candles = [], trigIdx = Math.min(5, Math.max(1, count - 7));
+    for (var i = 0; i < count; i++) {
+      var base;
+      if (state === 'bull') base = 100 + i * (34 / count) + Math.sin(i * 0.9) * 1.6;
+      else if (state === 'bear') base = 134 - i * (34 / count) - Math.cos(i * 0.9) * 1.6;
+      else base = 117 + Math.sin(i * 1.4) * 4.2;
+      var isTrig = (i === trigIdx && state !== 'side');
+      var o, h, l, c;
+      if (isTrig) {
+        if (state === 'bull') { o = base; c = base + 0.1; h = base + 0.5; l = base - 8.5; }
+        else { o = base; c = base - 0.1; h = base + 8.5; l = base - 0.5; }
+      } else {
+        var trend = (i % 4 !== 2) || (i > trigIdx && i <= trigIdx + 5);
+        var up = state === 'bull' ? trend : state === 'bear' ? !trend : (i % 2 === 0);
+        if (state === 'side') { o = base - 0.7; c = base + 0.7; h = base + 4.6; l = base - 4.6; }
+        else { o = up ? base - 2.1 : base + 1.6; c = up ? base + 2.1 : base - 1.6; h = Math.max(o, c) + 1.8; l = Math.min(o, c) - 1.8; }
+      }
+      candles.push({ o: o, h: h, l: l, c: c });
+    }
+    return { candles: candles, trig: state === 'side' ? -1 : trigIdx };
+  }
+
+  var ecoStage = M.canvasStage($('eco-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h;
+    var count = +$('eco-candles').value;
+    var g = genEco(ecoState, count), cs = g.candles, n = cs.length;
+    var area = { l: 14, r: w - 56, t: 20, b: h - 22 };
+    var vals = []; cs.forEach(function (c) { vals.push(c.h, c.l); });
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), pad = (hi - lo) * 0.08;
+    lo -= pad; hi += pad;
+    var y = M.scale(lo, hi, area.b, area.t), cw = (area.r - area.l) / n, x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 6));
+
+    var closes = cs.map(function (c) { return c.c; });
+    function drawEma(n2, color, width, dash) {
+      var vals2 = M.ema(closes, n2);
+      ctx.strokeStyle = color; ctx.lineWidth = width; if (dash) ctx.setLineDash(dash);
+      ctx.beginPath(); vals2.forEach(function (v, i) { var px = x(i), py = y(v); if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py); }); ctx.stroke();
+      ctx.setLineDash([]);
+    }
+    if ($('ly-200').checked) drawEma(Math.min(200, n), C.red, 1.6, [5, 3]);
+    if ($('ly-50').checked) drawEma(Math.min(50, n), C.amber, 1.5, null);
+    if ($('ly-20').checked) drawEma(Math.min(20, n), C.lime, 1.8, null);
+    if ($('ly-fast').checked) { drawEma(Math.min(9, n), '#38bdf8', 1.1, null); drawEma(Math.min(3, n), '#ecfeff', 1, null); }
+
+    M.drawCandles(ctx, cs, x, y, cw, { mark: function (i) { return i === g.trig; } });
+
+    if ($('ly-sar').checked) {
+      cs.forEach(function (c, i) {
+        var py = ecoState === 'bull' ? y(c.l) + 10 : ecoState === 'bear' ? y(c.h) - 10 : (i % 2 === 0 ? y(c.h) - 8 : y(c.l) + 8);
+        ctx.beginPath(); ctx.arc(x(i), py, 2.2, 0, Math.PI * 2); ctx.fillStyle = '#c084fc'; ctx.fill();
+      });
+    }
+
+    if ($('ly-empalme').checked && g.trig >= 0) {
+      var t = g.trig, below = ecoState === 'bull';
+      M.marker(ctx, x(t), below ? y(cs[t].l) + 14 : y(cs[t].h) - 14, ecoState === 'bull' ? C.lime : C.red, ecoState === 'bull' ? 'Doji Libélula' : 'Doji Lápida', below);
+      if (n > t + 5) {
+        [[t + 1, 'V1'], [t + 2, 'V2']].forEach(function (p) { M.marker(ctx, x(p[0]), y(cs[p[0]].h) - 12, C.ink2, p[1], false); });
+        M.marker(ctx, x(t + 3), y(cs[t + 3].h) - 12, '#c084fc', 'V3=V1', false);
+        [[t + 4, '2°V2'], [t + 5, '2°V3']].forEach(function (p) { M.marker(ctx, x(p[0]), y(cs[p[0]].h) - 12, '#c084fc', p[1], false); });
+      }
+    }
+  });
+
+  function setEcoScale(log) {
+    ecoScaleLog = log;
+    $('btn-scale-log').classList.toggle('on', log);
+    $('btn-scale-lin').classList.toggle('on', !log);
+    var badge = $('eco-scale-badge');
+    if (log) { badge.textContent = 'LOGARÍTMICA OK'; badge.className = 'badge-mono badge-ok'; }
+    else { badge.textContent = 'ERROR: ESCALA LINEAL'; badge.className = 'badge-mono badge-no'; toast('Violación de Unidad 1.1: jamás operar en escala aritmética o lineal.', 'error'); }
+  }
+  $('btn-scale-log').addEventListener('click', function () { setEcoScale(true); });
+  $('btn-scale-lin').addEventListener('click', function () { setEcoScale(false); });
+
+  function setEcoState(state) {
+    ecoState = state;
+    ['bull', 'bear', 'side'].forEach(function (s) { $('eco-' + s).classList.remove('on', 'bear', 'side'); });
+    var btn = $('eco-' + state); btn.classList.add('on'); if (state === 'bear') btn.classList.add('bear'); if (state === 'side') btn.classList.add('side');
+    var banner = $('eco-banner');
+    if (state === 'bull') { banner.textContent = 'ECOSISTEMA POSITIVO: SAR BAJO PRECIO + EMA 20 (PRIORIDAD LARGOS)'; banner.style.color = 'var(--lime)'; banner.style.borderColor = 'rgba(155,226,45,.4)'; }
+    else if (state === 'bear') { banner.textContent = 'ECOSISTEMA NEGATIVO: SAR SOBRE PRECIO BAJO EMA 20 (PRIORIDAD CORTOS)'; banner.style.color = 'var(--red)'; banner.style.borderColor = 'rgba(242,86,91,.4)'; }
+    else { banner.textContent = 'TRANSICIÓN / COMPRESIÓN DE EMAs 20-50-200: SIDELINES OBLIGATORIO'; banner.style.color = 'var(--amber)'; banner.style.borderColor = 'rgba(242,184,75,.4)'; }
+    ecoStage.redraw();
+  }
+  $('eco-bull').addEventListener('click', function () { setEcoState('bull'); });
+  $('eco-bear').addEventListener('click', function () { setEcoState('bear'); });
+  $('eco-side').addEventListener('click', function () { setEcoState('side'); });
+
+  $('eco-candles').addEventListener('input', function () {
+    var v = +this.value, badge = $('eco-candle-badge');
+    if (v >= 15 && v <= 22) { badge.textContent = v + ' velas (reglamentario)'; badge.className = 'badge-mono badge-ok'; }
+    else if (v < 15) { badge.textContent = v + ' velas (<15 sin contexto)'; badge.className = 'badge-mono badge-no'; }
+    else { badge.textContent = v + ' velas (>22 comprimido)'; badge.className = 'badge-mono badge-warn'; }
+    ecoStage.redraw();
+  });
+  ['ly-fast', 'ly-20', 'ly-50', 'ly-200', 'ly-sar', 'ly-empalme'].forEach(function (id) { $(id).addEventListener('change', function () { ecoStage.redraw(); }); });
+
+  /* ================= UNIDAD 3: PRE-MARKET Y ORÁCULO ================= */
+  var newsItems = [
+    { world: 'Mundo 1 (02:00 PM – 11:59 PM ET)', title: 'Reporte de earnings post-cierre supera expectativas de flujo de caja.', type: 'Fundamento Propio' },
+    { world: 'Mundo 2 (12:01 AM – 09:31 AM ET)', title: 'Dato de inflación CPI a las 08:30 AM ET en línea con lo esperado.', type: 'Fundamento Común' }
+  ];
+  function renderNews() {
+    var list = $('news-list');
+    if (!newsItems.length) { list.innerHTML = '<p class="note">Sin eventos registrados.</p>'; return; }
+    list.innerHTML = newsItems.map(function (it, i) {
+      var cls = it.type.indexOf('Propio') >= 0 ? 'ok' : it.type.indexOf('Común') >= 0 ? 'info' : 'no';
+      return '<div class="mini" style="flex-direction:row;align-items:flex-start;justify-content:space-between;gap:8px">' +
+        '<div><div class="row" style="gap:6px"><span class="sub">' + it.world + '</span><span class="chip ' + cls + '" style="padding:2px 7px;font-size:10px">' + it.type + '</span></div>' +
+        '<p style="font-size:12.5px;margin:4px 0 0;color:var(--ink)">' + it.title + '</p></div>' +
+        '<button class="x-btn" data-rm="' + i + '">✕</button></div>';
+    }).join('');
+  }
+  $('news-add').addEventListener('click', function () {
+    var title = $('news-title').value.trim();
+    if (!title) { toast('Ingresa el titular o descripción del evento.', 'warn'); return; }
+    newsItems.unshift({ world: $('news-world').value, title: title, type: $('news-type').value });
+    $('news-title').value = ''; renderNews();
+    toast('Evento clasificado en la bitácora pre-market.', 'success');
+  });
+  $('news-list').addEventListener('click', function (e) { var b = e.target.closest('[data-rm]'); if (b) { newsItems.splice(+b.dataset.rm, 1); renderNews(); } });
+  renderNews();
+
+  function calcOracle() {
+    var close = +$('ora-close').value || 0, pre = +$('ora-pre').value || 0, ema20 = +$('ora-ema20').value || 0;
+    var ema50 = +$('ora-ema50').value || 0, ema200 = +$('ora-ema200').value || 0, sar = +$('ora-sar').value || 0;
+    var bbsup = +$('ora-bbsup').value || 0, bbinf = +$('ora-bbinf').value || 0;
+    var diff = pre - close, pct = close > 0 ? diff / close * 100 : 0, sign = diff >= 0 ? '+' : '';
+    var gapEl = $('ora-gap'); gapEl.textContent = sign + '$' + diff.toFixed(2) + ' (' + sign + pct.toFixed(2) + '%)'; gapEl.style.color = diff >= 0 ? 'var(--lime)' : 'var(--red)';
+    var ecoEl = $('ora-eco'), diag;
+    if (pre > ema20 && pre > sar) { ecoEl.textContent = 'POSITIVO (SOBRE EMA 20 Y SAR)'; ecoEl.style.color = 'var(--lime)'; diag = 'El precio pre-market ($' + pre.toFixed(2) + ') cotiza sobre la EMA 20 ($' + ema20.toFixed(2) + ') y sobre la Parabólica SAR ($' + sar.toFixed(2) + '). Sesgo estructural alcista para buscar Doji Libélula ("T") hacia la banda superior ($' + bbsup.toFixed(2) + ').'; }
+    else if (pre < ema20 && pre < sar) { ecoEl.textContent = 'NEGATIVO (BAJO EMA 20 Y SAR)'; ecoEl.style.color = 'var(--red)'; diag = 'El precio pre-market ($' + pre.toFixed(2) + ') se ubica bajo la EMA 20 ($' + ema20.toFixed(2) + ') y presionado por el SAR ($' + sar.toFixed(2) + '). Sesgo estructural bajista hacia zona de autocompletación en EMA 50 ($' + ema50.toFixed(2) + ') o EMA 200 ($' + ema200.toFixed(2) + ').'; }
+    else { ecoEl.textContent = 'TRANSICIÓN / CHOQUE DE NIVELES'; ecoEl.style.color = 'var(--amber)'; diag = 'Choque contradictorio entre precio ($' + pre.toFixed(2) + '), EMA 20 ($' + ema20.toFixed(2) + ') y SAR ($' + sar.toFixed(2) + '). Protocolo de sidelines obligatorio a las 09:31 AM ET hasta definición de estructura.'; }
+    $('ora-bb').textContent = 'Amplitud: $' + Math.abs(bbsup - bbinf).toFixed(2);
+    $('ora-diag').textContent = diag;
+  }
+  ['ora-close', 'ora-pre', 'ora-ema20', 'ora-ema50', 'ora-ema200', 'ora-sar', 'ora-bbsup', 'ora-bbinf'].forEach(function (id) { $(id).addEventListener('input', calcOracle); });
+  $('ora-example').addEventListener('click', function () {
+    $('ora-close').value = '182.40'; $('ora-pre').value = '186.95'; $('ora-ema20').value = '184.10'; $('ora-ema50').value = '180.25';
+    $('ora-ema200').value = '174.50'; $('ora-sar').value = '183.60'; $('ora-bbsup').value = '191.20'; $('ora-bbinf').value = '178.90';
+    calcOracle(); toast('Coordenadas de ejemplo cargadas en el Oráculo (09:31 AM ET).', 'success');
+  });
+  calcOracle();
+
+  /* ================= UNIDAD 4: INGENIERÍA DE CAPITAL ================= */
+  var lots = [
+    { qty: 12, price: 145.25, reason: 'Lote inicial · Doji en "T"' },
+    { qty: 10, price: 147.80, reason: 'Empalme en la 3ª vela (rally)' }
+  ];
+  function renderLots() {
+    var body = $('lots-body'), mkt = +$('mkt-price').value || 0, totalQty = 0, totalCents = 0;
+    if (!lots.length) { body.innerHTML = '<tr><td colspan="7" style="text-align:center;color:var(--ink-3)">Sin lotes activos.</td></tr>'; }
+    else {
+      body.innerHTML = lots.map(function (lot, i) {
+        var cents = Math.round(lot.qty * lot.price * 100); totalQty += lot.qty; totalCents += cents;
+        var avg = (totalCents / 100) / totalQty;
+        return '<tr><td style="color:var(--lime);font-weight:700">Lote ' + (i + 1) + '</td><td style="font-family:var(--body);color:var(--ink-2)">' + lot.reason + '</td>' +
+          '<td class="r">' + lot.qty + '</td><td class="r">$' + lot.price.toFixed(2) + '</td><td class="r">$' + (cents / 100).toFixed(2) + '</td>' +
+          '<td class="r" style="color:var(--blue);font-weight:700">$' + avg.toFixed(2) + '</td><td class="c"><button class="x-btn" data-rmlot="' + i + '">✕</button></td></tr>';
+      }).join('');
+    }
+    var totalCap = totalCents / 100, avgPrice = totalQty > 0 ? totalCap / totalQty : 0, curVal = totalQty * mkt, pnl = curVal - totalCap, pnlPct = totalCap > 0 ? pnl / totalCap * 100 : 0;
+    $('cap-total').textContent = fmt2(totalCap); $('cap-shares').textContent = totalQty + ' acciones'; $('cap-avg').textContent = fmt2(avgPrice);
+    if (totalCap > 5000) { $('cap-status').innerHTML = '¡Violación reglamentaria! Supera $5,000.00'; $('cap-status').style.color = 'var(--red)'; $('cap-card-cap').style.borderLeftColor = 'var(--red)'; }
+    else { $('cap-status').textContent = 'Margen disponible: ' + fmt2(5000 - totalCap); $('cap-status').style.color = 'var(--lime)'; $('cap-card-cap').style.borderLeftColor = 'var(--lime)'; }
+    var pnlSign = pnl >= 0 ? '+' : '';
+    var pnlEl = $('cap-pnl');
+    pnlEl.textContent = pnlSign + '$' + Math.abs(pnl).toFixed(2) + ' (' + pnlSign + pnlPct.toFixed(2) + '%)';
+    pnlEl.style.color = pnl >= 0 ? 'var(--lime)' : 'var(--red)';
+    if (pnlPct >= 1) { $('cap-eff').textContent = 'Cumple ley del ≥ 1.00% de eficiencia'; $('cap-eff').style.color = 'var(--lime)'; }
+    else { $('cap-eff').textContent = 'Por debajo de la meta del 1.00%'; $('cap-eff').style.color = 'var(--amber)'; }
+    var ddPct = pnlPct < 0 ? Math.abs(pnlPct) : 0;
+    $('cap-dd').textContent = '-' + ddPct.toFixed(2) + '%';
+    if (ddPct > 33) { $('cap-dd').style.color = 'var(--red)'; $('cap-dd-status').textContent = 'Descalificado (> 33% pérdida)'; $('cap-dd-status').style.color = 'var(--red)'; $('cap-card-dd').style.borderLeftColor = 'var(--red)'; }
+    else { $('cap-dd').style.color = 'var(--ink)'; $('cap-dd-status').textContent = 'Portafolio habilitado (≤ 33.00%)'; $('cap-dd-status').style.color = 'var(--lime)'; $('cap-card-dd').style.borderLeftColor = 'var(--red)'; }
+    $('ts-1').textContent = avgPrice > 0 ? '$' + (avgPrice * 0.985).toFixed(2) + ' (mecha Doji)' : 'Extremo mecha Doji';
+    $('ts-2').textContent = '$' + avgPrice.toFixed(2) + ' (break-even)';
+  }
+  $('lot-add').addEventListener('click', function () {
+    var qty = parseInt($('lot-qty').value, 10), price = +$('lot-price').value;
+    if (!qty || qty <= 0 || !price || price <= 0) { toast('Ingresa una cantidad y precio válidos al centavo.', 'warn'); return; }
+    var curCap = lots.reduce(function (a, l) { return a + l.qty * l.price; }, 0), newCap = curCap + qty * price;
+    if (newCap > 5000) toast('Alerta Unidad 4.1: este lote eleva el capital a $' + newCap.toFixed(2) + ', superando el techo de $5,000.00.', 'error');
+    else toast('Lote agregado. Costo promedio recalculado al centavo.', 'success');
+    lots.push({ qty: qty, price: Math.round(price * 100) / 100, reason: $('lot-reason').value }); renderLots();
+  });
+  $('lots-body').addEventListener('click', function (e) { var b = e.target.closest('[data-rmlot]'); if (b) { lots.splice(+b.dataset.rmlot, 1); renderLots(); } });
+  $('lot-reset').addEventListener('click', function () { lots = []; renderLots(); toast('Libro contable de escalamiento reiniciado.', 'warn'); });
+  $('mkt-price').addEventListener('input', renderLots);
+  renderLots();
+
+  /* ================= UNIDAD 5: AUDITORÍA Y DEFENSA ================= */
+  function evalSim() {
+    var total = parseInt($('sim-total').value, 10) || 0, won = parseInt($('sim-won').value, 10) || 0;
+    var wr = total > 0 ? won / total * 100 : 0, box = $('sim-box');
+    if (total >= 900 && wr >= 65) {
+      box.className = 'verdict ok'; $('sim-title').textContent = 'Certificado: cumple regla 900 / 65%';
+      $('sim-desc').textContent = 'Volumen validado (' + total + ' operaciones) con eficiencia de ' + wr.toFixed(2) + '%.';
+    } else {
+      box.className = 'verdict warn'; $('sim-title').textContent = 'En proceso de certificación';
+      $('sim-desc').textContent = 'Faltan ' + Math.max(0, 900 - total) + ' operaciones para las 900, o elevar la eficiencia al 65.00% (actual ' + wr.toFixed(2) + '%).';
+    }
+  }
+  ['sim-total', 'sim-won'].forEach(function (id) { $(id).addEventListener('input', evalSim); });
+  evalSim();
+
+  function calcGrade() {
+    var crits = Array.prototype.slice.call(document.querySelectorAll('.audit-crit')), score = 0;
+    crits.forEach(function (c) { if (c.checked) score += +c.dataset.pts; });
+    var disp = $('audit-score');
+    if (!$('crit-u4').checked) { disp.textContent = 'REPROBADO (U4)'; disp.style.color = 'var(--red)'; toast('Unidad 4: superar los $5,000 o el 33% de pérdida causa reprobación automática.', 'error'); }
+    else { disp.textContent = score.toFixed(1) + ' / 10'; disp.style.color = score >= 8 ? 'var(--lime)' : 'var(--amber)'; }
+  }
+  document.querySelectorAll('.audit-crit').forEach(function (c) { c.addEventListener('change', calcGrade); });
+  calcGrade();
+
+  function defenseScriptText(forCopy) {
+    var name = $('def-name').value || '[Nombre y Apellido]', asset = $('def-asset').value || '[Activo]', psych = $('def-psych').value || '[Evaluación psicológica]';
+    var p1 = '1. PRESENTACIÓN FORMAL (U5.3): "Saludos. Mi nombre completo es ' + name + ' y pertenezco al grupo de estudio de Jesús Navarrete."';
+    var p2 = '2. AUDITORÍA DEL ECOSISTEMA EN PANTALLA (U1): "Presento el análisis sobre ' + asset + ' configurado estrictamente en escala logarítmica. En pantalla verificamos una ventana reglamentaria de entre 15 y 20 velas visibles. Tenemos calibradas las EMAs 3 y 9 midiendo velocidad e impulso, la EMA 20 como eje central táctico junto a las Parabólicas SAR, la EMA 50 como zona de equilibrio y autocompletación, y la EMA 200 como frontera institucional mayor. Confirmamos volatilidad y momento con Bandas de Bollinger, MACD y la doble lectura de volumen (volumen por vela inferior y perfil de volumen horizontal en el precio)."';
+    var p3 = '3. INTELIGENCIA PRE-MARKET Y EJECUCIÓN (U2 y U3): "Se aplicó el corte horario entre el Mundo 1 (02:00 PM – 11:59 PM ET) y el Mundo 2 (12:01 AM – 09:31 AM ET), calculando el Oráculo a las 09:31 AM ET con nuestros propios datos. La entrada respeta viejos patrones a la izquierda, gatillo Doji en estructura \'T\' (Libélula/Lápida), ciclo de 3 velas y la ley de empalme en la misma tercera vela."';
+    var p4 = '4. GESTIÓN DE PORTAFOLIO Y PSICOLOGÍA (U4 y U5): "El capital máximo comprometido respeta el techo de $5,000.00 USD, con costo promedio ponderado y contabilidad cuadrada al centavo exacto ($0.00). En el aspecto psicológico: ' + psych + '"';
+    if (forCopy) return [p1, p2, p3, p4].join('\n\n');
+    var colors = ['var(--lime)', 'var(--blue)', '#c084fc', 'var(--amber)'];
+    return [p1, p2, p3, p4].map(function (p, i) {
+      var idx = p.indexOf(':'); var head = p.slice(0, idx), rest = p.slice(idx + 1);
+      return '<p style="margin:0 0 10px"><strong style="color:' + colors[i] + '">' + head + ':</strong>' + rest + '</p>';
+    }).join('');
+  }
+  function updateScript() { $('def-script').innerHTML = defenseScriptText(false); }
+  ['def-name', 'def-asset', 'def-psych'].forEach(function (id) { $(id).addEventListener('input', updateScript); });
+  updateScript();
+  $('def-copy').addEventListener('click', function () { copyText(defenseScriptText(true), 'Guion de defensa en video copiado al portapapeles.'); });
+
+  $('copy-summary').addEventListener('click', function () {
+    var lines = [
+      '=== REPORTE DE AUDITORÍA: CANVAS OPERATIVO DE TRADING ===',
+      'Grupo de estudio: Jesús Navarrete',
+      'Checklist de bloques verificados: ' + $('nine-count').textContent,
+      'Oráculo (09:31 AM ET) diferencial: ' + $('ora-gap').textContent,
+      'Capital comprometido (límite $5,000.00): ' + $('cap-total').textContent,
+      'Costo promedio ponderado (P_prom): ' + $('cap-avg').textContent,
+      'Balance / eficiencia: ' + $('cap-pnl').textContent,
+      '========================================================='
+    ];
+    copyText(lines.join('\n'), 'Reporte ejecutivo copiado al portapapeles.');
+  });
+});
+</script>
+</body>
+</html>
