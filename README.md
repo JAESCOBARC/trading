@@ -9,9 +9,6 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 - **Estrategias**: cada una con **1. Simulador gráfico** y **2. Checklist de ejecución**.
 - **Recursos**: herramientas de cálculo y datos de mercado.
 
-Aparte de los tres bloques, `proyectos.html` es un directorio de accesos directos a otras webs y desarrollos
-propios (no de trading): se enlaza aparte en el menú, como enlace plano junto a "Inicio".
-
 > **Sitio NO indexable.** No quitar las etiquetas `<meta name="robots" content="noindex, ...">`
 > de ninguna página, ni el archivo `_headers`. Ver `robots.txt` para el porqué de no usar `Disallow: /`.
 > No indexable no significa privado: cualquiera con el enlace puede abrir las páginas.
@@ -40,7 +37,6 @@ propios (no de trading): se enlaza aparte en el menú, como enlace plano junto a
 | `recursos/interes-compuesto.html` | Interés compuesto por operativa: % riesgo, winrate, R:B y operaciones por periodo; retiros parciales por periodo, simulación de rachas (Montecarlo), plantillas y CSV |
 | `recursos/registro-trading.html` | Registro de trading: botón que abre la app de AppSheet en una ventana emergente (no embebida) |
 | `recursos/mapas-mercado.html` | Tres mapas de calor de Finviz uno bajo otro: sectores S&P 500, sectores Russell 2000 y futuros |
-| `proyectos.html` *(fuera de los tres bloques)* | Accesos directos a webs y desarrollos propios: 3 webs en producción y 8 herramientas internas desplegadas en Render |
 
 ## Estructura
 

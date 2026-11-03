@@ -7,14 +7,9 @@
 ## Sitio
 - Sitio privado NO indexable: toda página nueva lleva las etiquetas `<meta name="robots" content="noindex, ...">`,
   `googlebot` y `bingbot` que ya usan las páginas existentes. No quitarlas.
-- Tres bloques de trading: Fundamentos (`fundamentos/`, solo simulador, sin checklist), Estrategias (`estrategias/`,
-  solo dos secciones: 1. Simulador gráfico y 2. Checklist de ejecución) y Recursos (`recursos/`, herramientas de
-  cálculo). Toda página nueva de uno de estos tres bloques se añade al menú en `PAGES` de `assets/site.js` y a su
-  bloque en `index.html`.
-- Aparte de los tres bloques hay una página suelta, `proyectos.html` en la raíz: accesos directos (tarjeta con
-  monograma + nombre, sin JS propio) a webs y desarrollos propios fuera de esta mesa de trading, en dos secciones
-  (Webs, Desarrollos). No pertenece a `PAGES` ni a ningún bloque de `index.html`: se enlaza como enlace plano en el
-  menú superior, junto a "Inicio" (ver `isProyectos` en `renderChrome()` de `assets/site.js`).
+- Tres bloques: Fundamentos (`fundamentos/`, solo simulador, sin checklist), Estrategias (`estrategias/`, solo dos
+  secciones: 1. Simulador gráfico y 2. Checklist de ejecución) y Recursos (`recursos/`, herramientas de cálculo).
+- Toda página nueva se añade al menú en `PAGES` de `assets/site.js` y a su bloque en `index.html`.
 - Capa SEO en cada página (aunque el sitio es noindex, sirve para previsualizar enlaces y accesibilidad):
   un solo `h1`, secciones con `h2`, bloques con `h3`; `meta description`; Open Graph y Twitter con imagen
   `assets/og/<pagina>.png` (1200×630) y URL absoluta sobre `https://trading.jhonyescobar.com/`;
