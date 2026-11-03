@@ -35,7 +35,8 @@
     var top = document.getElementById('topbar');
     if (top) {
       var here = location.pathname.replace(/\\/g, '/');
-      var isHome = !PAGES.some(function (g) { return here.indexOf('/' + g.dir + '/') >= 0; });
+      var isProyectos = /\/proyectos\.html$/.test(here);
+      var isHome = !isProyectos && !PAGES.some(function (g) { return here.indexOf('/' + g.dir + '/') >= 0; });
       var html = '<div class="wrap"><a class="brand" href="' + ROOT + 'index.html">Mesa de Estudio</a><nav class="nav" aria-label="Secciones">';
       html += '<a class="nav-link" href="' + ROOT + 'index.html"' + (isHome ? ' aria-current="page"' : '') + '>Inicio</a>';
       PAGES.forEach(function (g) {
@@ -47,6 +48,7 @@
         });
         html += '</div></details>';
       });
+      html += '<a class="nav-link" href="' + ROOT + 'proyectos.html"' + (isProyectos ? ' aria-current="page"' : '') + '>Proyectos</a>';
       html += '</nav></div>';
       top.className = 'topbar';
       top.innerHTML = html;

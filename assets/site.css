@@ -85,7 +85,7 @@ img,canvas,svg{max-width:100%}
 @media (max-width:760px){
   .topbar .wrap{flex-wrap:wrap;gap:0;position:relative;padding-block:8px 6px;min-height:0}
   .brand{font-size:15px;width:100%;padding-block:2px 6px}
-  .nav{margin-left:0;width:100%;justify-content:space-between}
+  .nav{margin-left:0;width:100%;flex-wrap:wrap;justify-content:flex-start;gap:2px 4px}
   .nav-link,.menu summary{padding:7px 8px;font-size:13px}
   .menu{position:static}
   .menu-pop{left:12px;right:12px;top:calc(100% + 2px);min-width:0}
