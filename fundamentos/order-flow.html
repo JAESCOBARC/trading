@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- PÁGINA PRIVADA · NO INDEXABLE. No quitar estas etiquetas robots. -->
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex, notranslate">
+<meta name="googlebot" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+<meta name="bingbot" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="referrer" content="no-referrer">
+<title>Order Flow · Mesa de Estudio</title>
+<meta name="description" content="Order Flow desde cero: footprint, imbalances, delta y su divergencia, absorción y traders atrapados, barridas de stops. Quién compra, quién vende y quién se queda dentro.">
+<meta name="theme-color" content="#0A0B0C">
+<link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/icons/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="../assets/icons/favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="../assets/icons/apple-touch-icon.png">
+<link rel="manifest" href="../site.webmanifest">
+<meta name="apple-mobile-web-app-title" content="Mesa JT">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Mesa de Estudio">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Order Flow · Mesa de Estudio">
+<meta property="og:description" content="Order Flow desde cero: footprint, imbalances, delta y su divergencia, absorción y traders atrapados, barridas de stops. Quién compra, quién vende y quién se queda dentro.">
+<meta property="og:url" content="https://trading.jhonyescobar.com/fundamentos/order-flow.html">
+<meta property="og:image" content="https://trading.jhonyescobar.com/assets/og/order-flow.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Order Flow · Mesa de Estudio">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Order Flow · Mesa de Estudio">
+<meta name="twitter:description" content="Order Flow desde cero: footprint, imbalances, delta y su divergencia, absorción y traders atrapados, barridas de stops. Quién compra, quién vende y quién se queda dentro.">
+<meta name="twitter:image" content="https://trading.jhonyescobar.com/assets/og/order-flow.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800&family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+  .fp-head,.fp-row{display:grid;grid-template-columns:52px 1fr 1fr;gap:4px;font-family:var(--mono);font-size:12px}
+  .fp-head{color:var(--ink-3);font-size:10px;letter-spacing:.06em;text-transform:uppercase;padding-bottom:4px;border-bottom:1px solid var(--line)}
+  .fp-head span:nth-child(2),.fp-head span:nth-child(3){text-align:center}
+  .fp-row{padding:3px 0;border-bottom:1px solid var(--line)}
+  .fp-row:last-child{border-bottom:none}
+  .fp-price{color:var(--ink-3)}
+  .fp-sell,.fp-buy{text-align:center;font-weight:600;color:var(--ink-2);border-radius:4px}
+  .fp-zero{color:var(--lime)}
+  .fp-mark{background:var(--amber-soft);color:var(--amber);font-weight:800}
+  .fp-hi{background:rgba(242,184,75,.06);margin:0 -4px;padding-inline:4px;border-radius:6px}
+</style>
+</head>
+<body data-root="../">
+<header id="topbar"></header>
+
+<main class="wrap">
+  <section class="hero">
+    <p class="audience">[Abrir la vela y ver lo que hay dentro: cuántos contratos se cruzaron en cada precio, quién empujaba, quién aguantaba y quién se quedó dentro con el problema]</p>
+    <p class="eyebrow">Fundamentos</p>
+    <h1>Order <span class="lime">Flow</span></h1>
+    <p class="lede">El precio no sube porque haya más compradores: sube según cómo entran. Esto es lo que hay detrás de cada vela.</p>
+    <div class="chips"><span class="chip">Footprint</span><span class="chip">Delta e imbalances</span><span class="chip">5 escenarios</span></div>
+  </section>
+
+  <section class="section" id="simulador">
+    <div class="sec-head">
+      <h2>Simulador gráfico</h2>
+      <p>Cinco formas de leer el footprint: cómo se abre una vela, los imbalances apilados, el delta y su divergencia, la absorción con traders atrapados, y la barrida de stops. Contexto primero, números después.</p>
+    </div>
+    <div class="win">
+      <div class="win-bar"><div class="dots"><i></i><i></i><i></i></div><div class="url">mesa-de-estudio/fundamentos/order-flow</div><span class="live">datos de ejemplo</span></div>
+      <div class="win-body">
+        <div class="side" id="of-side">
+          <span class="side-label">Escenarios</span>
+          <button class="scn" data-scn="footprint" aria-pressed="true">Abrir la vela: el footprint</button>
+          <button class="scn" data-scn="imbalance" aria-pressed="false">Imbalances apilados</button>
+          <button class="scn" data-scn="delta" aria-pressed="false">Delta y su divergencia</button>
+          <button class="scn" data-scn="absorcion" aria-pressed="false">Absorción y atrapados</button>
+          <button class="scn" data-scn="barrida" aria-pressed="false">Barrida de stops</button>
+        </div>
+        <div class="stage">
+          <div class="stage-head">
+            <span class="stage-title" id="of-title"></span>
+            <div class="legend" id="of-legend"></div>
+          </div>
+          <div class="chart tall"><canvas id="of-chart" role="img" aria-label="Velas con el footprint, el delta o la zona relevante del escenario"></canvas></div>
+          <div class="replay" id="of-replay">
+            <button class="icon-btn" data-play>▶ Reproducir</button>
+            <input type="range" aria-label="Vela actual">
+            <span class="mono" data-label></span>
+          </div>
+          <div class="caption" id="of-caption"></div>
+        </div>
+        <div class="aside">
+          <div class="card">
+            <h3 class="card-label" id="of-card-label">Lectura</h3>
+            <div id="of-info"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label" id="of-fp-label">Footprint de la vela clave</h3>
+            <div id="of-fp"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">Eventos del escenario</h3>
+            <div class="checks" id="of-list"></div>
+          </div>
+          <div class="card">
+            <h3 class="card-label">El recorrido de lectura, siempre en este orden</h3>
+            <div style="font-size:12px;color:var(--ink-2);display:flex;flex-direction:column;gap:3px">
+              <span>1 · Contexto — ¿de dónde viene el precio?</span>
+              <span>2 · Volumen — ¿dónde están los picos?</span>
+              <span>3 · Abrir la vela — footprint de esa zona</span>
+              <span>4 · ¿Quién empuja, quién frena?</span>
+              <span>5 · ¿Hay continuidad después?</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer id="foot"></footer>
+<script src="../assets/site.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var M = window.Mesa, C = M.C, $ = function (id) { return document.getElementById(id); };
+  function k(o, h, l, c) { return { o: o, h: h, l: l, c: c }; }
+
+  /* ---------------- escenario 1: footprint básico ---------------- */
+  var FOOTPRINT = {
+    title: 'Abrir la vela: el footprint', dir: 'L', start: 2, footIdx: 2,
+    data: [k(94, 97, 93, 96), k(96, 101.5, 95.5, 101.2), k(101.2, 107.3, 100.8, 106.8), k(107, 110, 106.5, 109.3)],
+    foot: { 2: [
+      { p: 107, sell: 31, buy: 9 }, { p: 106, sell: 44, buy: 27 },
+      { p: 105, sell: 0, buy: 38 }, { p: 104, sell: 0, buy: 41 }, { p: 103, sell: 0, buy: 22 },
+      { p: 102, sell: 2, buy: 14 }, { p: 101, sell: 5, buy: 6 }
+    ] },
+    txt: [
+      'El precio se acerca subiendo. Nada reseñable todavía: no hay footprint que mirar sin un motivo.',
+      'Un pico de volumen marca esta vela como relevante. Hora de abrirla y ver qué hay dentro.',
+      'Dentro: a la izquierda las ventas a mercado, a la derecha las compras. Arriba (107–106) vuelven a aparecer ventas: los pasivos empiezan a frenar. En medio (105–103), columna de ventas vacía: nadie quiso vender a mercado, así que el precio subió sin oposición. Abajo (102–101), solo siete contratos intentaron empujar a la baja. No pudieron.',
+      'Y el precio siguió subiendo las velas siguientes: la fuerza que viste dentro de la vela produjo resultado después. Eso es continuidad.'
+    ]
+  };
+
+  /* ---------------- escenario 2: imbalances apilados ---------------- */
+  var IMBALANCE = {
+    title: 'Imbalances apilados', dir: 'L', start: 2,
+    data: [
+      k(100.0, 100.9, 99.85, 100.8),
+      k(100.8, 101.6, 100.6, 101.5),
+      k(101.5, 102.4, 101.3, 102.3)
+    ],
+    foot: {
+      0: { levels: [{ p: 100.90, sell: 4, buy: 9 }, { p: 100.65, sell: 3, buy: 16 }, { p: 100.40, sell: 1, buy: 11 }, { p: 100.15, sell: 7, buy: 6 }], imb: { buyP: 100.65, buyV: 16, sellP: 100.40, sellV: 1 } },
+      1: { levels: [{ p: 101.50, sell: 18, buy: 21 }, { p: 101.45, sell: 12, buy: 26 }, { p: 101.40, sell: 2, buy: 33 }, { p: 101.35, sell: 9, buy: 15 }, { p: 101.30, sell: 14, buy: 8 }], imb: { buyP: 101.45, buyV: 26, sellP: 101.40, sellV: 2 } },
+      2: { levels: [{ p: 102.25, sell: 3, buy: 19 }, { p: 102.00, sell: 2, buy: 21 }, { p: 101.75, sell: 4, buy: 10 }, { p: 101.50, sell: 8, buy: 6 }], imb: { buyP: 102.00, buyV: 21, sellP: 101.75, sellV: 4 } }
+    },
+    txt: [
+      'Vela 1: las compras agresivas de 100,65 (16) ganan de calle a las ventas del nivel justo de abajo, 100,40 (1). Eso es un imbalance alcista.',
+      'Vela 2: otra vez. 26 compras en 101,45 contra solo 2 ventas en 101,40. Dos imbalances seguidos en la misma dirección: imbalances apilados, mucha fuerza.',
+      'Vela 3: y un tercero. 21 compras en 102,00 contra 4 ventas en 101,75. La pregunta que importa no es si hay imbalances, es: ¿y subió? Aquí sí: el precio cierra en máximos las tres veces.'
+    ]
+  };
+
+  /* ---------------- escenario 3: delta y divergencia ---------------- */
+  var DELTA = {
+    title: 'Delta y su divergencia', start: 4,
+    data: [
+      k(100.0, 102.2, 99.7, 102.0),
+      k(102.0, 104.8, 101.8, 104.6),
+      k(104.6, 105.3, 103.6, 103.9),
+      k(103.9, 105.0, 103.7, 104.8),
+      k(104.8, 104.9, 103.3, 103.5)
+    ],
+    delta: [310, 508, 215, 120, -140],
+    divIdx: 2,
+    txt: [
+      'Vela 1: delta +310. Vela alcista, delta positivo: todo cuadra, empuje real hacia arriba.',
+      'Vela 2: delta +508, otra vez consecuente con la vela. El precio sube lo que la presión compradora merece.',
+      'Vela 3 — la divergencia: entran 215 contratos netos comprando a mercado. Según la lógica, eso sube. Pero la vela cierra por debajo de donde abrió. Todas esas compras se las ha comido alguien con ventas pendientes, sin ceder ni un tick. Los agresivos gastaron su gasolina y no ganaron nada. Si tenía que ir arriba y no fue, ¿entonces va? Abajo.',
+      'Vela 4: delta +120, un rebote débil. El mercado intenta recuperarse, sin convicción.',
+      'Vela 5: delta −140, ahora sí consecuente con una vela bajista. La divergencia de la vela 3 avisó antes que el precio.'
+    ]
+  };
+
+  /* ---------------- escenario 4: absorción y atrapados ---------------- */
+  var ABSORCION = {
+    title: 'Absorción y traders atrapados', dir: 'S', start: 5, footIdx: 3, level: 104.5,
+    data: [
+      k(100, 101.5, 99.8, 101.3), k(101.3, 103.0, 101.1, 102.8), k(102.8, 104.5, 102.6, 104.2),
+      k(104.2, 105.8, 103.9, 103.6), k(103.6, 104.6, 103.2, 103.4), k(103.4, 103.5, 101.8, 102.0)
+    ],
+    foot: { 3: [
+      { p: 105.80, sell: 8, buy: 3 }, { p: 105.55, sell: 21, buy: 196 }, { p: 105.30, sell: 35, buy: 88 },
+      { p: 105.05, sell: 14, buy: 60 }, { p: 104.80, sell: 6, buy: 22 }, { p: 104.55, sell: 3, buy: 11 }
+    ] },
+    txt: [
+      'El precio se acerca a un techo: máximos previos, zona relevante.',
+      'Sigue subiendo hacia la zona.',
+      'Llega al techo con fuerza.',
+      'La vela clave: 196 compras agresivas justo en el techo, imbalances alcistas apilados, delta a favor. Todo dice «esto se va arriba». Y la vela cierra por debajo de donde abrió: esas 196 compras las han absorbido vendedores pasivos que esperaban ahí, sin ceder un tick. Los que compraron esos 196 contratos están dentro, en largo, perdiendo: atrapados.',
+      'Segundo intento, más débil: con menos gasolina, vuelve a fallar en la misma zona.',
+      'Se rinden. Los atrapados tienen que salir, y salir de un largo es vender: el precio cae. No seas tú el que les ayuda poniéndote en corto contra ellos antes de esto — hasta que se rindan, el precio puede seguir en su contra.'
+    ]
+  };
+
+  /* ---------------- escenario 5: barrida de stops ---------------- */
+  var BARRIDA = {
+    title: 'Barrida de stops', dir: 'L', start: 5, footIdx: 3, level: 101.8,
+    data: [
+      k(106, 106.8, 104.5, 104.8), k(104.8, 105.2, 103.0, 103.3), k(103.3, 103.6, 101.8, 102.0),
+      k(102.0, 102.3, 99.8, 102.1), k(102.1, 104.0, 101.9, 103.8), k(103.8, 105.5, 103.6, 105.2)
+    ],
+    foot: { 3: [
+      { p: 101.80, sell: 14, buy: 9 }, { p: 101.55, sell: 61, buy: 4 },
+      { p: 101.30, sell: 88, buy: 2 }, { p: 101.05, sell: 37, buy: 1 }
+    ] },
+    txt: [
+      'El precio cae hacia los mínimos de la sesión. Todo el mundo los ve.',
+      'Sigue bajando, se acerca a ese nivel.',
+      'Toca los mínimos. Ahí abajo hay un montón de stops de los que compraron antes, puestos «justito por debajo, para perder poco».',
+      'La mecha barre los stops: 61 y 88 contratos de venta agresiva, dentro de la mecha, justo debajo del mínimo. No son vendedores nuevos: son los largos saliendo a mercado porque su stop los sacó. Un stop no es una orden pendiente, es una orden a mercado en cuanto se toca.',
+      'Ejecutados los stops, ya no queda nadie empujando a la baja. El precio recoge la liquidez y se va arriba, que es lo que iba a hacer.',
+      'Confirma la reversión: la barrida era el movimiento falso, esto es el de verdad.'
+    ]
+  };
+
+  var SC = { footprint: FOOTPRINT, imbalance: IMBALANCE, delta: DELTA, absorcion: ABSORCION, barrida: BARRIDA };
+
+  /* ---------------- dibujo ---------------- */
+  var key = 'footprint', idx = FOOTPRINT.start;
+  var stage = M.canvasStage($('of-chart'), function (st) {
+    var ctx = st.ctx, w = st.w, h = st.h, s = SC[key], d = s.data, n = d.length;
+    var area = { l: 14, r: w - 60, t: 20, b: h - h * 0.16 };
+    var vals = []; d.forEach(function (c) { vals.push(c.h, c.l); });
+    var lo = Math.min.apply(null, vals), hi = Math.max.apply(null, vals), pad = (hi - lo) * 0.1;
+    lo -= pad; hi += pad;
+    var y = M.scale(lo, hi, area.b, area.t), cw = (area.r - area.l) / n, x = function (i) { return area.l + (i + .5) * cw; };
+    M.gridY(ctx, area, y, M.niceTicks(lo, hi, 6), key === 'imbalance' ? 2 : 0);
+
+    if (s.level && idx >= 2) M.hline(ctx, area, y(s.level), key === 'barrida' ? C.amber : C.blue, key === 'barrida' ? 'Mínimos de la sesión' : 'Techo / zona relevante', { dash: [5, 4], left: true });
+
+    M.drawCandles(ctx, d.slice(0, idx + 1), x, y, cw, { mark: function (i) { return (key === 'footprint' || key === 'absorcion' || key === 'barrida') && i === s.footIdx; } });
+
+    if (key === 'delta') {
+      s.delta.forEach(function (v, i) {
+        if (i > idx) return;
+        var up = v >= 0, div = i === s.divIdx;
+        var py = up ? y(d[i].h) - 14 : y(d[i].l) + 14;
+        ctx.font = (div ? '800 11px' : '700 10.5px') + ' "JetBrains Mono", monospace'; ctx.textAlign = 'center';
+        var txt = (v >= 0 ? '+' : '') + v, tw = ctx.measureText(txt).width;
+        ctx.fillStyle = 'rgba(10,11,12,.85)'; ctx.fillRect(x(i) - tw / 2 - 5, py - 11, tw + 10, 15);
+        ctx.fillStyle = div ? C.amber : (up ? C.lime : C.red); ctx.fillText(txt, x(i), py);
+        if (div) { ctx.strokeStyle = C.amber; ctx.setLineDash([3, 3]); ctx.strokeRect(x(i) - cw * .32, y(d[i].h) - 6, cw * .64, y(d[i].l) - y(d[i].h) + 12); ctx.setLineDash([]); }
+      });
+    }
+
+    if (key === 'imbalance') {
+      for (var i = 0; i <= idx && i < n; i++) {
+        if (s.foot[i]) M.marker(ctx, x(i), y(d[i].h) - 12, C.amber, 'Imbalance', false);
+      }
+    }
+    if (key === 'absorcion' && idx >= s.footIdx) M.marker(ctx, x(s.footIdx), y(d[s.footIdx].h) - 12, C.amber, 'Absorción', false);
+    if (key === 'barrida' && idx >= s.footIdx) M.marker(ctx, x(s.footIdx), y(d[s.footIdx].l) + 12, C.lime, 'Barrida', true);
+  });
+
+  /* ---------------- panel ---------------- */
+  function row(st, t) { return '<div class="chk ' + st + '"><i>' + ({ ok: '✓', wait: '·' })[st] + '</i><span>' + t + '</span></div>'; }
+  function footRows(levels, imb) {
+    return '<div class="fp-head"><span></span><span>Ventas</span><span>Compras</span></div>' + levels.map(function (l) {
+      var isBuyHi = imb && l.p === imb.buyP, isSellHi = imb && l.p === imb.sellP;
+      return '<div class="fp-row' + ((isBuyHi || isSellHi) ? ' fp-hi' : '') + '"><span class="fp-price">' + l.p.toFixed(2) + '</span>' +
+        '<span class="fp-sell' + (l.sell === 0 ? ' fp-zero' : '') + (isSellHi ? ' fp-mark' : '') + '">' + l.sell + '</span>' +
+        '<span class="fp-buy' + (isBuyHi ? ' fp-mark' : '') + '">' + l.buy + '</span></div>';
+    }).join('');
+  }
+
+  function panel() {
+    var s = SC[key], d = s.data;
+    $('of-title').textContent = s.title;
+    $('of-card-label').textContent = 'Lectura';
+
+    if (key === 'footprint' || key === 'absorcion' || key === 'barrida') {
+      $('of-legend').innerHTML = s.level ? '<span><i style="background:' + (key === 'barrida' ? C.amber : C.blue) + '"></i>' + (key === 'barrida' ? 'Mínimos' : 'Techo') + '</span>' : '';
+      var hasFoot = idx >= s.footIdx;
+      $('of-fp-label').textContent = hasFoot ? 'Footprint de la vela clave' : 'Footprint de la vela clave';
+      $('of-fp').innerHTML = hasFoot ? footRows(s.foot[s.footIdx], null) : '<p class="note">Todavía no se ha abierto la vela clave. Sigue reproduciendo.</p>';
+      $('of-info').innerHTML = '<p class="note" style="color:var(--ink-2)">' + s.txt[idx] + '</p>';
+      $('of-list').innerHTML = s.txt.map(function (t, i) { return row(i <= idx ? 'ok' : 'wait', 'Vela ' + (i + 1)); }).join('');
+    } else if (key === 'imbalance') {
+      $('of-legend').innerHTML = '<span><i style="background:' + C.amber + '"></i>Imbalance</span>';
+      var fi = s.foot[idx];
+      $('of-fp-label').textContent = 'Footprint · vela ' + (idx + 1);
+      $('of-fp').innerHTML = fi ? footRows(fi.levels, fi.imb) : '<p class="note">Sin footprint en esta vela.</p>';
+      $('of-info').innerHTML = '<p class="note" style="color:var(--ink-2)">' + s.txt[idx] + '</p>';
+      $('of-list').innerHTML = s.txt.map(function (t, i) { return row(i <= idx ? 'ok' : 'wait', 'Vela ' + (i + 1) + ' · imbalance'); }).join('');
+    } else if (key === 'delta') {
+      $('of-legend').innerHTML = '<span><i style="background:' + C.lime + '"></i>Delta a favor</span><span><i style="background:' + C.amber + '"></i>Divergencia</span>';
+      $('of-fp-label').textContent = 'Delta de cada vela';
+      $('of-fp').innerHTML = s.delta.map(function (v, i) {
+        if (i > idx) return '';
+        var div = i === s.divIdx, bull = d[i].c >= d[i].o;
+        return '<div class="kv"><span>Vela ' + (i + 1) + (div ? ' · divergencia' : '') + '</span><span style="color:' + (div ? 'var(--amber)' : (v >= 0 ? 'var(--lime)' : 'var(--red)')) + ';font-weight:700">' + (v >= 0 ? '+' : '') + v + ' · ' + (bull ? 'alcista' : 'bajista') + '</span></div>';
+      }).join('');
+      $('of-info').innerHTML = '<p class="note" style="color:var(--ink-2)">' + s.txt[idx] + '</p>';
+      $('of-list').innerHTML = s.txt.map(function (t, i) { return row(i <= idx ? 'ok' : 'wait', 'Vela ' + (i + 1) + (i === s.divIdx ? ' · divergencia' : '')); }).join('');
+    }
+
+    $('of-caption').innerHTML = '<b>Vela ' + (idx + 1) + ' / ' + d.length + '</b>' + s.txt[idx];
+  }
+
+  var rp = M.replay($('of-replay'), SC[key].data.length, SC[key].start, function (v) {
+    idx = v;
+    document.querySelector('#of-replay [data-label]').textContent = 'Vela ' + (v + 1) + ' / ' + SC[key].data.length;
+    stage.redraw(); panel();
+  });
+  M.scenarios($('of-side'), function (k2) { key = k2; rp.reset(SC[k2].data.length, SC[k2].start); });
+});
+</script>
+</body>
+</html>

@@ -33,6 +33,7 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 | `fundamentos/imbalances.html` | Vela contraria + imbalance (FVG) y cómo el mercado lo mitiga, total o parcialmente |
 | `fundamentos/olhc.html` | El orden real en que nace una vela (abre, manipula, distribuye, cierra), cómo se repite de una vela a la siguiente, cuándo falla y por qué una misma mecha se ve distinta en otro marco temporal |
 | `fundamentos/jesus-navarrete.html` *(excepción, ver nota)* | Canvas operativo de 5 unidades: checklist de 9 bloques, ecosistema SAR/EMA con Doji en "T" y empalme de 3 velas, Oráculo de pre-market, ingeniería de capital (techo $5,000, P_prom, trailing stop) y auditoría de 900 operaciones con matriz de calificación y guion de defensa en video |
+| `fundamentos/order-flow.html` | Order Flow desde cero: footprint de una vela clave, imbalances apilados, delta y su divergencia, absorción con traders atrapados y barrida de stops |
 | `recursos/interes-compuesto.html` | Interés compuesto por operativa: % riesgo, winrate, R:B y operaciones por periodo; retiros parciales por periodo, simulación de rachas (Montecarlo), plantillas y CSV |
 | `recursos/registro-trading.html` | Registro de trading: botón que abre la app de AppSheet en una ventana emergente (no embebida) |
 | `recursos/mapas-mercado.html` | Tres mapas de calor de Finviz uno bajo otro: sectores S&P 500, sectores Russell 2000 y futuros |
