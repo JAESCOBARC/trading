@@ -3,11 +3,12 @@
 Publicado en **https://trading.jhonyescobar.com/** (GitHub Pages; DNS y proxy en Cloudflare).
 Acceso con usuario y contraseña mediante un Cloudflare Worker: ver `worker/README.md`.
 
-Sitio estático privado para estudiar, simular y ejecutar estrategias de trading, en tres bloques:
+Sitio estático privado para estudiar, simular y ejecutar estrategias de trading, en cuatro bloques:
 
 - **Fundamentos**: simuladores para aprender a leer el gráfico (sin checklist).
 - **Estrategias**: cada una con **1. Simulador gráfico** y **2. Checklist de ejecución**.
 - **Recursos**: herramientas de cálculo y datos de mercado.
+- **Plan**: mi plan de trading personal, en una checklist marcable por temas (riesgo, entrada, rutina, lotaje).
 
 > **Sitio NO indexable.** No quitar las etiquetas `<meta name="robots" content="noindex, ...">`
 > de ninguna página, ni el archivo `_headers`. Ver `robots.txt` para el porqué de no usar `Disallow: /`.
@@ -19,7 +20,7 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 
 | Ruta | Contenido |
 |---|---|
-| `index.html` | Inicio: los tres bloques y el progreso de las checklists de estrategia (guardado en el navegador) |
+| `index.html` | Inicio: los cuatro bloques y el progreso de las checklists de estrategia (guardado en el navegador) |
 | `estrategias/orderflow-world-cup.html` | Golden Pocket bajo el VAL + footprint (absorción, test & fail, imbalance ≥ 400%) |
 | `estrategias/tendencial.html` | EMA 21 + retroceso 38,2–61,8% + vela de intención |
 | `estrategias/volumen-overnight.html` | Perfil overnight (POC y área de valor calculados) + saque y vuelta al POC |
@@ -37,6 +38,7 @@ Sitio estático privado para estudiar, simular y ejecutar estrategias de trading
 | `recursos/interes-compuesto.html` | Interés compuesto por operativa: % riesgo, winrate, R:B y operaciones por periodo; retiros parciales por periodo, simulación de rachas (Montecarlo), plantillas y CSV |
 | `recursos/registro-trading.html` | Registro de trading: botón que abre la app de AppSheet en una ventana emergente (no embebida) |
 | `recursos/mapas-mercado.html` | Tres mapas de calor de Finviz uno bajo otro: sectores S&P 500, sectores Russell 2000 y futuros |
+| `plan/plan-operativo.html` | Mi plan de trading personal en checklist: gestión del riesgo, entrada en tendencia/giro/rango, rutina antes y después de la sesión, lotaje y plan de rachas |
 
 ## Estructura
 

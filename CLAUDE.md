@@ -7,8 +7,10 @@
 ## Sitio
 - Sitio privado NO indexable: toda página nueva lleva las etiquetas `<meta name="robots" content="noindex, ...">`,
   `googlebot` y `bingbot` que ya usan las páginas existentes. No quitarlas.
-- Tres bloques: Fundamentos (`fundamentos/`, solo simulador, sin checklist), Estrategias (`estrategias/`, solo dos
-  secciones: 1. Simulador gráfico y 2. Checklist de ejecución) y Recursos (`recursos/`, herramientas de cálculo).
+- Cuatro bloques: Fundamentos (`fundamentos/`, solo simulador, sin checklist), Estrategias (`estrategias/`, solo dos
+  secciones: 1. Simulador gráfico y 2. Checklist de ejecución), Recursos (`recursos/`, herramientas de cálculo) y
+  Plan (`plan/`, mi plan de trading personal en una checklist marcable — no sigue el patrón de Simulador+Checklist
+  de Estrategias, es un manual operativo propio con grupos de checklist por tema: riesgo, entrada, rutina, lotaje).
 - Toda página nueva se añade al menú en `PAGES` de `assets/site.js` y a su bloque en `index.html`.
 - Capa SEO en cada página (aunque el sitio es noindex, sirve para previsualizar enlaces y accesibilidad):
   un solo `h1`, secciones con `h2`, bloques con `h3`; `meta description`; Open Graph y Twitter con imagen

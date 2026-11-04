@@ -28,6 +28,9 @@
       { href: 'recursos/interes-compuesto.html', label: 'Interés compuesto', desc: 'Riesgo, winrate, R:B y retiros parciales' },
       { href: 'recursos/registro-trading.html', label: 'Registro de trading', desc: 'App de AppSheet para anotar operaciones' },
       { href: 'recursos/mapas-mercado.html', label: 'Mapas de mercado', desc: 'Heatmaps de Finviz: sectores y futuros' }
+    ] },
+    { group: 'Plan', dir: 'plan', items: [
+      { href: 'plan/plan-operativo.html', label: 'Plan operativo', desc: 'Checklist personal: riesgo, entrada, rutina, lotaje y rachas' }
     ] }
   ];
 
